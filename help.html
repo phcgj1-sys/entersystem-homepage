@@ -1,0 +1,1158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고객지원 | 엔터시스템</title>
+<meta name="description" content="PC방 사장님용 고객지원 페이지입니다. 증상별로 먼저 해 볼 것을 찾고, 관리 센터에 보낼 요청 메시지를 한 번에 만듭니다. 입력한 내용은 어디에도 보내지 않습니다.">
+<meta property="og:title" content="고객지원 | 엔터시스템">
+<meta property="og:description" content="증상별로 먼저 해 볼 것을 찾고, 관리 센터에 보낼 요청 메시지를 한 번에 만듭니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 */
+  [hidden] { display: none !important; }
+  ::placeholder { color: #767676; opacity: 1; }
+
+  /* 첫 화면 */
+  .page-hero .wrap.hero-grid { display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, .8fr); gap: 40px; align-items: center; }
+  .page-hero h1 { text-wrap: balance; } /* 넓은 화면에서 '센터'만 다음 줄로 떨어지지 않게 */
+  .hero-act { margin-top: 26px; display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-call { margin: 18px 0 0; font-size: 15px; color: #bdbdbd; }
+  .hero-call a { color: #fff; text-underline-offset: 3px; }
+  .how { background: #161616; border: 1px solid #2c2c2c; border-radius: var(--radius); padding: 22px; }
+  .how .t { margin: 0 0 14px; font-size: 14px; font-weight: 800; color: #ff8c99; letter-spacing: .04em; }
+  .how ol { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; counter-reset: how; }
+  .how li { counter-increment: how; display: flex; gap: 12px; align-items: flex-start; }
+  .how li::before { content: counter(how); flex-shrink: 0; width: 30px; height: 30px; border-radius: 50%; background: var(--red-strong); color: #fff; display: grid; place-items: center; font-weight: 800; font-size: 15px; }
+  .how b { display: block; color: #fff; font-size: 17px; line-height: 1.35; }
+  .how .d { display: block; color: #bdbdbd; font-size: 14px; line-height: 1.45; }
+
+  #find .sub, #request .sub, #urgent .sub { margin-bottom: 24px; }
+
+  /* 증상 찾기: 검색 칸 */
+  .search { max-width: 860px; margin: 0 0 22px; }
+  .sbox { position: relative; }
+  .sbox svg { position: absolute; left: 16px; top: 50%; width: 22px; height: 22px; margin-top: -11px; color: var(--mut); pointer-events: none; }
+  .sbox input { display: block; width: 100%; min-height: 56px; margin: 0; padding: 12px 56px 12px 50px; font: inherit; font-size: 17px; color: var(--ink); background: #fff; border: 2px solid #8a8a8a; border-radius: 14px; -webkit-appearance: none; appearance: none; }
+  .sbox input:focus { border-color: var(--ink); }
+  .sbox input::-webkit-search-cancel-button { -webkit-appearance: none; display: none; }
+  .qclear { position: absolute; right: 6px; top: 50%; margin-top: -22px; width: 44px; height: 44px; border: 0; border-radius: 10px; background: transparent; color: var(--ink2); font: inherit; font-size: 26px; line-height: 1; cursor: pointer; }
+  .qclear:hover { background: var(--gray); }
+  .qcount { margin: 10px 0 0; min-height: 1.6em; font-weight: 700; font-size: 15px; color: var(--ink2); }
+
+  /* 증상 목록 (펼치기) */
+  .acc, .short { max-width: 860px; }
+  .it { background: #fff; border: 1px solid var(--line); border-radius: 16px; margin: 0 0 10px; }
+  .it.hot { border-color: #ffc2c9; }
+  .it[open] { border-color: #bdbdbd; }
+  .it summary { display: flex; align-items: flex-start; gap: 12px; min-height: 60px; padding: 16px 18px; cursor: pointer; list-style: none; font-weight: 800; font-size: 18px; line-height: 1.45; border-radius: 16px; }
+  .it summary::-webkit-details-marker { display: none; }
+  .it summary::after { content: "+"; flex-shrink: 0; margin-left: auto; color: var(--red-text); font-size: 26px; line-height: 1; font-weight: 700; }
+  .it[open] summary::after { content: "−"; }
+  .it summary:hover .tx { color: var(--red-text); }
+  .it .n { flex-shrink: 0; width: 28px; height: 28px; border-radius: 8px; background: var(--ink); color: #fff; display: grid; place-items: center; font-size: 15px; }
+  .it.hot .n { background: var(--red-strong); }
+  .it .n.qn { background: var(--gray); color: var(--ink); border: 1px solid #d6d6d6; }
+  .tt { flex: 1; min-width: 0; }
+  .tag { display: inline-block; margin-left: 6px; padding: 1px 9px; border-radius: 999px; background: var(--soft); color: var(--red-text); font-size: 12px; font-weight: 800; vertical-align: 2px; white-space: nowrap; }
+  .it .body { padding: 0 18px 20px 58px; }
+  .lbl { margin: 0 0 10px; font-size: 14px; font-weight: 800; color: var(--mut); letter-spacing: .02em; }
+  .steps { list-style: none; margin: 0 0 16px; padding: 0; counter-reset: st; display: grid; gap: 10px; }
+  .steps li { counter-increment: st; position: relative; padding-left: 38px; color: var(--ink2); }
+  .steps li::before { content: counter(st); position: absolute; left: 0; top: 1px; width: 26px; height: 26px; border-radius: 50%; background: var(--ink); color: #fff; font-size: 13px; font-weight: 800; display: grid; place-items: center; }
+  .steps li b, .dots li b, .cases li b { color: var(--ink); }
+  .dots { margin: 0 0 16px; padding-left: 1.2em; display: grid; gap: 8px; color: var(--ink2); }
+  .cases { list-style: none; margin: 0 0 16px; padding: 0; display: grid; gap: 10px; }
+  .cases li { color: var(--ink2); }
+  .cases .k { display: inline-block; margin-right: 6px; padding: 0 10px; border-radius: 6px; background: var(--ink); color: #fff; font-size: 14px; font-weight: 800; }
+  .then { margin: 0 0 16px; padding: 14px 16px; background: var(--soft); border: 1px solid #ffd0d6; border-radius: 12px; }
+  .then .lbl { color: var(--red-text); margin-bottom: 6px; }
+  .then p { margin: 0; color: var(--ink2); }
+  .then p + p, .then p + ul, .then ul + p { margin-top: 8px; }
+  .then .chips { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 8px; }
+  .then .chips li { padding: 2px 12px; background: #fff; border: 1px solid #ffd0d6; border-radius: 999px; font-size: 15px; font-weight: 700; color: var(--ink); }
+  .then.info { background: var(--gray); border-color: var(--line); }
+  .then.info .lbl { color: var(--ink); }
+  .then.info ul { margin: 0; padding-left: 1.2em; color: var(--ink2); display: grid; gap: 6px; }
+  .act { margin: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .short-h { margin: 36px 0 12px; font-size: 20px; }
+  .short .body p { margin: 0; color: var(--ink2); }
+  .none { max-width: 860px; margin-top: 4px; padding: 22px 22px 20px; background: #fff; border: 2px dashed #bdbdbd; border-radius: 16px; }
+  .none h3 { margin: 0 0 6px; font-size: 20px; }
+  .none p { margin: 0 0 14px; color: var(--ink2); }
+  .row { display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* 요청 메시지 만들기 */
+  .safe { display: flex; gap: 10px; align-items: flex-start; max-width: 860px; margin: 0 0 16px; padding: 14px 16px; border-radius: 12px; background: #e7f9ee; color: var(--ok-text); font-weight: 700; }
+  .safe svg { flex-shrink: 0; margin-top: 3px; }
+  .tell { max-width: 860px; margin: 0 0 20px; padding: 18px 20px; background: var(--soft); border: 1px solid #ffd0d6; border-radius: 16px; }
+  .tell h3 { margin: 0 0 10px; font-size: 17px; color: var(--red-text); letter-spacing: -.01em; }
+  .tell ol { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; counter-reset: tl; }
+  .tell li { counter-increment: tl; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 5px; background: #fff; border: 1px solid #ffd0d6; border-radius: 999px; font-size: 15px; }
+  .tell li::before { content: counter(tl); flex-shrink: 0; width: 22px; height: 22px; border-radius: 50%; background: var(--red-strong); color: #fff; display: grid; place-items: center; font-size: 12px; font-weight: 800; }
+  .tell p { margin: 10px 0 0; font-size: 15px; color: var(--ink2); }
+
+  .rq { max-width: 860px; padding: 26px 24px; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); }
+  .rq fieldset { min-width: 0; margin: 0; padding: 0; border: 0; }
+  .field { margin: 0 0 22px; }
+  .rq fieldset.field { margin: 0 0 22px; }
+  .fl { display: block; margin: 0 0 8px; padding: 0; font-weight: 800; font-size: 17px; line-height: 1.4; }
+  .fl small, .check small { font-weight: 500; color: var(--mut); font-size: 14px; }
+  .req { margin-left: 4px; color: var(--red-text); font-size: 14px; font-weight: 800; }
+  .hint { display: block; margin: -2px 0 8px; font-size: 15px; color: var(--mut); }
+  .rq input[type="text"], .rq input[type="tel"], .rq textarea { display: block; width: 100%; min-height: 50px; margin: 0; padding: 10px 14px; font: inherit; font-size: 16px; color: var(--ink); background: #fff; border: 1.5px solid #8a8a8a; border-radius: 12px; }
+  .rq textarea { min-height: 96px; line-height: 1.6; resize: vertical; }
+  .rq input:focus, .rq textarea:focus { border-color: var(--ink); }
+
+  .types { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr)); gap: 10px; }
+  .type { display: flex; gap: 12px; align-items: flex-start; min-height: 72px; padding: 14px 16px; background: #fff; border: 2px solid #d6d6d6; border-radius: 14px; cursor: pointer; line-height: 1.4; }
+  .type:hover { border-color: #8f8f8f; }
+  .type input { flex-shrink: 0; width: 22px; height: 22px; margin: 1px 0 0; accent-color: var(--red-strong); cursor: pointer; }
+  .type b { display: block; font-size: 17px; }
+  .type small { display: block; margin-top: 2px; font-size: 14px; color: var(--mut); }
+  .type:has(input:checked) { border-color: var(--ink); background: #fafafa; box-shadow: inset 0 0 0 1px var(--ink); }
+  .pick-msg { margin: 10px 0 0; font-weight: 700; color: var(--ink); }
+  .pick-msg:empty { margin: 0; }
+
+  .opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 190px), 1fr)); gap: 8px; }
+  .opt { display: flex; align-items: center; gap: 10px; min-height: 50px; padding: 10px 14px; background: #fff; border: 1.5px solid #d6d6d6; border-radius: 12px; cursor: pointer; font-weight: 600; line-height: 1.4; }
+  .opt:hover { border-color: #8f8f8f; }
+  .opt input { flex-shrink: 0; width: 20px; height: 20px; margin: 0; accent-color: var(--red-strong); cursor: pointer; }
+  .opt:has(input:checked) { border-color: var(--ink); background: #fafafa; box-shadow: inset 0 0 0 1px var(--ink); }
+
+  .grp { padding-top: 22px; border-top: 1px dashed #d6d6d6; }
+  .quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+  .quick button { min-height: 44px; padding: 8px 14px; font: inherit; font-size: 15px; font-weight: 700; color: var(--ink); background: #fff; border: 1px solid #8a8a8a; border-radius: 999px; cursor: pointer; }
+  .quick button:hover { background: var(--gray); }
+  .check { display: flex; align-items: center; gap: 10px; min-height: 44px; cursor: pointer; font-weight: 600; }
+  .check input { flex-shrink: 0; width: 20px; height: 20px; margin: 0; accent-color: var(--red-strong); cursor: pointer; }
+  .remember { margin-top: 6px; font-size: 15px; }
+  .mini-msg { margin: 2px 0 0; font-size: 14px; font-weight: 700; color: var(--ink2); }
+  .mini-msg:empty { margin: 0; }
+  .tip { display: flex; flex-wrap: wrap; align-items: center; gap: 0 10px; margin: 10px 0 0; padding: 6px 14px; background: var(--soft); border-radius: 10px; font-size: 15px; color: var(--ink2); }
+  .tip a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; color: var(--red-text); text-underline-offset: 3px; }
+  p.tip { padding: 10px 14px; }
+  .infobox { margin: 0 0 22px; padding: 14px 16px; background: var(--gray); border-radius: 12px; font-size: 15px; color: var(--ink2); }
+  .infobox b { display: block; margin-bottom: 4px; color: var(--ink); }
+  .infobox ul { margin: 0; padding-left: 1.2em; }
+
+  .miss .opt, .miss input[type="text"], .miss textarea { border-color: var(--red-strong); }
+  .err { margin: 10px 0 0; display: flex; gap: 8px; align-items: center; color: var(--red-text); font-weight: 700; font-size: 15px; }
+  .err::before { content: "!"; flex-shrink: 0; width: 20px; height: 20px; border-radius: 50%; background: var(--red-strong); color: #fff; display: grid; place-items: center; font-size: 13px; font-weight: 800; }
+
+  .go { display: flex; flex-wrap: wrap; align-items: center; gap: 12px 18px; margin-top: 26px; padding-top: 22px; border-top: 1px solid var(--line); }
+  .go .btn { min-width: 200px; }
+  .go .btn:disabled { opacity: .5; cursor: default; }
+  .go .note { margin: 0; flex: 1 1 240px; font-size: 15px; font-weight: 700; color: var(--ok-text); }
+  .form-msg { margin: 12px 0 0; font-weight: 700; color: var(--red-text); }
+  .form-msg:empty { margin: 0; }
+  .nojs { margin: 12px 0 0; font-weight: 700; }
+
+  .out { margin-top: 26px; padding: 22px 20px; background: var(--gray); border-radius: 16px; }
+  .out h3 { margin: 0 0 6px; font-size: clamp(20px, 2.4vw, 24px); }
+  .out h3:focus { outline: none; }
+  .out-sub { margin: 0 0 14px; color: var(--ink2); }
+  .out textarea { display: block; width: 100%; min-height: 0; padding: 12px 14px; font: inherit; font-size: 16px; line-height: 1.7; color: var(--ink); background: #fff; border: 1.5px solid #8a8a8a; border-radius: 12px; resize: vertical; overflow: auto; }
+  .out-act { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 14px; }
+  .copy-msg { margin: 10px 0 0; font-weight: 700; }
+  .copy-msg:empty { margin: 0; }
+  .note2 { margin: 10px 0 0; font-size: 14px; color: var(--mut); }
+
+  /* 급할 때 바로 */
+  .ucards { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: 16px; }
+  .uc { display: flex; flex-direction: column; gap: 10px; }
+  .uc h3 { margin: 0; font-size: 20px; }
+  .uc .big { margin: 0; font-size: 20px; font-weight: 800; }
+  .uc p { margin: 0; color: var(--ink2); }
+  .uc .btn { margin-top: auto; align-self: flex-start; }
+  .ico { width: 44px; height: 44px; border-radius: 12px; background: var(--soft); color: var(--red-text); display: grid; place-items: center; }
+  .ico svg { width: 24px; height: 24px; }
+  .sec { display: flex; gap: 14px; align-items: flex-start; margin-top: 16px; padding: 20px 22px; background: #fff; border: 1px solid var(--line); border-left: 6px solid var(--red-strong); border-radius: 16px; }
+  .sec svg { flex-shrink: 0; width: 28px; height: 28px; margin-top: 2px; color: var(--red-text); }
+  .sec h3 { margin: 0 0 4px; font-size: 18px; }
+  .sec p { margin: 0; color: var(--ink2); }
+
+  @media (max-width: 860px) {
+    .page-hero .wrap.hero-grid { grid-template-columns: 1fr; gap: 28px; }
+  }
+  @media (max-width: 640px) {
+    .how { display: none; } /* 휴대폰에서는 '이렇게 쓰세요' 상자를 숨겨 첫 화면을 짧게 */
+    .it summary { padding: 14px 16px; font-size: 17px; }
+    .it .body { padding: 0 16px 18px; }
+    .rq { padding: 22px 16px; }
+    .out { padding: 20px 16px; }
+    .go .btn { width: 100%; min-width: 0; }
+    .out-act .btn, .row .btn { flex: 1 1 140px; }
+    .none .row .btn { flex-basis: 100%; } /* 좁은 칸에서 '요청 메시지 만들기' 글자가 두 줄로 접히지 않게 한 줄씩 */
+    .uc .btn { align-self: stretch; }
+    .sec { padding: 18px 16px; }
+    .tell { padding: 16px; }
+    .none { padding: 20px 16px; }
+  }
+  @media print {
+    .search, .act, .hero-act, .none, #request, .uc .btn, .cta-band .btns { display: none !important; }
+    .it { break-inside: avoid; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html" aria-current="page">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html" aria-current="page">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap hero-grid">
+      <div>
+        <div class="crumb"><a href="index.html">홈</a> › 고객지원</div>
+        <h1>어떤 <em>도움이 필요하십니까?</em></h1>
+        <p class="lead">손님이 기다리고 있다면 바로 전화 주십시오. 여유가 있으면 자주 들어오는 증상부터 찾아보십시오.</p>
+        <div class="hero-act">
+          <a class="btn" href="tel:18339899">지금 급하면 24시간 전화</a>
+          <a class="btn line" href="#find">증상 찾기 <span aria-hidden="true">↓</span></a>
+          <a class="btn line" href="#request">요청 메시지 만들기 <span aria-hidden="true">↓</span></a>
+        </div>
+        <p class="hero-call">급하면 바로 전화 주십시오. <a href="tel:18339899">1833-9899</a> · 24시간, 공휴일에도 당직</p>
+      </div>
+      <div class="how">
+        <p class="t">이렇게 쓰십시오</p>
+        <ol role="list">
+          <li><span><b>증상 찾기</b><span class="d">먼저 해 볼 것을 따라 해 보십시오.</span></span></li>
+          <li><span><b>요청 메시지 만들기</b><span class="d">그래도 안 되면 칸을 채워 보낼 글을 만듭니다.</span></span></li>
+          <li><span><b>복사해서 보내기</b><span class="d">카카오톡이나 문자에 붙여 넣어 보냅니다.</span></span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk gray" id="find" aria-labelledby="find-h">
+    <div class="wrap">
+      <div class="sh">증상 찾기</div>
+      <h2 id="find-h">어떤 문제입니까?</h2>
+      <p class="sub">증상을 누르면 먼저 해 볼 것이 나옵니다. 해 보고 안 되면 무엇을 알려 주시면 되는지도 적어 두었습니다.</p>
+
+      <div class="search" role="search" id="searchBox" hidden>
+        <label class="fl" for="q">증상 검색</label>
+        <span class="hint" id="q-hint">짧게 적어 보십시오. 예: 렉, 화면, 설치, 꺼짐</span>
+        <div class="sbox">
+          <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M15 15l5 5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+          <input type="search" id="q" autocomplete="off" enterkeyhint="search" aria-describedby="q-hint" aria-controls="accList shortWrap">
+          <button type="button" class="qclear" id="qClear" aria-label="검색어 지우기" hidden>×</button>
+        </div>
+        <p class="qcount" id="qCount" aria-live="polite" aria-atomic="true"></p>
+      </div>
+
+      <div class="acc" id="accList">
+        <details class="it hot" id="s1" data-k="안켜짐 안켜져 실행 실행안됨 오류 에러 튕김 튕겨 먹통 접속 업데이트 패치">
+          <summary><span class="n" aria-hidden="true">1</span><span class="tt"><span class="tx">게임이 안 켜지거나 오류가 납니다</span> <span class="tag">가장 많음</span></span></summary>
+          <div class="body">
+            <p class="lbl">먼저 해 보십시오</p>
+            <ol class="steps" role="list">
+              <li>먼저 <b>그 자리 PC를 재부팅</b>해 주십시오. 노하드는 재부팅하면 깨끗한 처음 상태로 돌아가서, 이것만으로 풀리는 경우가 많습니다.</li>
+              <li><b>다른 자리도 같은지</b> 봐 주십시오. 한 자리만이면 그 PC 문제, 여러 자리면 저희가 서버부터 확인하겠습니다.</li>
+              <li>"업데이트 중"이 뜨면 패치가 끝날 때까지 잠시 기다려 주십시오.</li>
+            </ol>
+            <div class="then">
+              <p class="lbl">그래도 안 되면</p>
+              <p>이것을 알려 주십시오.</p>
+              <ul class="chips" role="list">
+                <li>자리 번호</li>
+                <li>게임 이름과 증상</li>
+                <li>화면 사진 (오류 메시지)</li>
+                <li>다른 자리도 그런지</li>
+              </ul>
+              <p>두 자리 이상에서 같은 증상이면 서버 문제일 수 있습니다. 재부팅을 반복하지 말고 바로 전화 주십시오(24시간).</p>
+            </div>
+            <p class="act"><a class="btn ghost sm" href="#request" data-type="fault" data-sym="게임이 안 켜짐">이 증상으로 요청 메시지 만들기</a></p>
+          </div>
+        </details>
+
+        <details class="it hot" id="s2" data-k="설치 재설치 다시설치 삭제 지우기 지워 신작 새게임 게임추가 디스크 용량 꽉참 스팀 넥슨 오피스 vpn 해외">
+          <summary><span class="n" aria-hidden="true">2</span><span class="tt"><span class="tx">새 게임 설치·재설치가 필요합니다</span></span></summary>
+          <div class="body">
+            <p class="lbl">이렇게 보내 주십시오</p>
+            <ol class="steps" role="list">
+              <li>카톡으로 <b>정확한 게임 이름</b>과 <b>어디 게임인지</b>(스팀·넥슨 등) 보내 주십시오.</li>
+              <li>게임 디스크가 꽉 찼다면 <b>지워도 되는 게임</b>도 함께 알려 주십시오.</li>
+            </ol>
+            <div class="then info">
+              <p class="lbl">알아 두십시오</p>
+              <ul>
+                <li>큰 게임은 설치에 몇 시간 걸립니다. 바쁜 시간이면 손님이 빠진 새벽에 해 드립니다.</li>
+                <li>해외 서버 전용 게임(VPN 필요)은 설치가 어렵습니다. 오피스 같은 유료 프로그램은 라이선스 동의서가 필요합니다.</li>
+              </ul>
+            </div>
+            <p class="act"><a class="btn ghost sm" href="#request" data-type="game">게임 요청 메시지 만들기</a></p>
+          </div>
+        </details>
+
+        <details class="it" id="s3" data-k="마우스 키보드 usb 감도 dpi 설정 안눌림 인식 장치 고장">
+          <summary><span class="n" aria-hidden="true">3</span><span class="tt"><span class="tx">마우스·키보드가 이상합니다</span></span></summary>
+          <div class="body">
+            <p class="lbl">먼저 해 보십시오</p>
+            <ol class="steps" role="list">
+              <li><b>다른 USB 포트</b>에 꽂아 보십시오. 포트만 바꿔도 풀리는 경우가 있습니다.</li>
+              <li>앞 손님이 감도·설정을 바꿨다면 <b>재부팅</b>하면 원래대로 돌아갑니다.</li>
+            </ol>
+            <div class="then">
+              <p class="lbl">그래도 안 되면</p>
+              <p>다른 자리에 꽂아도 안 되면 장치 고장입니다.</p>
+            </div>
+          </div>
+        </details>
+
+        <details class="it" id="s4" data-k="모니터 화면 검은화면 까만화면 노신호 신호없음 안나옴 안나와 해상도 주사율 hz 케이블 hdmi dp 그래픽카드 메인보드">
+          <summary><span class="n" aria-hidden="true">4</span><span class="tt"><span class="tx">화면이 안 나오거나 이상합니다</span></span></summary>
+          <div class="body">
+            <p class="lbl">먼저 해 보십시오</p>
+            <ol class="steps" role="list">
+              <li>모니터 케이블이 <b>그래픽카드 쪽 포트</b>에 꽂혀 있는지 봐 주십시오. 메인보드 쪽에 꽂으면 화면이 안 나옵니다.</li>
+              <li>모니터 전원과 입력 설정(HDMI·DP)을 확인해 주십시오.</li>
+            </ol>
+            <div class="then">
+              <p class="lbl">그래도 안 되면</p>
+              <p>자리 번호와 화면 사진을 알려 주십시오.</p>
+              <p>주사율(Hz)이나 해상도를 바꾸고 싶으면 자리 번호와 원하는 값을 알려 주십시오.</p>
+            </div>
+            <p class="act"><a class="btn ghost sm" href="#request" data-type="fault" data-sym="화면 안 나옴">이 증상으로 요청 메시지 만들기</a></p>
+          </div>
+        </details>
+
+        <details class="it" id="s5" data-k="렉 랙 렉걸림 렉걸려 버벅 느림 느려 끊김 끊겨 인터넷 네트워크 핑 허브 공유기 랜선 통신사">
+          <summary><span class="n" aria-hidden="true">5</span><span class="tt"><span class="tx">렉이 걸리거나 인터넷이 끊깁니다</span></span></summary>
+          <div class="body">
+            <p class="lbl">어디까지 그런지 보고 해 보십시오</p>
+            <ul class="cases" role="list">
+              <li><span class="k">한 자리만</span>그 자리 재부팅.</li>
+              <li><span class="k">한 줄만</span>그 줄 허브의 전원 코드가 헐겁지 않은지 보고, 손님이 적을 때 허브를 껐다 켜 주십시오.</li>
+              <li><span class="k">매장 전체</span>공유기·허브 전원과 랜선을 확인하고 통신사에도 문의해 주십시오. 저희도 원격으로 같이 보겠습니다.</li>
+            </ul>
+            <div class="then">
+              <p class="lbl">그래도 안 되면</p>
+              <p>어디까지 그런지(한 자리·한 줄·매장 전체)와 자리 번호를 알려 주십시오.</p>
+              <p>두 자리 이상에서 같은 증상이면 서버 문제일 수 있습니다. 재부팅을 반복하지 말고 바로 전화 주십시오(24시간).</p>
+            </div>
+            <p class="act"><a class="btn ghost sm" href="#request" data-type="fault" data-sym="렉·끊김">이 증상으로 요청 메시지 만들기</a></p>
+          </div>
+        </details>
+
+        <details class="it" id="s6" data-k="꺼짐 꺼져 꺼졌 재부팅 리부팅 저절로 이용시간 관리프로그램 게토 피카 메모리 온도 먼지 청소">
+          <summary><span class="n" aria-hidden="true">6</span><span class="tt"><span class="tx">게임 중에 PC가 꺼지거나 재부팅됩니다</span></span></summary>
+          <div class="body">
+            <p class="lbl">먼저 해 보십시오</p>
+            <ol class="steps" role="list">
+              <li>관리프로그램(게토·피카 등)에 <b>이용 시간이 남아 있는지</b> 봐 주십시오.</li>
+              <li>먼지 청소를 오래 안 했다면 청소도 도움이 됩니다.</li>
+            </ol>
+            <div class="then">
+              <p class="lbl">그래도 안 되면</p>
+              <p>시간이 남았는데 꺼졌다면 관리프로그램 회사에도 문의가 필요합니다.</p>
+              <p>같은 자리에서 자주 그러면 메모리·온도 문제일 수 있습니다. 자리 번호를 알려 주시면 원격으로 점검합니다.</p>
+            </div>
+            <p class="act"><a class="btn ghost sm" href="#request" data-type="fault" data-sym="PC 꺼짐·재부팅">이 증상으로 요청 메시지 만들기</a></p>
+          </div>
+        </details>
+
+        <details class="it" id="s7" data-k="서버 전원 정전 화재 공사 전기공사 청소 이동 안켜짐 전원버튼 서버끄기 패치">
+          <summary><span class="n" aria-hidden="true">7</span><span class="tt"><span class="tx">서버·전원은 이렇게 해 주십시오</span></span></summary>
+          <div class="body">
+            <p class="lbl">꼭 지켜 주십시오</p>
+            <ol class="steps" role="list">
+              <li><b>서버는 직접 끄지 마십시오.</b> 청소·이동·전기 공사 전에 미리 연락 주시면 손님 없는 시간에 안전하게 빼 드립니다.</li>
+              <li>원격으로 안 켜지는 자리는 <b>PC 전원 버튼을 직접</b> 눌러 주십시오.</li>
+            </ol>
+            <div class="then">
+              <p class="lbl">이럴 땐 연락 주십시오</p>
+              <p>정전·화재 뒤 다시 켤 때도 연락 주십시오. 패치 상태를 확인해 드립니다.</p>
+              <p>두 자리 이상에서 같은 증상이면 서버 문제일 수 있습니다. 재부팅을 반복하지 말고 바로 전화 주십시오(24시간).</p>
+            </div>
+            <p class="act">
+              <a class="btn ghost sm" href="#request" data-type="fault" data-sym="서버 문제">서버 문제 신고 메시지 만들기</a>
+              <a class="btn ghost sm" href="#request" data-type="etc" data-topic="서버 끄기·옮기기(청소·이동·전기 공사)">공사·청소 미리 알리기</a>
+            </p>
+          </div>
+        </details>
+
+        <details class="it" id="s8" data-k="pc추가 교체 사양 cpu 그래픽카드 리모델링 이전 이사 허브증설 방문 바탕화면 배경화면 로그인화면 이미지 미리">
+          <summary><span class="n" aria-hidden="true">8</span><span class="tt"><span class="tx">미리 알려 주시면 좋습니다</span></span></summary>
+          <div class="body">
+            <p class="lbl">이럴 땐 미리 알려 주십시오</p>
+            <ul class="dots">
+              <li><b>PC 추가·교체</b>: 사양(CPU·그래픽카드)을 알려 주시면 미리 준비합니다.</li>
+              <li><b>리모델링·이전·허브 증설</b>: 방문이 필요할 수 있습니다.</li>
+              <li><b>바탕화면·로그인 화면 변경</b>: 이미지를 카톡으로 보내 주시면 새벽에 바꿔 드립니다.</li>
+            </ul>
+            <p class="act"><a class="btn ghost sm" href="#request" data-type="etc">미리 알리는 메시지 만들기</a></p>
+          </div>
+        </details>
+      </div>
+
+      <div class="short" id="shortWrap">
+        <h3 class="short-h">짧게 자주 묻는 것</h3>
+        <details class="it" id="s9" data-k="프린터 프린트 인쇄 출력 usb">
+          <summary><span class="n qn" aria-hidden="true">Q</span><span class="tt"><span class="tx">손님 PC에서 프린터가 안 됩니다</span></span></summary>
+          <div class="body">
+            <p>손님 PC에서 프린터가 안 되면 파일을 USB에 담아 카운터 PC에서 출력하는 게 가장 빠릅니다.</p>
+          </div>
+        </details>
+        <details class="it" id="s10" data-k="결제 결제창 보안프로그램 보안 설치안됨 안깔려 실행">
+          <summary><span class="n qn" aria-hidden="true">Q</span><span class="tt"><span class="tx">결제창 보안 프로그램이 안 깔립니다</span></span></summary>
+          <div class="body">
+            <p>결제창의 보안 프로그램은 내려받은 뒤 '실행'까지 눌러야 설치됩니다.</p>
+          </div>
+        </details>
+      </div>
+
+      <div class="none" id="noneBox" hidden>
+        <h3>맞는 증상을 찾지 못했습니다</h3>
+        <p>찾는 증상이 없으면 연락 주십시오. 아래에서 요청 메시지를 만들어 보내 주시거나, 급하면 전화 <a href="tel:18339899">1833-9899</a>로 연락 주십시오(24시간).</p>
+        <div class="row">
+          <a class="btn" href="#request">요청 메시지 만들기</a>
+          <button type="button" class="btn ghost" id="noneClear">검색어 지우기</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="urgent" aria-labelledby="urgent-h">
+    <div class="wrap">
+      <div class="sh">급할 때</div>
+      <h2 id="urgent-h">급할 때 바로</h2>
+      <p class="sub">손님이 기다리고 있다면 글 대신 전화로 연락 주십시오.</p>
+      <div class="ucards">
+        <div class="card uc">
+          <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M6.6 3.5h3l1.5 4-2 1.3a11 11 0 0 0 6.1 6.1l1.3-2 4 1.5v3a2 2 0 0 1-2 2A17 17 0 0 1 4.6 5.5a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <h3>전화 (24시간)</h3>
+          <p class="big"><a href="tel:18339899">1833-9899</a></p>
+          <p>24시간, 공휴일에도 당직입니다. 매장 이름과 자리 번호부터 말씀해 주십시오.</p>
+          <a class="btn" href="tel:18339899">전화 걸기</a>
+        </div>
+        <div class="card uc">
+          <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4c4.97 0 9 3.13 9 7s-4.03 7-9 7c-.9 0-1.77-.1-2.6-.3L5 19.5l1.2-3.6C4.2 14.6 3 12.9 3 11c0-3.87 4.03-7 9-7z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg></span>
+          <h3>카카오톡</h3>
+          <p class="big"><a href="https://pf.kakao.com/_gxjvhj" target="_blank" rel="noopener">엔터시스템 채널</a></p>
+          <p>만든 요청 메시지를 붙여 넣고, 화면 사진도 함께 보내 주십시오.</p>
+          <a class="btn ghost" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 채널 열기</a>
+        </div>
+        <div class="card uc">
+          <span class="ico"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 9V4h10v5M7 17H5a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><rect x="7" y="14" width="10" height="6" rx="1" fill="none" stroke="currentColor" stroke-width="2"/></svg></span>
+          <h3>고객지원 인쇄용 안내문</h3>
+          <p>A4로 뽑아 카운터에 붙여 두십시오. 이 페이지의 증상 8가지가 한 장에 들어 있습니다.</p>
+          <a class="btn ghost" href="guide.html">인쇄용 가이드 열기</a>
+        </div>
+      </div>
+
+      <div class="sec">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3l7 3v5c0 4.5-3 8.3-7 10-4-1.7-7-5.5-7-10V6l7-3z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="M12 8v5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/><circle cx="12" cy="16.3" r="1.3" fill="currentColor"/></svg>
+        <div>
+          <h3>매장 보안 한 줄</h3>
+          <p>카운터 PC에는 저희가 안내하지 않은 원격 프로그램(팀뷰어, VNC 등)을 깔지 마십시오. 다른 사람이 매장 PC에 들어올 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk gray" id="request" aria-labelledby="request-h">
+    <div class="wrap">
+      <div class="sh">요청 메시지 만들기</div>
+      <h2 id="request-h">보낼 글을 한 번에 정리합니다</h2>
+      <p class="sub">칸을 채우고 ‘메시지 만들기’를 누르면 보낼 글이 정리되어 나옵니다. 복사해서 카카오톡이나 문자로 보내 주십시오.</p>
+
+      <p class="safe"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><rect x="5" y="10.5" width="14" height="10" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8.5 10.5V8a3.5 3.5 0 0 1 7 0v2.5" fill="none" stroke="currentColor" stroke-width="2"/></svg><span>입력한 내용은 어디에도 보내지 않고 이 화면에서만 만듭니다. 다 만든 글은 사장님이 직접 복사해서 보냅니다.</span></p>
+
+      <div class="tell">
+        <h3>연락 주실 때 이것만 알려 주시면 훨씬 빠릅니다</h3>
+        <ol role="list">
+          <li><span><b>매장 이름</b></span></li>
+          <li><span><b>자리 번호</b> (몇 번 PC)</span></li>
+          <li><span><b>게임 이름</b>과 증상</span></li>
+          <li><span><b>화면 사진</b> (오류 메시지)</span></li>
+          <li><span><b>다른 자리도</b> 그런지</span></li>
+        </ol>
+        <p>아래 칸을 채우면 이 내용이 한 번에 정리됩니다. 화면 사진은 카톡이나 문자에 따로 붙여 보내 주십시오.</p>
+      </div>
+
+      <div class="rq">
+        <form id="reqForm" novalidate>
+          <fieldset class="field">
+            <legend class="fl">무엇을 보내시겠습니까?</legend>
+            <div class="types">
+              <label class="type"><input type="radio" name="rtype" value="fault" checked><span><b><span aria-hidden="true">① </span>장애 신고</b><small>게임·화면·렉·꺼짐·서버 문제</small></span></label>
+              <label class="type"><input type="radio" name="rtype" value="game"><span><b><span aria-hidden="true">② </span>게임 설치·삭제 요청</b><small>새로 설치, 다시 설치, 지우기</small></span></label>
+              <label class="type"><input type="radio" name="rtype" value="etc"><span><b><span aria-hidden="true">③ </span>기타 문의</b><small>PC 추가, 공사·청소, 바탕화면 등</small></span></label>
+            </div>
+            <p class="pick-msg" id="pickMsg" aria-live="polite"></p>
+          </fieldset>
+
+          <div class="field" id="w-store">
+            <label class="fl" for="fStore">매장 이름 <span class="req">(필수)</span></label>
+            <input type="text" id="fStore" autocomplete="organization" maxlength="40" aria-required="true">
+            <p class="err" id="e-store" hidden>매장 이름을 적어 주십시오.</p>
+            <label class="check remember"><input type="checkbox" id="fRemember"><span>이 기기에 매장 이름 기억하기 <small>(이 브라우저에만 저장됩니다)</small></span></label>
+            <p class="mini-msg" id="rememberMsg" aria-live="polite"></p>
+          </div>
+
+          <!-- ① 장애 신고 -->
+          <div class="grp" id="g-fault">
+            <fieldset class="field" id="w-sym">
+              <legend class="fl">어떤 증상입니까? <span class="req">(필수)</span></legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="sym" value="게임이 안 켜짐"><span>게임이 안 켜짐</span></label>
+                <label class="opt"><input type="radio" name="sym" value="화면 안 나옴"><span>화면 안 나옴</span></label>
+                <label class="opt"><input type="radio" name="sym" value="렉·끊김"><span>렉·끊김</span></label>
+                <label class="opt"><input type="radio" name="sym" value="PC 꺼짐·재부팅"><span>PC 꺼짐·재부팅</span></label>
+                <label class="opt"><input type="radio" name="sym" value="서버 문제"><span>서버 문제</span></label>
+                <label class="opt"><input type="radio" name="sym" value="기타"><span>기타</span></label>
+              </div>
+              <p class="err" id="e-sym" hidden>증상을 하나 골라 주십시오.</p>
+              <p class="tip" id="symTip" hidden><span id="symTipText"></span><a id="symTipLink" href="#s1">해결법 보기</a></p>
+            </fieldset>
+
+            <div class="field">
+              <label class="fl" for="fSeats">자리 번호나 범위</label>
+              <span class="hint" id="h-seats">한 자리인지, 여러 자리인지 알려 주십시오. 예: 12번 / 3~10번 / 매장 전체</span>
+              <input type="text" id="fSeats" maxlength="60" autocomplete="off" aria-describedby="h-seats">
+            </div>
+
+            <div class="field">
+              <label class="fl" for="fFGame">게임 이름 <small>(게임 문제라면)</small></label>
+              <input type="text" id="fFGame" maxlength="60" autocomplete="off">
+            </div>
+
+            <div class="field">
+              <label class="fl" for="fSince">언제부터 그렇습니까?</label>
+              <span class="hint" id="h-since">예: 오늘 밤 9시쯤부터. 아래 버튼을 눌러도 됩니다.</span>
+              <input type="text" id="fSince" maxlength="40" autocomplete="off" aria-describedby="h-since">
+              <div class="quick" role="group" aria-label="언제부터 빠르게 고르기">
+                <button type="button" data-fill="방금 전부터">방금 전부터</button>
+                <button type="button" data-fill="오늘부터">오늘부터</button>
+                <button type="button" data-fill="어제부터">어제부터</button>
+                <button type="button" data-fill="며칠 전부터">며칠 전부터</button>
+              </div>
+            </div>
+
+            <div class="field">
+              <label class="fl" for="fDetail">자세히 <small>(화면에 뜬 글을 그대로 적어 주시면 좋습니다)</small></label>
+              <textarea id="fDetail" rows="3" maxlength="500"></textarea>
+            </div>
+
+            <fieldset class="field">
+              <legend class="fl">해 본 것·보낼 것 <small>(해당하면 눌러 주십시오)</small></legend>
+              <label class="check"><input type="checkbox" name="tried" value="그 자리 PC 재부팅"><span>그 자리 PC를 재부팅해 봤습니다</span></label>
+              <label class="check"><input type="checkbox" name="tried" value="다른 자리 확인"><span>다른 자리도 확인해 봤습니다</span></label>
+              <label class="check"><input type="checkbox" id="fPhoto"><span>화면 사진을 따로 보내겠습니다</span></label>
+            </fieldset>
+          </div>
+
+          <!-- ② 게임 설치·삭제 요청 -->
+          <div class="grp" id="g-game" hidden>
+            <fieldset class="field" id="w-gact">
+              <legend class="fl">무엇을 하시겠습니까? <span class="req">(필수)</span></legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="gact" value="새로 설치"><span>새로 설치</span></label>
+                <label class="opt"><input type="radio" name="gact" value="다시 설치"><span>다시 설치</span></label>
+                <label class="opt"><input type="radio" name="gact" value="삭제"><span>삭제</span></label>
+              </div>
+              <p class="err" id="e-gact" hidden>무엇을 할지 골라 주십시오.</p>
+            </fieldset>
+
+            <div class="field" id="w-gname">
+              <label class="fl" for="fGName">게임 이름 <span class="req">(필수)</span></label>
+              <span class="hint" id="h-gname">정확한 이름으로 적어 주십시오. 여러 개면 쉼표(,)로 나눠 주십시오.</span>
+              <input type="text" id="fGName" maxlength="100" autocomplete="off" aria-required="true" aria-describedby="h-gname">
+              <p class="err" id="e-gname" hidden>게임 이름을 적어 주십시오.</p>
+            </div>
+
+            <div class="field">
+              <label class="fl" for="fGWhere">어디 게임입니까?</label>
+              <span class="hint" id="h-gwhere">예: 스팀, 넥슨</span>
+              <input type="text" id="fGWhere" maxlength="40" autocomplete="off" aria-describedby="h-gwhere">
+            </div>
+
+            <div class="field">
+              <label class="fl" for="fGDel">지워도 되는 게임</label>
+              <span class="hint" id="h-gdel">게임 디스크가 꽉 찼다면 함께 알려 주십시오.</span>
+              <input type="text" id="fGDel" maxlength="100" autocomplete="off" aria-describedby="h-gdel">
+            </div>
+
+            <div class="field">
+              <label class="fl" for="fGMemo">더 전할 말</label>
+              <textarea id="fGMemo" rows="2" maxlength="300"></textarea>
+            </div>
+
+            <div class="infobox">
+              <b>알아 두십시오</b>
+              <ul>
+                <li>큰 게임은 설치에 몇 시간 걸립니다. 바쁜 시간이면 손님이 빠진 새벽에 해 드립니다.</li>
+                <li>해외 서버 전용 게임(VPN 필요)은 설치가 어렵습니다. 오피스 같은 유료 프로그램은 라이선스 동의서가 필요합니다.</li>
+              </ul>
+            </div>
+          </div>
+
+          <!-- ③ 기타 문의 -->
+          <div class="grp" id="g-etc" hidden>
+            <fieldset class="field" id="w-topic">
+              <legend class="fl">어떤 문의입니까? <span class="req">(필수)</span></legend>
+              <div class="opts">
+                <label class="opt"><input type="radio" name="topic" value="PC 추가·교체"><span>PC 추가·교체</span></label>
+                <label class="opt"><input type="radio" name="topic" value="리모델링·이전·허브 증설"><span>리모델링·이전·허브 증설</span></label>
+                <label class="opt"><input type="radio" name="topic" value="바탕화면·로그인 화면 변경"><span>바탕화면·로그인 화면 변경</span></label>
+                <label class="opt"><input type="radio" name="topic" value="서버 끄기·옮기기(청소·이동·전기 공사)"><span>서버 끄기·옮기기 (청소·이동·전기 공사)</span></label>
+                <label class="opt"><input type="radio" name="topic" value="그 밖의 문의"><span>그 밖의 문의</span></label>
+              </div>
+              <p class="err" id="e-topic" hidden>문의 종류를 하나 골라 주십시오.</p>
+              <p class="tip" id="topicTip" hidden></p>
+            </fieldset>
+
+            <div class="field">
+              <label class="fl" for="fEWhen">언제 하실 예정입니까? <small>(정해졌다면)</small></label>
+              <span class="hint" id="h-ewhen">예: 11월 3일 새벽</span>
+              <input type="text" id="fEWhen" maxlength="40" autocomplete="off" aria-describedby="h-ewhen">
+            </div>
+
+            <div class="field" id="w-ebody">
+              <label class="fl" for="fEBody">내용</label>
+              <span class="hint" id="h-ebody">‘그 밖의 문의’를 고르셨다면 꼭 적어 주십시오.</span>
+              <textarea id="fEBody" rows="4" maxlength="500" aria-describedby="h-ebody"></textarea>
+              <p class="err" id="e-ebody" hidden>문의 내용을 적어 주십시오.</p>
+            </div>
+          </div>
+
+          <div class="field">
+            <label class="fl" for="fPhone">연락받을 번호 <small>(적지 않아도 됩니다)</small></label>
+            <input type="tel" id="fPhone" inputmode="tel" autocomplete="tel" maxlength="20">
+          </div>
+
+          <div class="go">
+            <button type="submit" class="btn" id="makeBtn" disabled>메시지 만들기</button>
+          </div>
+          <p class="form-msg" id="formMsg" aria-live="polite"></p>
+          <noscript><p class="nojs">메시지를 만들려면 브라우저에서 자바스크립트를 켜 주십시오. 위 ‘연락 주실 때 알려 줄 것’을 보고 직접 적어 보내셔도 됩니다.</p></noscript>
+        </form>
+
+        <div class="out" id="out" hidden>
+          <h3 id="out-h" tabindex="-1">보낼 글이 만들어졌습니다</h3>
+          <p class="out-sub">복사한 글을 카카오톡 <a href="https://pf.kakao.com/_gxjvhj" target="_blank" rel="noopener">엔터시스템 채널</a>이나 문자로 보내 주십시오. 급하면 전화 <a href="tel:18339899">1833-9899</a>로 연락 주십시오(24시간).</p>
+          <label class="sr-only" for="outText">보낼 글</label>
+          <textarea id="outText" rows="8" readonly></textarea>
+          <div class="out-act">
+            <button type="button" class="btn dark" id="copyBtn">복사</button>
+            <a class="btn" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 채널 열기</a>
+            <a class="btn ghost" href="tel:18339899">전화 걸기</a>
+            <button type="button" class="btn ghost" id="resetBtn">처음부터 다시 쓰기</button>
+          </div>
+          <p class="copy-msg" id="copyMsg" aria-live="polite"></p>
+          <p class="note2">위 칸을 고치면 이 글도 바로 바뀝니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band" aria-labelledby="end-h">
+    <div class="wrap">
+      <div>
+        <h2 id="end-h">해결이 안 되면 바로 연락 주십시오</h2>
+        <p>24시간 받습니다. 매장 이름과 자리 번호를 한 번에 알려 주시면 훨씬 빠릅니다.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="tel:18339899">전화하기</a>
+        <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+
+<script>
+(function () {
+  'use strict';
+
+  var $ = function (id) { return document.getElementById(id); };
+  // 같은 글을 다시 넣어도 화면 읽기 프로그램이 읽도록, 비웠다가 넣어요
+  function say(el, text) {
+    el.textContent = '';
+    if (text) setTimeout(function () { el.textContent = text; }, 60);
+  }
+
+  /* ───────── 1. 증상 찾기 ───────── */
+  var searchBox = $('searchBox');
+  var q = $('q');
+  var qClear = $('qClear');
+  var qCount = $('qCount');
+  var noneBox = $('noneBox');
+  var shortWrap = $('shortWrap');
+  var items = [].slice.call(document.querySelectorAll('#find .it'));
+  var shortItems = [].slice.call(shortWrap.querySelectorAll('.it'));
+  var countTimer = null;
+  var searched = false;
+
+  // 띄어쓰기·문장부호를 빼고 비교해요 ("안 켜져" = "안켜져")
+  // 문장과 문장 사이는 |로 끊어서, 앞 문장 끝과 뒤 문장 처음이 붙어 엉뚱하게 맞지 않게 해요
+  function norm(s) {
+    return String(s).toLowerCase().replace(/[.!?]+/g, '|').replace(/[\s·,~()\[\]"'‘’“”\-\/:→]+/g, '');
+  }
+  function normTok(s) { return norm(s).replace(/\|/g, ''); }
+  // 항목마다 찾을 글: 숨은 낱말(data-k) + 제목 + 내용 (버튼 글자와 '먼저 해 보세요' 같은 표시는 빼요)
+  var hay = items.map(function (it) {
+    var parts = [it.getAttribute('data-k') || ''];
+    var nodes = it.querySelectorAll('summary, .body li, .body p:not(.act):not(.lbl)');
+    for (var i = 0; i < nodes.length; i++) parts.push(nodes[i].textContent);
+    return norm(parts.join('|'));
+  });
+  // 말끝이 달라도 찾도록 끝 글자를 한두 개 줄여서도 찾아봐요 ("꺼져요" → "꺼져")
+  function hit(h, tok) {
+    if (h.indexOf(tok) >= 0) return true;
+    for (var cut = 1; cut <= 2 && tok.length - cut >= 2; cut++) {
+      if (h.indexOf(tok.slice(0, tok.length - cut)) >= 0) return true;
+    }
+    return false;
+  }
+
+  function filter() {
+    var raw = q.value.trim();
+    var toks = raw ? raw.split(/\s+/).map(normTok).filter(Boolean) : [];
+    var show, loose = false;
+    if (!toks.length) {
+      show = items.slice();
+    } else {
+      show = items.filter(function (it, i) { return toks.every(function (t) { return hit(hay[i], t); }); });
+      // 낱말이 여러 개인데 다 맞는 게 없으면, 하나라도 맞는 항목을 보여 줘요
+      if (!show.length && toks.length > 1) {
+        show = items.filter(function (it, i) { return toks.some(function (t) { return hit(hay[i], t); }); });
+        loose = show.length > 0;
+      }
+    }
+    items.forEach(function (it) { it.hidden = show.indexOf(it) < 0; });
+    shortWrap.hidden = !shortItems.some(function (it) { return !it.hidden; });
+    noneBox.hidden = show.length > 0;
+    qClear.hidden = !raw;
+    if (toks.length && !loose && show.length === 1) show[0].open = true;
+
+    var msg = '';
+    if (toks.length) {
+      searched = true;
+      if (!show.length) msg = '검색어 ‘' + raw + '’에 맞는 항목이 없습니다. 아래 안내대로 연락 주십시오.';
+      else if (loose) msg = '검색어 ‘' + raw + '’에 딱 맞는 항목은 없습니다. 비슷한 항목 ' + show.length + '개를 보여 드립니다.';
+      else msg = '검색어 ‘' + raw + '’에 맞는 항목이 ' + show.length + '개 있습니다.';
+    } else if (searched) {
+      msg = '모든 항목 ' + items.length + '개를 보여 드립니다.';
+    }
+    // 글자를 칠 때마다 읽지 않도록, 잠깐 멈추면 알려 줘요
+    clearTimeout(countTimer);
+    countTimer = setTimeout(function () { qCount.textContent = msg; }, 400);
+  }
+
+  function clearSearch() {
+    q.value = '';
+    filter();
+    q.focus();
+  }
+
+  q.addEventListener('input', filter);
+  q.addEventListener('keydown', function (e) {
+    if (e.isComposing || e.keyCode === 229) return; // 한글 입력 중에는 건드리지 않아요
+    if (e.key === 'Escape' && q.value) {
+      e.preventDefault();
+      clearSearch();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      var first = items.filter(function (it) { return !it.hidden; })[0];
+      if (first) first.querySelector('summary').focus();
+    }
+  });
+  qClear.addEventListener('click', clearSearch);
+  $('noneClear').addEventListener('click', clearSearch);
+  searchBox.hidden = false; // 자바스크립트가 켜져 있을 때만 검색 칸을 보여 줘요
+
+  // '해결법 보기'나 help.html#s5 같은 주소로 오면 그 항목을 펼쳐요
+  function openItem(id, focus) {
+    var it = $(id);
+    if (!it || items.indexOf(it) < 0) return false;
+    if (it.hidden) { q.value = ''; filter(); }
+    it.open = true;
+    it.scrollIntoView({ block: 'start' });
+    if (focus) it.querySelector('summary').focus({ preventScroll: true });
+    return true;
+  }
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[href^="#s"]') : null;
+    if (a && openItem(a.getAttribute('href').slice(1), true)) e.preventDefault();
+  });
+  if (/^#s\d+$/.test(location.hash)) openItem(location.hash.slice(1), false);
+
+  // 이 페이지를 인쇄할 때는 검색으로 숨긴 항목까지 모두 보이게 하고 펼쳐서 뽑아요
+  var printOpened = [];
+  window.addEventListener('beforeprint', function () {
+    items.forEach(function (it) { it.hidden = false; });
+    shortWrap.hidden = false;
+    noneBox.hidden = true;
+    printOpened = items.filter(function (it) { return !it.open; });
+    printOpened.forEach(function (it) { it.open = true; });
+  });
+  window.addEventListener('afterprint', function () {
+    printOpened.forEach(function (it) { it.open = false; });
+    printOpened = [];
+    filter(); // 인쇄가 끝나면 검색어대로 다시 걸러요
+  });
+
+  /* ───────── 2. 요청 메시지 만들기 ───────── */
+  // ── 메시지 규칙 (여기부터) ──
+  // 유형 이름은 보낼 글의 첫 줄이 돼요
+  var TYPES = { fault: '장애 신고', game: '게임 설치·삭제 요청', etc: '기타 문의' };
+  // 증상을 고르면 '먼저 해 볼 것' 항목으로 가는 안내를 보여 줘요
+  var SYM_ITEM = { '게임이 안 켜짐': 's1', '화면 안 나옴': 's4', '렉·끊김': 's5', 'PC 꺼짐·재부팅': 's6', '서버 문제': 's7' };
+  // 문의 종류를 고르면 보여 줄 안내 (인쇄용 안내문 7·8번 글 그대로)
+  var TOPIC_TIP = {
+    'PC 추가·교체': '사양(CPU·그래픽카드)을 알려 주시면 미리 준비합니다.',
+    '리모델링·이전·허브 증설': '방문이 필요할 수 있습니다.',
+    '바탕화면·로그인 화면 변경': '이미지를 카톡으로 보내 주시면 새벽에 바꿔 드립니다.',
+    '서버 끄기·옮기기(청소·이동·전기 공사)': '서버는 직접 끄지 마십시오. 청소·이동·전기 공사 전에 미리 연락 주시면 손님 없는 시간에 안전하게 빼 드립니다.',
+    '그 밖의 문의': '아래 ‘내용’ 칸에 적어 주십시오.'
+  };
+  var OTHER = '그 밖의 문의';
+  var STORE_KEY = 'entersystem-help-store'; // 매장 이름 기억하기 (이 브라우저에만)
+  // ── 메시지 규칙 (여기까지) ──
+
+  var KEYS = ['store', 'sym', 'gact', 'gname', 'topic', 'ebody'];
+  var form = $('reqForm');
+  var makeBtn = $('makeBtn');
+  var formMsg = $('formMsg');
+  var pickMsg = $('pickMsg');
+  var store = $('fStore');
+  var remember = $('fRemember');
+  var rememberMsg = $('rememberMsg');
+  var out = $('out');
+  var outH = $('out-h');
+  var outText = $('outText');
+  var copyBtn = $('copyBtn');
+  var copyMsg = $('copyMsg');
+  var resetBtn = $('resetBtn');
+  var groups = { fault: $('g-fault'), game: $('g-game'), etc: $('g-etc') };
+
+  function val(id) { return $(id).value.trim(); }
+  function picked(name) {
+    var c = form.querySelector('input[name="' + name + '"]:checked');
+    return c ? c.value : '';
+  }
+  function pickedAll(name) {
+    return [].map.call(form.querySelectorAll('input[name="' + name + '"]:checked'), function (c) { return c.value; });
+  }
+  function pick(name, value) {
+    var r = form.querySelectorAll('input[name="' + name + '"]');
+    for (var i = 0; i < r.length; i++) if (r[i].value === value) r[i].checked = true;
+  }
+  function type() { return picked('rtype') || 'fault'; }
+
+  // 빈 칸 표시 (빨간 테두리 + 오류 글 + 화면 읽기 프로그램용 표시)
+  function mark(key, on) {
+    var w = $('w-' + key), err = $('e-' + key);
+    if (!w || !err) return;
+    w.classList.toggle('miss', on);
+    err.hidden = !on;
+    var ins = w.querySelectorAll('input:not([type="checkbox"]), textarea');
+    for (var i = 0; i < ins.length; i++) {
+      var el = ins[i];
+      if (!el.hasAttribute('data-desc')) el.setAttribute('data-desc', el.getAttribute('aria-describedby') || '');
+      var base = el.getAttribute('data-desc');
+      if (on) {
+        el.setAttribute('aria-invalid', 'true');
+        el.setAttribute('aria-describedby', (base + ' ' + err.id).trim());
+      } else {
+        el.removeAttribute('aria-invalid');
+        if (base) el.setAttribute('aria-describedby', base); else el.removeAttribute('aria-describedby');
+      }
+    }
+  }
+  // 지금 유형에서 꼭 채울 칸과, 채웠는지
+  function needs() {
+    var t = type(), n = [['store', !!val('fStore')]];
+    if (t === 'fault') n.push(['sym', !!picked('sym')]);
+    else if (t === 'game') { n.push(['gact', !!picked('gact')]); n.push(['gname', !!val('fGName')]); }
+    else { n.push(['topic', !!picked('topic')]); n.push(['ebody', picked('topic') !== OTHER || !!val('fEBody')]); }
+    return n;
+  }
+  function check() {
+    KEYS.forEach(function (k) { mark(k, false); });
+    var bad = [];
+    needs().forEach(function (p) { if (!p[1]) { mark(p[0], true); bad.push(p[0]); } });
+    return bad;
+  }
+  // 고쳐서 채워진 칸은 표시를 바로 지워요 (새로 표시하지는 않아요)
+  function refreshMarks() {
+    needs().forEach(function (p) {
+      if (p[1] && $('w-' + p[0]).classList.contains('miss')) mark(p[0], false);
+    });
+    if (!form.querySelector('.miss')) formMsg.textContent = '';
+  }
+  function showErr(bad) {
+    say(formMsg, '꼭 채울 칸 ' + bad.length + '곳이 비어 있습니다. 빨간 글을 확인해 주십시오.');
+    var w = $('w-' + bad[0]);
+    var f = w.querySelector('input:not([type="checkbox"]), textarea');
+    w.scrollIntoView({ block: 'center' });
+    if (f) f.focus({ preventScroll: true });
+  }
+
+  function setType(t) {
+    for (var k in groups) groups[k].hidden = k !== t;
+    KEYS.forEach(function (k) { if (k !== 'store') mark(k, false); });
+    if (!form.querySelector('.miss')) formMsg.textContent = '';
+  }
+  function updateSymTip() {
+    var id = SYM_ITEM[picked('sym')], tip = $('symTip');
+    if (!id) { tip.hidden = true; return; }
+    $('symTipText').textContent = '보내기 전에 ‘' + $(id).querySelector('.tx').textContent + '’에서 먼저 해 볼 것을 확인해 보십시오.';
+    $('symTipLink').setAttribute('href', '#' + id);
+    tip.hidden = false;
+  }
+  function updateTopicTip() {
+    var t = TOPIC_TIP[picked('topic')] || '', tip = $('topicTip');
+    tip.textContent = t;
+    tip.hidden = !t;
+  }
+  function sync() { setType(type()); updateSymTip(); updateTopicTip(); }
+
+  // 보낼 글 만들기: 빈 칸은 줄을 빼요
+  function build() {
+    var t = type(), lines = ['[' + TYPES[t] + ']'];
+    function add(name, v) { if (v) lines.push(name + ': ' + v); }
+    add('매장 이름', val('fStore'));
+    if (t === 'fault') {
+      add('증상', picked('sym'));
+      add('자리', val('fSeats'));
+      add('게임 이름', val('fFGame'));
+      add('언제부터', val('fSince'));
+      add('자세히', val('fDetail'));
+      add('해 본 것', pickedAll('tried').join(', '));
+      if ($('fPhoto').checked) lines.push('화면 사진: 따로 보낼게요');
+    } else if (t === 'game') {
+      add('할 일', picked('gact'));
+      add('게임 이름', val('fGName'));
+      add('어디 게임', val('fGWhere'));
+      add('지워도 되는 게임', val('fGDel'));
+      add('더 전할 말', val('fGMemo'));
+    } else {
+      add('문의 종류', picked('topic'));
+      add('하실 날짜', val('fEWhen'));
+      add('내용', val('fEBody'));
+    }
+    add('연락받을 번호', val('fPhone'));
+    return lines.join('\n');
+  }
+  function fit() {
+    if (out.hidden) return;
+    outText.style.height = 'auto';
+    outText.style.height = (outText.scrollHeight + 4) + 'px';
+  }
+  function render() { outText.value = build(); fit(); }
+
+  // 매장 이름 기억하기 (기본 꺼짐, 이 브라우저에만 저장)
+  function loadStore() {
+    var v = '';
+    try { v = localStorage.getItem(STORE_KEY) || ''; } catch (e) {}
+    if (v) { store.value = v; remember.checked = true; }
+  }
+  function saveStore() {
+    if (!remember.checked) return true;
+    try {
+      var v = store.value.trim();
+      if (v) localStorage.setItem(STORE_KEY, v); else localStorage.removeItem(STORE_KEY);
+      return true;
+    } catch (e) { return false; }
+  }
+  function onRemember() {
+    if (remember.checked) {
+      if (saveStore()) say(rememberMsg, '켰습니다. 다음에 오시면 매장 이름이 미리 들어가 있습니다.');
+      else { remember.checked = false; say(rememberMsg, '이 브라우저에서는 기억할 수 없습니다. 매번 적어 주십시오.'); }
+    } else {
+      try { localStorage.removeItem(STORE_KEY); } catch (e) {}
+      say(rememberMsg, '껐습니다. 기억해 둔 매장 이름을 지웠습니다.');
+    }
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var bad = check();
+    if (bad.length) { showErr(bad); return; }
+    formMsg.textContent = '';
+    pickMsg.textContent = '';
+    copyMsg.textContent = '';
+    saveStore();
+    out.hidden = false;
+    render();
+    out.scrollIntoView({ block: 'start' });
+    outH.focus({ preventScroll: true });
+  });
+
+  function onEdit(e) {
+    var t = e.target;
+    if (t === remember) { if (e.type === 'change') onRemember(); return; }
+    if (t.name === 'rtype') setType(t.value);
+    else if (t.name === 'sym') updateSymTip();
+    else if (t.name === 'topic') updateTopicTip();
+    if (t === store) saveStore();
+    refreshMarks();
+    if (!out.hidden) { render(); copyMsg.textContent = ''; }
+  }
+  form.addEventListener('input', onEdit);
+  form.addEventListener('change', onEdit);
+
+  // '언제부터' 빠른 버튼
+  form.addEventListener('click', function (e) {
+    var b = e.target.closest ? e.target.closest('button[data-fill]') : null;
+    if (!b) return;
+    $('fSince').value = b.getAttribute('data-fill');
+    if (!out.hidden) render();
+  });
+
+  // 증상 항목의 '요청 메시지 만들기' 버튼: 유형과 증상을 미리 골라 둬요
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest ? e.target.closest('a[data-type]') : null;
+    if (!a) return;
+    e.preventDefault();
+    var t = a.getAttribute('data-type');
+    var sym = a.getAttribute('data-sym');
+    var topic = a.getAttribute('data-topic');
+    pick('rtype', t);
+    setType(t);
+    if (sym) { pick('sym', sym); updateSymTip(); }
+    if (topic) { pick('topic', topic); updateTopicTip(); }
+    refreshMarks();
+    if (!out.hidden) render();
+    form.scrollIntoView({ block: 'start' });
+    var target = store.value.trim() ? form.querySelector('input[name="rtype"]:checked') : store;
+    target.focus({ preventScroll: true });
+    say(pickMsg, '골라 두었습니다: ' + TYPES[t] + (sym ? ' · ' + sym : '') + (topic ? ' · ' + topic : '') + '. 나머지 칸을 채워 주십시오.');
+  });
+
+  copyBtn.addEventListener('click', function () {
+    var bad = check();
+    if (bad.length) { showErr(bad); return; }
+    render();
+    var text = outText.value;
+    function ok() { say(copyMsg, '복사했습니다. ‘카톡 채널 열기’를 눌러 붙여 넣으십시오.'); }
+    function manual() {
+      // 바로 복사가 안 되면 글을 모두 선택해 드려요
+      outText.removeAttribute('readonly');
+      outText.focus();
+      outText.select();
+      try { outText.setSelectionRange(0, text.length); } catch (err) {}
+      var done = false;
+      try { done = document.execCommand('copy'); } catch (err) {}
+      outText.setAttribute('readonly', '');
+      if (done) ok();
+      else say(copyMsg, '글을 모두 선택해 두었습니다. 컴퓨터는 Ctrl+C를 누르고, 휴대폰은 길게 눌러 ‘복사’를 고르십시오.');
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(ok, manual);
+    } else {
+      manual();
+    }
+  });
+
+  resetBtn.addEventListener('click', function () {
+    form.reset();
+    loadStore();
+    KEYS.forEach(function (k) { mark(k, false); });
+    sync();
+    formMsg.textContent = '';
+    pickMsg.textContent = '';
+    copyMsg.textContent = '';
+    rememberMsg.textContent = '';
+    outText.value = '';
+    outText.style.height = '';
+    out.hidden = true;
+    form.scrollIntoView({ block: 'start' });
+    form.querySelector('input[name="rtype"]:checked').focus({ preventScroll: true });
+  });
+
+  loadStore();
+  sync();
+  // 자바스크립트가 켜져 있을 때만 '메시지 만들기'를 쓸 수 있어요 (입력한 글이 주소창이나 서버로 가지 않게)
+  makeBtn.disabled = false;
+  window.addEventListener('resize', fit);
+  window.addEventListener('pageshow', sync);
+})();
+</script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

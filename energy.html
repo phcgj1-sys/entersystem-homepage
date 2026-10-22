@@ -1,0 +1,814 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PC방 전기요금 어림 계산기 | 엔터시스템</title>
+<meta name="description" content="손님 없는 자리에 켜져 있는 PC가 한 달에 전기요금을 얼마나 쓰는지 어림으로 계산해 보십시오. 2026년 전기요금 변화와 고지서 보는 법도 모았습니다.">
+<meta property="og:title" content="PC방 전기요금 어림 계산기 | 엔터시스템">
+<meta property="og:description" content="빈자리 PC, 한 달에 얼마 쓰고 있습니까? 숫자 몇 개로 어림 계산해 보십시오.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 */
+  [hidden] { display: none !important; }
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+  /* 첫 화면 차례 */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 26px; }
+  /* 노하드란? 페이지의 차례 단추와 같은 크기·테두리 */
+  .toc a { color: #fff; text-decoration: none; font-size: 15px; font-weight: 700; padding: 6px 14px; border-radius: 999px; border: 1px solid rgba(255, 255, 255, .4); min-height: 40px; display: inline-flex; align-items: center; }
+  .toc a:hover { border-color: #fff; background: rgba(255, 255, 255, .1); }
+
+  /* 계산기 */
+  .calc { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, .9fr); gap: 28px; align-items: start; }
+  .calc-form { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 28px 26px; }
+  .field { margin: 0 0 22px; }
+  .field > label { display: block; font-weight: 800; font-size: 17px; line-height: 1.4; margin-bottom: 8px; }
+  .ipt { display: flex; align-items: center; border: 2px solid #c9c9c9; border-radius: 12px; background: #fff; max-width: 320px; }
+  .ipt:focus-within { border-color: var(--ink); outline: 3px solid var(--red); outline-offset: 2px; }
+  .ipt input { flex: 1; min-width: 0; width: 100%; border: 0; background: transparent; font: inherit; font-size: 20px; font-weight: 700; padding: 10px 14px; color: var(--ink); border-radius: 10px; }
+  .ipt input:focus-visible { outline: none; }
+  .ipt .u { padding: 0 14px 0 4px; color: var(--mut); font-weight: 700; white-space: nowrap; }
+  .ipt.bad { border-color: var(--red); background: var(--soft); }
+  .hint { margin: 8px 0 0; font-size: 14px; color: var(--mut); line-height: 1.55; }
+  .est { display: inline-block; font-size: 12px; font-weight: 800; color: var(--ink2); background: var(--gray); border: 1px solid #d0d0d0; border-radius: 6px; padding: 0 5px; line-height: 1.5; white-space: nowrap; }
+  .err { margin: 6px 0 0; font-size: 15px; font-weight: 700; color: var(--red-text); }
+  .err:empty { display: none; }
+
+  fieldset.mode { border: 0; padding: 0; margin: 0 0 22px; min-width: 0; }
+  fieldset.mode legend { font-weight: 800; font-size: 17px; padding: 0; margin-bottom: 8px; }
+  fieldset.mode .field { margin-bottom: 0; }
+  .seg { display: flex; border: 2px solid var(--ink); border-radius: 12px; overflow: hidden; max-width: 420px; margin-bottom: 14px; }
+  .seg label { flex: 1; position: relative; cursor: pointer; }
+  .seg label + label { border-left: 2px solid var(--ink); }
+  .seg input { position: absolute; inset: 0; width: 100%; height: 100%; margin: 0; opacity: 0; cursor: pointer; }
+  .seg span { display: flex; align-items: center; justify-content: center; text-align: center; min-height: 44px; padding: 8px; font-weight: 800; font-size: 15px; }
+  .seg input:checked + span { background: var(--ink); color: #fff; }
+  .seg input:focus-visible + span { outline: 3px solid var(--red); outline-offset: -5px; }
+
+  .helper { margin-top: 10px; border: 1px dashed #c9c9c9; border-radius: 12px; padding: 10px 14px; background: var(--gray); max-width: 440px; }
+  .helper summary { cursor: pointer; font-weight: 700; font-size: 15px; color: var(--ink2); min-height: 28px; }
+  .helper .row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 12px; }
+  .helper label { display: block; font-size: 14px; font-weight: 700; margin-bottom: 4px; }
+  .helper .ipt { max-width: none; }
+  .helper .ipt input { font-size: 17px; padding: 8px 10px; }
+  .helper .btn { margin-top: 12px; }
+  .helper-msg { margin: 8px 0 0; font-size: 14px; font-weight: 700; color: var(--ink2); }
+  .helper-msg:empty { display: none; }
+
+  .calc-btns { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+
+  /* 계산 결과 */
+  .res-card { background: var(--ink); color: #fff; border-radius: var(--radius); padding: 28px 26px; position: sticky; top: 84px; }
+  .res-card h3 { margin: 0 0 14px; font-size: 15px; color: #ff8c99; letter-spacing: .06em; }
+  .res-k { margin: 0; font-size: 15px; color: #cfcfcf; }
+  .res-big { margin: 2px 0 18px; font-size: clamp(38px, 5vw, 52px); font-weight: 800; line-height: 1.12; letter-spacing: -.02em; overflow-wrap: anywhere; }
+  .res-big small { font-size: .5em; font-weight: 700; margin-left: 2px; }
+  .res-list { margin: 0; display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .res-list div { border-top: 1px solid #333; padding-top: 10px; }
+  .res-list dt { font-size: 14px; color: #bdbdbd; }
+  .res-list dd { margin: 2px 0 0; font-size: 22px; font-weight: 800; line-height: 1.3; overflow-wrap: anywhere; }
+  .res-half { margin: 18px 0 0; padding: 12px 14px; background: #1c1c1c; border-left: 4px solid var(--red); border-radius: 10px; font-size: 16px; color: #e6e6e6; }
+  .res-half b { color: #fff; }
+  .res-bad { background: #1c1c1c; border-left: 4px solid var(--red); border-radius: 10px; padding: 14px 16px; }
+  .res-bad p { margin: 0 0 6px; font-weight: 800; }
+  .res-bad ul { margin: 0; padding-left: 18px; color: #e6e6e6; font-size: 15px; }
+  .bar-wrap { margin-top: 20px; }
+  .bar-cap { margin: 0 0 6px; font-size: 14px; color: #cfcfcf; }
+  .bar { height: 12px; border-radius: 999px; background: #2e2e2e; overflow: hidden; }
+  .bar i { display: block; height: 100%; width: 25%; background: var(--red); border-radius: 999px; transition: width .3s ease; }
+  .formula { margin-top: 20px; border-top: 1px solid #333; padding-top: 14px; font-size: 14px; color: #bdbdbd; }
+  .formula p { margin: 0 0 6px; }
+  .formula .now { color: #fff; font-weight: 700; overflow-wrap: anywhere; }
+  .res-note { margin: 14px 0 0; font-size: 13px; color: #a8a8a8; line-height: 1.55; }
+  .res-note b { color: #e6e6e6; }
+
+  /* 2026년 변화 */
+  .chg { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, .75fr); gap: 32px; align-items: start; }
+  .tl { list-style: none; margin: 0; padding: 0; }
+  .tl li { position: relative; padding: 0 0 28px 32px; }
+  .tl li::before { content: ""; position: absolute; left: 5px; top: 7px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); }
+  .tl li::after { content: ""; position: absolute; left: 11px; top: 25px; bottom: 2px; width: 2px; background: #d6d6d6; }
+  .tl li:last-child { padding-bottom: 0; }
+  .tl li:last-child::after { display: none; }
+  .tl li.hot::before { background: var(--red); }
+  .tl .when { display: block; font-size: 15px; font-weight: 800; color: var(--red-text); }
+  .tl h3 { margin: 2px 0 6px; font-size: 20px; line-height: 1.4; }
+  .tl p { margin: 0 0 6px; color: var(--ink2); font-size: 16px; }
+  .src { display: block; font-size: 14px; color: var(--mut); }
+  .src a { color: var(--ink2); }
+  .lbl { display: inline-block; font-size: 12px; font-weight: 800; color: var(--ink2); background: #fff; border: 1px solid #cfcfcf; border-radius: 6px; padding: 0 6px; line-height: 1.6; margin-right: 4px; white-space: nowrap; }
+  .side .card { margin-bottom: 14px; padding: 22px 22px; }
+  .side h3 { margin: 0 0 6px; font-size: 18px; line-height: 1.4; }
+  .side p { margin: 0 0 8px; font-size: 15px; color: var(--ink2); }
+  .foot-note { margin: 28px 0 0; font-size: 14px; color: var(--mut); }
+
+  /* 고지서 */
+  .bill .card { display: flex; flex-direction: column; }
+  .bill .no { width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; display: grid; place-items: center; margin-bottom: 14px; }
+  .bill h3 { margin: 0 0 4px; font-size: 20px; }
+  .bill .eg { margin: 0 0 10px; font-size: 14px; font-weight: 700; color: var(--mut); }
+  .bill .card p { margin: 0 0 8px; font-size: 15px; color: var(--ink2); }
+  .bill .go { margin-top: auto; padding-top: 6px; font-size: 15px; font-weight: 800; color: var(--red-text); }
+  .warn { margin-top: 22px; background: var(--soft); border: 1px solid #ffd0d6; border-radius: var(--radius); padding: 22px 24px; }
+  .warn h3 { margin: 0 0 8px; font-size: 19px; color: var(--red-text); }
+  .warn ul { margin: 0; padding-left: 20px; color: var(--ink2); }
+  .warn li { margin: 6px 0; }
+
+  /* 줄이는 방법 */
+  .tips .card h3 { margin: 0 0 6px; font-size: 19px; }
+  .tips .card p { margin: 0; font-size: 15px; color: var(--ink2); }
+  .tips .ico { width: 44px; height: 44px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 14px; }
+  .nohd { margin-top: 16px; background: var(--ink); color: #fff; border-radius: var(--radius); padding: 30px 28px; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 28px; }
+  .nohd h3 { margin: 0 0 10px; font-size: 22px; line-height: 1.35; }
+  .nohd p { margin: 0 0 8px; color: #d6d6d6; }
+  .nohd .rh { margin: 0 0 4px; font-weight: 800; color: #ff8c99; font-size: 15px; }
+  .rules { list-style: none; margin: 0; padding: 0; }
+  .rules li { position: relative; padding: 10px 0 10px 30px; border-bottom: 1px solid #2c2c2c; color: #e6e6e6; }
+  .rules li:last-child { border-bottom: 0; }
+  .rules li::before { content: ""; position: absolute; left: 3px; top: 17px; width: 12px; height: 6px; border-left: 3px solid var(--red); border-bottom: 3px solid var(--red); transform: rotate(-45deg); }
+
+  /* 전기요금 진단 (준비 중) */
+  .diag { border: 2px solid var(--ink); border-radius: var(--radius); padding: 34px 30px; display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, .7fr); gap: 32px; align-items: center; background: #fff; }
+  .diag h2 { margin-top: 12px; }
+  .diag p { color: var(--ink2); margin: 0 0 10px; }
+  .diag ul { margin: 0 0 20px; padding-left: 20px; color: var(--ink2); }
+  .diag li { margin: 4px 0; }
+  .diag .ask { display: flex; gap: 12px 16px; align-items: center; flex-wrap: wrap; }
+  .diag .ask p { margin: 0; font-weight: 700; color: var(--ink); }
+  .diag .small { margin-top: 14px; font-size: 14px; color: var(--mut); }
+  .dstat { background: var(--ink); color: #fff; border-radius: 16px; padding: 26px 22px; }
+  .dstat b { display: block; font-size: clamp(30px, 4vw, 40px); line-height: 1.15; letter-spacing: -.02em; }
+  .dstat span { display: block; margin-top: 6px; color: #bdbdbd; font-size: 15px; }
+  .dstat span + span { margin-top: 14px; padding-top: 14px; border-top: 1px solid #2c2c2c; }
+
+  @media (max-width: 900px) {
+    .calc, .chg, .diag, .nohd { grid-template-columns: 1fr; }
+    .res-card { position: static; }
+  }
+  @media (max-width: 640px) {
+    .calc-form, .res-card { padding: 22px 18px; }
+    .diag, .nohd { padding: 24px 18px; }
+    .ipt { max-width: none; }
+    .warn { padding: 18px 18px; }
+  }
+  @media (max-width: 480px) {
+    .res-list { grid-template-columns: 1fr; }
+    .helper .row { grid-template-columns: 1fr; }
+  }
+  @media print {
+    .toc, .calc-btns, .helper { display: none !important; }
+    .res-card, .nohd, .dstat { background: #fff !important; color: #000 !important; border: 1px solid #000; }
+    .res-card *, .nohd *, .dstat * { color: #000 !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html" aria-current="page">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › 전기요금 계산기</div>
+      <h1>빈자리 PC, <em>한 달에 얼마</em> 쓰고 있습니까?</h1>
+      <p class="lead">손님이 없어도 켜져 있는 PC는 전기를 씁니다. 숫자 몇 개만 넣으면 한 달 전기요금을 어림으로 계산해 드립니다.</p>
+      <nav class="toc" aria-label="이 페이지 차례">
+        <a href="#calc">계산해 보기</a>
+        <a href="#change">2026년 요금 변화</a>
+        <a href="#bill">고지서 보는 법</a>
+        <a href="#tips">줄이는 방법</a>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 1. 계산기 -->
+  <section class="blk" id="calc" aria-labelledby="calc-h">
+    <div class="wrap">
+      <div class="sh">어림 계산기</div>
+      <h2 id="calc-h">우리 매장 숫자를 넣어 보십시오</h2>
+      <p class="sub">칸에 미리 들어 있는 값은 예시입니다. 숫자를 바꾸면 바로 다시 계산합니다. 넣은 숫자는 어디에도 보내지 않습니다.</p>
+
+      <div class="calc">
+        <form class="calc-form" id="calc-form" novalidate autocomplete="off">
+          <div class="field">
+            <label for="seats">전체 좌석 수</label>
+            <div class="ipt"><input id="seats" name="seats" type="number" inputmode="numeric" min="1" max="2000" step="1" value="80" aria-describedby="seats-hint seats-err"><span class="u" aria-hidden="true">석</span></div>
+            <p class="hint" id="seats-hint">매장에 있는 손님용 PC 대수입니다.</p>
+            <p class="err" id="seats-err"></p>
+          </div>
+
+          <fieldset class="mode">
+            <legend>빈자리 PC는 어떻게 넣으시겠습니까?</legend>
+            <div class="seg">
+              <label><input type="radio" name="mode" value="count" checked><span>대수로 넣기</span></label>
+              <label><input type="radio" name="mode" value="pct"><span>비율(%)로 넣기</span></label>
+            </div>
+
+            <div class="field" id="box-idle">
+              <label for="idle">빈자리인데 켜져 있는 PC (평균 대수)</label>
+              <div class="ipt"><input id="idle" name="idle" type="number" inputmode="decimal" min="0" step="any" value="20" aria-describedby="idle-hint idle-err"><span class="u" aria-hidden="true">대</span></div>
+              <p class="hint" id="idle-hint">손님 없이 켜져 있는 PC가 평균 몇 대인지 넣어 주십시오.</p>
+              <p class="err" id="idle-err"></p>
+            </div>
+
+            <div class="field" id="box-pct" hidden>
+              <label for="pct">빈자리인데 켜져 있는 PC 비율 (평균)</label>
+              <div class="ipt"><input id="pct" name="pct" type="number" inputmode="decimal" min="0" max="100" step="any" value="25" aria-describedby="pct-hint pct-err"><span class="u" aria-hidden="true">%</span></div>
+              <p class="hint" id="pct-hint">전체 좌석 중 손님 없이 켜져 있는 자리가 몇 %인지 넣어 주십시오.</p>
+              <p class="err" id="pct-err"></p>
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="hours">그렇게 켜져 있는 시간 (하루)</label>
+            <div class="ipt"><input id="hours" name="hours" type="number" inputmode="decimal" min="0" max="24" step="any" value="12" aria-describedby="hours-hint hours-err"><span class="u" aria-hidden="true">시간</span></div>
+            <p class="hint" id="hours-hint">빈 PC가 켜진 채로 있는 시간이 하루 평균 몇 시간인지 넣어 주십시오.</p>
+            <p class="err" id="hours-err"></p>
+          </div>
+
+          <div class="field">
+            <label for="watt">PC 한 대가 쉬고 있을 때 전력</label>
+            <div class="ipt"><input id="watt" name="watt" type="number" inputmode="decimal" min="0" step="any" value="70" aria-describedby="watt-hint watt-err"><span class="u" aria-hidden="true">W</span></div>
+            <p class="hint" id="watt-hint">게이밍 PC는 켜져 있기만 해도 대략 50~100W를 씁니다(어림값). <span class="est">[추정]</span> W(와트)는 순간 전력, kWh(킬로와트시)는 쓴 전기의 양입니다. 모니터도 켜 두신다면 모니터 전력을 더해 넣으십시오.</p>
+            <p class="err" id="watt-err"></p>
+          </div>
+
+          <div class="field">
+            <label for="price">전기요금 1kWh당</label>
+            <div class="ipt"><input id="price" name="price" type="number" inputmode="decimal" min="0" step="any" value="170" aria-describedby="price-hint price-err"><span class="u" aria-hidden="true">원</span></div>
+            <p class="hint" id="price-hint">고지서의 (총요금 − 기본요금) ÷ 사용량을 넣으면, 전기를 덜 썼을 때 실제로 줄어드는 금액에 더 가깝습니다.</p>
+            <p class="err" id="price-err"></p>
+            <details class="helper">
+              <summary>고지서 숫자로 1kWh당 요금 구하기</summary>
+              <div class="row">
+                <div>
+                  <label for="bill-total">한 달 총요금</label>
+                  <div class="ipt"><input id="bill-total" type="number" inputmode="numeric" min="0" step="any"><span class="u" aria-hidden="true">원</span></div>
+                </div>
+                <div>
+                  <label for="bill-base">그중 기본요금 (모르면 비워 두기)</label>
+                  <div class="ipt"><input id="bill-base" type="number" inputmode="numeric" min="0" step="any"><span class="u" aria-hidden="true">원</span></div>
+                </div>
+                <div>
+                  <label for="bill-kwh">한 달 사용량</label>
+                  <div class="ipt"><input id="bill-kwh" type="number" inputmode="decimal" min="0" step="any"><span class="u" aria-hidden="true">kWh</span></div>
+                </div>
+              </div>
+              <button class="btn dark sm" type="button" id="bill-apply">계산해서 넣기</button>
+              <p class="helper-msg" id="bill-msg" role="status"></p>
+            </details>
+          </div>
+
+          <div class="field">
+            <label for="days">한 달 영업일</label>
+            <div class="ipt"><input id="days" name="days" type="number" inputmode="decimal" min="0" max="31" step="any" value="30" aria-describedby="days-hint days-err"><span class="u" aria-hidden="true">일</span></div>
+            <p class="hint" id="days-hint">쉬는 날이 없으면 30일 그대로 두십시오.</p>
+            <p class="err" id="days-err"></p>
+          </div>
+
+          <div class="calc-btns">
+            <button class="btn" type="submit">계산하기</button>
+            <button class="btn ghost" type="reset">처음 값으로</button>
+          </div>
+          <noscript><p class="err">계산기는 자바스크립트가 켜져 있어야 움직입니다. 아래 계산식으로 직접 계산해 보십시오.</p></noscript>
+        </form>
+
+        <div class="res-card" id="result-card">
+          <h3>계산 결과 (어림)</h3>
+          <div id="result" aria-live="polite" aria-atomic="true">
+            <div id="r-ok">
+              <p class="res-k">한 달 어림 금액</p>
+              <p class="res-big">약 <span id="r-month">85,700</span><small>원</small></p>
+              <dl class="res-list">
+                <div><dt>한 달 낭비 전력량</dt><dd><span id="r-kwh">504</span>kWh</dd></div>
+                <div><dt>1년 어림 금액</dt><dd>약 <span id="r-year">1,028,200</span>원</dd></div>
+              </dl>
+              <p class="res-half" id="r-half-line">빈 PC의 절반만 꺼도 한 달 <b>약 <span id="r-half">42,800</span>원어치</b> 전기를 덜 쓰는 셈입니다.</p>
+              <p class="res-half" id="r-zero" hidden>지금 넣은 숫자로는 빈자리에서 새는 전기가 거의 없습니다.</p>
+            </div>
+            <div class="res-bad" id="r-bad" hidden>
+              <p>입력한 값을 확인해 주십시오.</p>
+              <ul id="r-bad-list"></ul>
+            </div>
+          </div>
+
+          <div id="r-extra">
+            <div class="bar-wrap" aria-hidden="true">
+              <p class="bar-cap" id="bar-cap">전체 80석 중 빈자리인데 켜진 PC 20대 (25%)</p>
+              <div class="bar"><i id="bar-fill"></i></div>
+            </div>
+            <div class="formula">
+              <p>계산식: 빈 PC 대수 × 전력(W) ÷ 1,000 × 하루 시간 × 영업일 = 한 달 전력량(kWh)</p>
+              <p class="now" id="f-1">20대 × 70W ÷ 1,000 × 12시간 × 30일 = 504kWh</p>
+              <p class="now" id="f-2">504kWh × 170원 = 85,680원 → 약 85,700원</p>
+            </div>
+          </div>
+          <p class="res-note"><b>어림 계산입니다. 실제 요금은 한전 고지서 기준입니다.</b> 계절·시간대별 요금 차이는 넣지 않았습니다. 아낄 수 있는 돈을 약속하는 숫자가 아닙니다.<br>반올림: 전력량은 소수 첫째 자리까지, 금액은 100원 단위로 맞춥니다. 1년·절반 금액도 따로 반올림해서 한 달 금액 × 12와 조금 다를 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2. 2026년 전기요금 변화 -->
+  <section class="blk gray" id="change" aria-labelledby="change-h">
+    <div class="wrap">
+      <div class="sh">2026년 전기요금 변화</div>
+      <h2 id="change-h">올해 바뀐 전기요금, 우리 매장도 해당됩니까?</h2>
+      <p class="sub">기사로 나온 내용을 날짜순으로 모았습니다. 모든 PC방이 해당되지는 않습니다. 우리 매장 계약종별부터 고지서에서 확인해 주십시오.</p>
+
+      <div class="chg">
+        <ol class="tl">
+          <li class="hot">
+            <span class="when">2026년 6월 1일부터</span>
+            <h3>일반용 전기의 시간대별 요금 구간이 바뀌었습니다</h3>
+            <p>평일 저녁 6시~9시(18~21시)가 가장 비싼 시간입니다. 기사는 밤에 손님이 많은 PC방의 부담을 걱정했습니다.</p>
+            <span class="src"><span class="lbl">[보도]</span><a href="https://www.newsis.com/view/NISX20260522_0003641664" target="_blank" rel="noopener noreferrer">뉴시스 2026-05-25<span class="sr-only"> (새 창)</span></a></span>
+          </li>
+          <li>
+            <span class="when">6월~11월</span>
+            <h3>두 요금 중 싼 쪽이 자동으로 적용됩니다</h3>
+            <p>(갑)Ⅱ 매장은 이 기간에 따로 고르지 않아도 됩니다.</p>
+            <span class="src"><span class="lbl">[보도]</span><a href="https://www.segye.com/newsView/20260526513830" target="_blank" rel="noopener noreferrer">세계일보 2026-05-26<span class="sr-only"> (새 창)</span></a></span>
+          </li>
+          <li>
+            <span class="when">11월 겨울철 요금 전</span>
+            <h3>고지서를 한 번 점검해 보십시오</h3>
+            <p>업계지는 11월 겨울철 요금 구간이 시작되기 전에 고지서를 점검하라고 권했습니다.</p>
+            <span class="src"><span class="lbl">[보도]</span><a href="https://www.ilovepcbang.com/news/articleView.html?idxno=202611" target="_blank" rel="noopener noreferrer">아이러브PC방 2026-10-19<span class="sr-only"> (새 창)</span></a></span>
+          </li>
+          <li class="hot">
+            <span class="when">12월부터</span>
+            <h3>(갑)Ⅱ 매장은 12월부터 요금제를 직접 고를 수 있습니다</h3>
+            <p>(갑)Ⅱ는 일반용(갑) 고객의 약 9%라고 합니다.</p>
+            <span class="src"><span class="lbl">[보도]</span><a href="https://www.segye.com/newsView/20260526513830" target="_blank" rel="noopener noreferrer">세계일보 2026-05-26<span class="sr-only"> (새 창)</span></a></span>
+          </li>
+        </ol>
+
+        <div class="side">
+          <div class="card">
+            <h3>모든 PC방이 해당되지는 않습니다</h3>
+            <p>업계지도 모든 PC방이 해당되는 건 아니라고 했습니다. 우리 매장 계약종별이 (갑)Ⅰ인지, (갑)Ⅱ나 (을)인지 고지서에서 먼저 보십시오.</p>
+            <span class="src"><span class="lbl">[보도]</span><a href="https://www.ilovepcbang.com/news/articleView.html?idxno=202611" target="_blank" rel="noopener noreferrer">아이러브PC방 2026-10-19<span class="sr-only"> (새 창)</span></a></span>
+          </div>
+          <div class="card">
+            <h3>심야 요금도 올랐습니다</h3>
+            <p>심야(경부하) 시간 요금이 kWh당 5.1원 올랐다고 합니다. 밤샘 손님이 많은 매장은 함께 봐 두십시오.</p>
+            <span class="src"><span class="lbl">[보도]</span><a href="https://www.ilovepcbang.com/news/articleView.html?idxno=202611" target="_blank" rel="noopener noreferrer">아이러브PC방 2026-10-19<span class="sr-only"> (새 창)</span></a></span>
+          </div>
+        </div>
+      </div>
+      <p class="foot-note">[보도]는 기사에 나온 내용, [확인]은 원문을 직접 본 내용, [추정]은 어림값입니다. 요금 제도에 대한 자문이 아닙니다. 정확한 내용은 한전에 확인해 주십시오.</p>
+    </div>
+  </section>
+
+  <!-- 3. 고지서에서 먼저 볼 3가지 -->
+  <section class="blk bill" id="bill" aria-labelledby="bill-h">
+    <div class="wrap">
+      <div class="sh">고지서 보는 법</div>
+      <h2 id="bill-h">고지서에서 먼저 볼 3가지</h2>
+      <p class="sub">전기요금 고지서에서 이 세 가지만 찾아 적어 두십시오. 그다음에 무엇을 확인할지 보입니다.</p>
+
+      <div class="grid3">
+        <div class="card">
+          <span class="no" aria-hidden="true">1</span>
+          <h3>계약종별</h3>
+          <p class="eg">예: 일반용(갑)Ⅰ, 일반용(갑)Ⅱ</p>
+          <p>우리 매장이 어떤 요금을 쓰는지 알려 줍니다.</p>
+          <p>(갑)Ⅱ나 (을)이라면 위 변화가 해당됩니다. 12월 요금제 선택은 (갑)Ⅱ만 할 수 있습니다.</p>
+        </div>
+        <div class="card">
+          <span class="no" aria-hidden="true">2</span>
+          <h3>계약전력</h3>
+          <p class="eg">단위: kW</p>
+          <p>기본요금이 이 값으로 정해집니다. 전기를 덜 써도 기본요금은 그대로 나갑니다.</p>
+          <p>예: 일반용(갑)Ⅰ 저압은 계약전력 1kW마다 기본요금 6,160원입니다.</p>
+          <span class="src"><span class="lbl">[확인]</span><a href="https://cyber.kepco.co.kr/ckepco/front/jsp/CY/E/E/CYEEHP00202.jsp" target="_blank" rel="noopener noreferrer">한전 전기요금표 (2026년 10월 확인)<span class="sr-only"> (새 창)</span></a></span>
+        </div>
+        <div class="card">
+          <span class="no" aria-hidden="true">3</span>
+          <h3>월 사용량과 총요금</h3>
+          <p class="eg">단위: kWh, 원</p>
+          <p>(총요금 − 기본요금) ÷ 사용량을 하면, 쓴 만큼 붙는 1kWh당 요금에 가까운 값이 나옵니다. 기본요금은 계약전력으로 정해져서 전기를 덜 써도 그대로입니다.</p>
+          <p>이 값을 계산기에 넣으면 더 정확합니다.</p>
+          <a class="go" href="#calc">계산기로 돌아가기 ↑</a>
+        </div>
+      </div>
+
+      <div class="warn">
+        <h3>계약전력이나 요금제를 바꾸기 전에</h3>
+        <ul>
+          <li>바쁜 시간에 쓰는 전기가 계약전력을 넘으면 초과 사용 부가금이 붙습니다. 그래서 계약전력을 낮추기 전에 가장 바쁜 시간의 사용량부터 확인하십시오. <span class="src" style="display:inline"><span class="lbl">[보도]</span><a href="https://www.ilovepcbang.com/news/articleView.html?idxno=129255" target="_blank" rel="noopener noreferrer">아이러브PC방 2026-06-28<span class="sr-only"> (새 창)</span></a></span></li>
+          <li>요금제와 계약전력 변경은 전기 사용 계약 명의자가 한전에 신청합니다. 명의는 고지서나 한전(국번 없이 123)에서 확인하십시오.</li>
+          <li>우리 매장에 맞는지는 한전 고객센터(국번 없이 123)에 먼저 물어보십시오.</li>
+          <li>이 페이지는 바꾸라고 권하는 곳이 아닙니다. 확인할 것을 알려 드리는 곳입니다.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4. 줄이는 방법 -->
+  <section class="blk gray tips" id="tips" aria-labelledby="tips-h">
+    <div class="wrap">
+      <div class="sh">줄이는 방법</div>
+      <h2 id="tips-h">빈자리 전기, 이렇게 줄입니다</h2>
+      <p class="sub">설정과 습관부터 바꿔 보십시오. 손님 자리는 그대로 두고, 비어 있는 자리에만 적용합니다.</p>
+
+      <div class="grid2">
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 14.5A8 8 0 1 1 9.5 4a6.5 6.5 0 0 0 10.5 10.5z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>빈 좌석은 절전으로</h3>
+          <p>손님이 자리를 뜨면 얼마 뒤 모니터가 꺼지거나 절전으로 들어가게 합니다. 관리프로그램이나 윈도우 전원 설정을 확인해 보십시오.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+          <h3>한가한 시간엔 빈 줄 끄기</h3>
+          <p>새벽처럼 손님이 적은 시간엔 손님을 한쪽에 모아 앉힙니다. 그러면 비어 있는 줄을 통째로 꺼 둘 수 있습니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v8" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/><path d="M6.3 6.8a8 8 0 1 0 11.4 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+          <h3>쉬는 시간엔 한꺼번에 끄기</h3>
+          <p>문 닫는 시간이나 쉬는 날이 있다면 좌석 PC와 모니터를 한꺼번에 끕니다. 마지막에 켜진 자리가 없는지 한 번 더 봅니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 14V5a2 2 0 1 1 4 0v9a4 4 0 1 1-4 0z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>냉난방도 같이 보기</h3>
+          <p>손님이 없는 구역은 냉난방을 약하게 하거나 끕니다. 온도는 너무 낮거나 높지 않게 맞춥니다.</p>
+        </div>
+      </div>
+
+      <div class="nohd">
+        <div>
+          <h3>노하드 PC는 한꺼번에 켜고 끄게 설정할 수 있습니다</h3>
+          <p>노하드 PC는 서버에서 윈도우를 불러와 켜집니다. 그래서 매장 설정에 따라 여러 자리를 한꺼번에 켜고 끄게 할 수 있습니다. 일반적인 설명이며, 매장마다 장비와 관리 프로그램에 따라 다릅니다.</p>
+          <p>다만 손님이 앉을 자리를 끄면 안 됩니다. 먼저 규칙을 정해 두십시오.</p>
+        </div>
+        <div>
+          <p class="rh">이런 규칙을 먼저 정합니다</p>
+          <ul class="rules">
+            <li>끌 줄과 시간을 정합니다. 예: 새벽엔 한 줄만 켜 두기</li>
+            <li>예약석·단체석은 뺍니다</li>
+            <li>끄기 전에 관리프로그램에서 사용 중인 자리인지 봅니다</li>
+            <li>손님이 늘면 누가 다시 켤지 정해 둡니다</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5. 엔터시스템 전기요금 진단 (준비 중) -->
+  <section class="blk" id="diag" aria-labelledby="diag-h">
+    <div class="wrap">
+      <div class="diag">
+        <div>
+          <span class="badge">준비 중</span>
+          <h2 id="diag-h">엔터시스템 전기요금 진단</h2>
+          <p>엔터시스템은 PC방 노하드 서버를 24시간 원격으로 관리합니다. 그러면서 PC 약 5만 5천 대의 전원 상태를 원격으로 보고 있습니다.</p>
+          <p>그래서 저희가 관리하는 매장이라면, 짐작 대신 실제 켜짐 기록으로 시간대별 빈자리 PC를 보여 드릴 예정입니다.</p>
+          <ul>
+            <li>몇 시에 PC가 몇 대 켜져 있었는지</li>
+            <li>손님이 적은 시간에도 켜져 있던 자리</li>
+            <li>계산기 대신 실제 기록으로 본 한 달 전력량</li>
+          </ul>
+          <div class="ask">
+            <p>관심 있으시면 상담 때 말씀해 주십시오.</p>
+            <a class="btn" href="index.html#contact">상담 신청</a>
+          </div>
+          <p class="small">준비 중인 서비스는 내용과 조건이 바뀔 수 있습니다.</p>
+        </div>
+        <div class="dstat">
+          <b>약 5만 5천 대</b>
+          <span>엔터시스템이 전원 상태를 원격으로 보고 있는 PC (2026년 10월, 관리 시스템 기준)</span>
+          <span>24시간 교대 관리 센터</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+
+<script>
+  // 빈자리 PC 전기요금 어림 계산기
+  // 넣은 숫자는 이 화면 안에서만 계산하고, 어디에도 보내거나 저장하지 않아요.
+  (function () {
+    'use strict';
+    var form = document.getElementById('calc-form');
+    if (!form) return;
+    function $(id) { return document.getElementById(id); }
+
+    var MSG_NAN = '숫자만 넣어 주십시오.';
+    var MSG_NEG = '0보다 작은 수는 넣을 수 없습니다.';
+
+    // 칸마다 이름·범위·안내 문구
+    var F = {
+      seats: { el: $('seats'), name: '전체 좌석 수', min: 1, max: 2000, int: true,
+        msg: { empty: '전체 좌석 수를 넣어 주십시오.', min: '좌석은 1석 이상으로 넣어 주십시오.', max: '좌석 수가 너무 큽니다. 2,000석까지 넣을 수 있습니다.', int: '좌석 수는 소수점 없이 넣어 주십시오.' } },
+      idle: { el: $('idle'), name: '빈자리 PC 대수', min: 0, max: 2000,
+        msg: { empty: '빈자리인데 켜져 있는 PC가 몇 대인지 넣어 주십시오.', max: '너무 큽니다. 다시 확인해 주십시오.' } },
+      pct: { el: $('pct'), name: '빈자리 비율', min: 0, max: 100,
+        msg: { empty: '빈자리 비율을 넣어 주십시오.', max: '비율은 100%까지입니다.' } },
+      hours: { el: $('hours'), name: '켜져 있는 시간', min: 0, max: 24,
+        msg: { empty: '하루 몇 시간인지 넣어 주십시오.', max: '하루는 24시간까지입니다.' } },
+      watt: { el: $('watt'), name: 'PC 한 대 전력', min: 0, max: 2000,
+        msg: { empty: 'PC 한 대 전력을 넣어 주십시오. 잘 모르면 70을 넣어 보십시오.', max: '너무 큽니다. W(와트) 숫자가 맞는지 확인해 주십시오.' } },
+      price: { el: $('price'), name: '1kWh당 요금', min: 0, max: 1000,
+        msg: { empty: '1kWh당 요금을 넣어 주십시오. 잘 모르면 170을 넣어 보십시오.', max: '너무 큽니다. 고지서의 (총요금 − 기본요금) ÷ 사용량을 다시 계산해 보십시오.' } },
+      days: { el: $('days'), name: '한 달 영업일', min: 0, max: 31,
+        msg: { empty: '한 달 영업일을 넣어 주십시오.', max: '한 달은 31일까지입니다.' } }
+    };
+
+    var R = {
+      ok: $('r-ok'), bad: $('r-bad'), badList: $('r-bad-list'),
+      month: $('r-month'), kwh: $('r-kwh'), year: $('r-year'), half: $('r-half'),
+      halfLine: $('r-half-line'), zero: $('r-zero'),
+      extra: $('r-extra'), barCap: $('bar-cap'), barFill: $('bar-fill'), f1: $('f-1'), f2: $('f-2')
+    };
+
+    // 숫자 모양: 천 단위 쉼표
+    function fmt(n, d) {
+      return Number(n).toLocaleString('ko-KR', { maximumFractionDigits: d == null ? 2 : d });
+    }
+    // 반올림 규칙: 전력량은 소수 첫째 자리까지, 금액은 100원 단위
+    function round1(n) { return Math.round(n * 10 + 1e-9) / 10; }
+    function round100(n) { return Math.round(n / 100 + 1e-9) * 100; }
+
+    function setText(el, s) { if (el.textContent !== s) el.textContent = s; }
+    function show(el, on) { if (el.hidden === on) el.hidden = !on; }
+
+    function setErr(f, msg) {
+      setText($(f.el.id + '-err'), msg);
+      f.el.setAttribute('aria-invalid', 'true');
+      f.el.parentNode.classList.add('bad');
+    }
+    function clearErr(f) {
+      setText($(f.el.id + '-err'), '');
+      f.el.removeAttribute('aria-invalid');
+      f.el.parentNode.classList.remove('bad');
+    }
+
+    // 칸 하나 읽기: { v: 숫자 } 또는 { err: 안내 문구 }
+    function read(f) {
+      var el = f.el;
+      if (el.validity && el.validity.badInput) return { err: MSG_NAN };
+      var raw = String(el.value).trim();
+      if (raw === '') return { err: f.msg.empty };
+      var v = Number(raw);
+      if (!isFinite(v)) return { err: MSG_NAN };
+      if (v < 0) return { err: MSG_NEG };
+      if (f.int && Math.floor(v) !== v) return { err: f.msg.int };
+      if (v < f.min) return { err: f.msg.min };
+      if (v > f.max) return { err: f.msg.max };
+      return { v: v };
+    }
+
+    function mode() {
+      var r = form.querySelector('input[name="mode"]:checked');
+      return r ? r.value : 'count';
+    }
+    function syncMode() {
+      var m = mode();
+      show($('box-idle'), m === 'count');
+      show($('box-pct'), m === 'pct');
+    }
+
+    function showBad(errs) {
+      show(R.ok, false);
+      show(R.extra, false);
+      show(R.bad, true);
+      var key = errs.join('|');
+      if (R.badList.getAttribute('data-key') === key) return;
+      R.badList.setAttribute('data-key', key);
+      R.badList.textContent = '';
+      errs.forEach(function (t) {
+        var li = document.createElement('li');
+        li.textContent = t;
+        R.badList.appendChild(li);
+      });
+    }
+
+    function calc() {
+      var m = mode();
+      var keys = ['seats', m === 'pct' ? 'pct' : 'idle', 'hours', 'watt', 'price', 'days'];
+      clearErr(m === 'pct' ? F.idle : F.pct);
+      var v = {};
+      var errs = [];
+      keys.forEach(function (k) {
+        var r = read(F[k]);
+        if (r.err) { setErr(F[k], r.err); errs.push(F[k].name + ': ' + r.err); }
+        else { clearErr(F[k]); v[k] = r.v; }
+      });
+      if (m === 'count' && v.seats != null && v.idle != null && v.idle > v.seats) {
+        var over = '전체 좌석(' + fmt(v.seats, 0) + '석)보다 많습니다. 다시 확인해 주십시오.';
+        setErr(F.idle, over);
+        errs.push(F.idle.name + ': ' + over);
+      }
+      if (errs.length) { showBad(errs); return null; }
+
+      var count = m === 'pct' ? v.seats * v.pct / 100 : v.idle;
+      var share = count / v.seats * 100;
+      // kWh = 대수 × W ÷ 1000 × 시간 × 일
+      var kwh = round1(count * v.watt / 1000 * v.hours * v.days);
+      var won = kwh * v.price;
+      var res = {
+        count: count, share: share, kwh: kwh, won: won,
+        month: round100(won), year: round100(won * 12), half: round100(won / 2)
+      };
+
+      show(R.bad, false);
+      R.badList.removeAttribute('data-key');
+      show(R.ok, true);
+      show(R.extra, true);
+      setText(R.month, fmt(res.month, 0));
+      setText(R.kwh, fmt(kwh, 1));
+      setText(R.year, fmt(res.year, 0));
+      setText(R.half, fmt(res.half, 0));
+      show(R.halfLine, res.month > 0);
+      show(R.zero, res.month === 0);
+
+      setText(R.barCap, '전체 ' + fmt(v.seats, 0) + '석 중 빈자리인데 켜진 PC ' +
+        (m === 'pct' ? '약 ' : '') + fmt(count, 1) + '대 (' + fmt(share, 1) + '%)');
+      R.barFill.style.width = Math.min(100, round1(share)) + '%';
+      setText(R.f1, fmt(count, 2) + '대 × ' + fmt(v.watt) + 'W ÷ 1,000 × ' + fmt(v.hours) + '시간 × ' +
+        fmt(v.days) + '일 = ' + fmt(kwh, 1) + 'kWh');
+      setText(R.f2, fmt(kwh, 1) + 'kWh × ' + fmt(v.price) + '원 = ' + fmt(Math.round(won), 0) +
+        '원 → 약 ' + fmt(res.month, 0) + '원');
+      return res;
+    }
+
+    // 대수 ↔ 비율을 바꿀 때 같은 뜻의 숫자로 옮겨 줘요
+    function onMode() {
+      var m = mode();
+      var s = read(F.seats).v;
+      if (s) {
+        if (m === 'pct') {
+          var c = read(F.idle).v;
+          if (c != null) F.pct.el.value = String(round1(c / s * 100));
+        } else {
+          var p = read(F.pct).v;
+          if (p != null) F.idle.el.value = String(round1(s * p / 100));
+        }
+      }
+      syncMode();
+      calc();
+    }
+    Array.prototype.forEach.call(form.querySelectorAll('input[name="mode"]'), function (r) {
+      r.addEventListener('change', onMode);
+    });
+
+    var timer = null;
+    form.addEventListener('input', function (e) {
+      var t = e.target;
+      if (t.name === 'mode' || (t.closest && t.closest('.helper'))) return;
+      clearTimeout(timer);
+      timer = setTimeout(calc, 350);
+    });
+
+    form.addEventListener('submit', function (e) {
+      e.preventDefault();
+      clearTimeout(timer);
+      if (!calc()) {
+        var first = form.querySelector('[aria-invalid="true"]');
+        if (first) first.focus();
+      } else if (window.matchMedia && window.matchMedia('(max-width: 900px)').matches) {
+        $('result-card').scrollIntoView({ block: 'start' });
+      }
+    });
+
+    form.addEventListener('reset', function () {
+      clearTimeout(timer);
+      setTimeout(function () { setText($('bill-msg'), ''); syncMode(); calc(); }, 0);
+    });
+
+    // 고지서 숫자로 1kWh당 요금 구하기
+    var bTotal = $('bill-total'), bBase = $('bill-base'), bKwh = $('bill-kwh'), bMsg = $('bill-msg');
+    function applyBill() {
+      var t = String(bTotal.value).trim() === '' ? NaN : Number(bTotal.value);
+      var u = String(bKwh.value).trim() === '' ? NaN : Number(bKwh.value);
+      if (!(t > 0) || !(u > 0)) {
+        setText(bMsg, '총요금과 사용량을 둘 다 0보다 큰 숫자로 넣어 주십시오.');
+        return;
+      }
+      var b = String(bBase.value).trim() === '' ? 0 : Number(bBase.value);
+      if (!(b >= 0) || b >= t) {
+        setText(bMsg, '기본요금은 0 이상이고 총요금보다 작아야 합니다.');
+        return;
+      }
+      var p = round1((t - b) / u);
+      if (p > F.price.max) {
+        setText(bMsg, '1kWh당 ' + fmt(p, 1) + '원이 나옵니다. 너무 큽니다. 총요금은 원, 사용량은 kWh로 넣었는지 확인해 주십시오.');
+        return;
+      }
+      F.price.el.value = String(p);
+      setText(bMsg, '우리 매장은 1kWh당 약 ' + fmt(p, 1) + '원입니다. 계산기에 넣었습니다.' + (b === 0 ? ' 기본요금이 들어 있어서 조금 높게 나왔을 수 있습니다.' : ''));
+      calc();
+    }
+    $('bill-apply').addEventListener('click', applyBill);
+    [bTotal, bBase, bKwh].forEach(function (el) {
+      el.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter') { e.preventDefault(); applyBill(); }
+      });
+    });
+
+    syncMode();
+    calc();
+    // 뒤로 가기로 돌아왔을 때 브라우저가 채워 둔 값으로 다시 계산
+    window.addEventListener('pageshow', function () { syncMode(); calc(); });
+  })();
+</script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

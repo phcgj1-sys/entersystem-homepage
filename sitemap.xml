@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 공개 전에 [도메인]을 실제 주소로 바꾸세요. -->
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>https://[도메인]/</loc><priority>1.0</priority></url>
+  <url><loc>https://[도메인]/nohard.html</loc><priority>0.8</priority></url>
+  <url><loc>https://[도메인]/switch.html</loc><priority>0.8</priority></url>
+  <url><loc>https://[도메인]/checkup.html</loc><priority>0.7</priority></url>
+  <url><loc>https://[도메인]/energy.html</loc><priority>0.7</priority></url>
+  <url><loc>https://[도메인]/tv.html</loc><priority>0.7</priority></url>
+  <url><loc>https://[도메인]/startup.html</loc><priority>0.6</priority></url>
+  <url><loc>https://[도메인]/guide.html</loc><priority>0.6</priority></url>
+  <url><loc>https://[도메인]/about.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/privacy.html</loc><priority>0.3</priority></url>
+  <url><loc>https://[도메인]/office.html</loc><priority>0.6</priority></url>
+  <url><loc>https://[도메인]/news.html</loc><priority>0.6</priority></url>
+  <url><loc>https://[도메인]/news-electricity-2026.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/news-windows10.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/news-kiosk.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/help.html</loc><priority>0.7</priority></url>
+  <url><loc>https://[도메인]/faq.html</loc><priority>0.6</priority></url>
+  <url><loc>https://[도메인]/news-youth-hiring.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/news-smart-store.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/news-fire-insurance.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/news-choose-vendor.html</loc><priority>0.5</priority></url>
+  <url><loc>https://[도메인]/news-weekend-outage.html</loc><priority>0.5</priority></url>
+</urlset>

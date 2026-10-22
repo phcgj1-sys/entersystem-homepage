@@ -1,0 +1,661 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>노하드란? | 엔터시스템</title>
+<meta name="description" content="노하드가 무엇인지, 어떻게 움직이는지, 좋은 점과 조심할 점을 그림으로 쉽게 풀었습니다. PC방 사장님과 예비 창업자를 위한 안내입니다.">
+<meta property="og:title" content="노하드란? | 엔터시스템">
+<meta property="og:description" content="좌석 PC에 하드디스크 없이, 서버 하나로 매장 전체를 켜는 노하드. 원리와 장단점을 쉽게 풀었습니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 (노하드란?) */
+
+  /* 첫 화면: 이 페이지 차례 */
+  .toc { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 0; padding: 0; list-style: none; }
+  .toc a { display: inline-flex; align-items: center; min-height: 40px; padding: 6px 14px; border: 1px solid rgba(255, 255, 255, .4); border-radius: 999px; color: #fff; text-decoration: none; font-size: 15px; font-weight: 700; }
+  .toc a:hover { background: rgba(255, 255, 255, .1); border-color: #fff; }
+
+  /* 원리 그림 */
+  .dg-ctl { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin: 0 0 16px; }
+  .dg-ctl[hidden] { display: none; }
+  .dg-ctl .lab { font-size: 15px; font-weight: 700; color: var(--mut); margin-right: 4px; }
+  .dg-ctl button { font-family: inherit; font-size: 16px; font-weight: 800; min-height: 44px; padding: 8px 16px; border-radius: 999px; border: 2px solid var(--ink); background: #fff; color: var(--ink); cursor: pointer; }
+  .dg-ctl button:hover { background: var(--gray); }
+  .dg-ctl button[aria-pressed="true"] { background: var(--ink); color: #fff; }
+  .dg { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .dg svg { display: block; width: 100%; height: auto; }
+  .dg svg.v { display: none; max-width: 440px; margin: 0 auto; }
+  .dg text { fill: var(--ink); font-family: inherit; }
+  .dg .f-ink { fill: var(--ink); }
+  .dg .f-gray { fill: var(--gray); }
+  .dg .f-red { fill: var(--red-strong); }
+  .dg .f-wh { fill: var(--white); }
+  .dg .k-ink { stroke: var(--ink); }
+  .dg .k-red { stroke: var(--red); }
+  .dg .st { transition: opacity .25s ease; }
+  .dg-wrap[data-step="1"] .st:not(.s1),
+  .dg-wrap[data-step="2"] .st:not(.s2),
+  .dg-wrap[data-step="3"] .st:not(.s3) { opacity: .12; }
+  .dg figcaption { margin-top: 14px; font-size: 14px; color: var(--mut); }
+
+  .steps { list-style: none; margin: 18px 0 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+  .steps li { background: #fff; border: 2px solid var(--line); border-radius: 16px; padding: 20px 20px 22px; transition: border-color .2s, background-color .2s; }
+  .steps .n { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--red-strong); color: #fff; font-weight: 800; font-size: 20px; margin-bottom: 10px; }
+  .steps h3 { margin: 0 0 6px; font-size: 20px; }
+  .steps p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .dg-wrap[data-step="1"] .steps li[data-s="1"],
+  .dg-wrap[data-step="2"] .steps li[data-s="2"],
+  .dg-wrap[data-step="3"] .steps li[data-s="3"] { border-color: var(--red); background: var(--soft); }
+  .hint { margin: 18px 0 0; font-size: 15px; color: var(--mut); }
+  .hint a { color: var(--red-text); font-weight: 700; }
+
+  /* 좋은 점 */
+  .goods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .ico { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
+  .goods h3, .cares h3, .mg h3 { margin: 0 0 8px; font-size: 20px; line-height: 1.35; }
+  .goods p, .cares p, .mg .card p { margin: 0; color: var(--ink2); font-size: 16px; }
+
+  /* 주의할 점 */
+  /* 카드 5개가 3칸에 놓여 한 칸이 비지 않게, 마지막 줄 카드가 남는 폭을 나눠 채워요 */
+  .cares { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 16px; }
+  .cares .card { flex: 1 1 300px; min-width: 0; border-top: 4px solid var(--red); display: flex; flex-direction: column; }
+  .cares .card > p:not(.fix) { flex-grow: 1; margin-bottom: 14px; }
+  .cares .fix { background: var(--gray); border-radius: 10px; padding: 10px 14px; font-size: 15px; }
+  .cares .fix b { display: block; font-size: 14px; color: var(--red-text); margin-bottom: 2px; }
+
+  /* 관리 */
+  .mg h2 em { font-style: normal; color: var(--red-text); }
+  .facts { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--ink); color: #fff; border-radius: var(--radius); overflow: hidden; }
+  .facts div { padding: 22px 24px; border-left: 1px solid rgba(255, 255, 255, .14); }
+  .facts div:first-child { border-left: 0; }
+  .facts b { display: block; font-size: clamp(26px, 3.4vw, 34px); line-height: 1.15; letter-spacing: -.02em; }
+  .facts span { font-size: 15px; color: #cfcfcf; }
+  .src { margin: 10px 0 28px; font-size: 14px; color: var(--mut); }
+  .mg .card { display: flex; flex-direction: column; align-items: flex-start; }
+  .mg .card .badge { margin-bottom: 12px; }
+  .extra { list-style: none; margin: 16px 0 0; padding: 0; display: grid; gap: 10px; }
+  .extra li { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; color: var(--ink2); font-size: 16px; }
+  .extra .badge { margin-right: 6px; vertical-align: 2px; }
+  .award { margin: 22px 0 0; font-size: 15px; color: var(--ink2); }
+  .award a { color: var(--red-text); font-weight: 700; }
+
+  /* 비교표 */
+  .tbl tbody th { background: var(--gray); width: 21%; }
+  .tbl td { color: var(--ink2); }
+  .swipe { display: none; margin: 0 0 10px; font-size: 14px; color: var(--mut); }
+  .note { margin: 14px 0 0; font-size: 15px; color: var(--mut); }
+
+  /* 용어 풀이 */
+  .terms { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 0; }
+  .terms > div { background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 18px 22px; }
+  .terms dt { font-weight: 800; font-size: 19px; margin: 0 0 4px; }
+  .terms dd { margin: 0; color: var(--ink2); font-size: 16px; }
+
+  /* 자주 묻는 질문 */
+  .faq-list { max-width: 880px; }
+
+  @media (max-width: 980px) {
+    .goods { grid-template-columns: 1fr 1fr; }
+  }
+  /* 화면이 좁으면 세로 그림으로 바꿔요 (그림 속 글자가 14px보다 작아지지 않게) */
+  @media (max-width: 899px) {
+    .dg { padding: 18px 10px; }
+    .dg svg.h { display: none; }
+    .dg svg.v { display: block; }
+    .steps { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .dg-ctl .lab { width: 100%; }
+    .goods, .terms { grid-template-columns: 1fr; }
+    .facts { grid-template-columns: 1fr; }
+    .facts div { border-left: 0; border-top: 1px solid rgba(255, 255, 255, .14); padding: 16px 20px; }
+    .facts div:first-child { border-top: 0; }
+    .swipe { display: block; }
+  }
+
+  /* 실제 설치 사진 (원리 그림 아래) */
+  .real { margin-top: 48px; padding-top: 40px; border-top: 1px solid var(--line); }
+  .real h3 { margin: 0 0 8px; font-size: clamp(22px, 2.6vw, 28px); line-height: 1.3; }
+  .real-sub { margin: 0 0 22px; color: var(--mut); }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html" aria-current="page">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html" aria-current="page">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › 노하드란?</div>
+      <h1>노하드, <em>서버 하나로</em> 매장 전체를 켭니다</h1>
+      <p class="lead">좌석 PC에는 하드디스크가 없습니다. 켤 때마다 매장 서버에서 윈도우와 게임을 불러옵니다. 어떻게 움직이는지, 좋은 점과 조심할 점까지 쉽게 풀었습니다.</p>
+      <nav aria-label="이 페이지 차례">
+        <ul class="toc">
+          <li><a href="#how">원리</a></li>
+          <li><a href="#real">실제 모습</a></li>
+          <li><a href="#good">좋은 점</a></li>
+          <li><a href="#care">주의할 점</a></li>
+          <li><a href="#manage">관리가 중요한 이유</a></li>
+          <li><a href="#monitor">엔플 모니터링</a></li>
+          <li><a href="#compare">다른 방식과 비교</a></li>
+          <li><a href="#words">용어 풀이</a></li>
+          <li><a href="#faq">자주 묻는 질문</a></li>
+        </ul>
+      </nav>
+    </div>
+  </section>
+
+  <!-- 원리 -->
+  <section class="blk" id="how">
+    <div class="wrap">
+      <div class="sh">원리</div>
+      <h2>켤 때마다 서버에서 불러옵니다</h2>
+      <p class="sub">윈도우와 게임은 모두 매장 서버에 있습니다. 좌석 PC는 켤 때 네트워크로 받아서 씁니다.</p>
+
+      <div class="dg-wrap" id="dgWrap" data-step="all">
+        <div class="dg-ctl" id="dgCtl" role="group" aria-label="그림을 단계별로 보기" hidden>
+          <span class="lab" aria-hidden="true">단계별로 보기</span>
+          <button type="button" data-step="all" aria-pressed="true">전체</button>
+          <button type="button" data-step="1" aria-pressed="false">1. 켤 때</button>
+          <button type="button" data-step="2" aria-pressed="false">2. 쓰는 중</button>
+          <button type="button" data-step="3" aria-pressed="false">3. 다시 켜면</button>
+        </div>
+
+        <figure class="dg">
+          <!-- 넓은 화면용 가로 그림 -->
+          <svg class="h" viewBox="0 0 1000 440" role="img" aria-labelledby="dgTitleH">
+            <title id="dgTitleH">노하드 원리 그림. 매장 서버 안에 윈도우 이미지, 게임 디스크, 라이트백 SSD가 있고, 서버는 스위치를 거쳐 하드디스크가 없는 좌석 PC 여러 대와 이어져 있습니다. 1, 켤 때 서버에서 불러옵니다. 2, 바뀐 내용은 라이트백 SSD에 잠시 저장됩니다. 3, 재부팅하면 비워집니다.</title>
+            <!-- 매장 서버 -->
+            <rect class="f-ink" x="0" y="0" width="340" height="440" rx="20"/>
+            <text class="f-wh" x="24" y="45" font-size="24" font-weight="800">매장 서버</text>
+            <g class="st s1">
+              <rect class="f-gray" x="20" y="68" width="300" height="96" rx="12"/>
+              <text x="40" y="107" font-size="21" font-weight="800">윈도우 이미지</text>
+              <text x="40" y="141" font-size="18">좌석이 쓰는 윈도우 원본</text>
+              <rect class="f-gray" x="20" y="176" width="300" height="96" rx="12"/>
+              <text x="40" y="215" font-size="21" font-weight="800">게임 디스크</text>
+              <text x="40" y="249" font-size="18">게임을 모아 둔 저장장치</text>
+            </g>
+            <g class="st s2 s3">
+              <rect class="f-gray k-red" x="22" y="286" width="296" height="132" rx="11" stroke-width="4"/>
+              <text x="40" y="324" font-size="21" font-weight="800">라이트백 SSD</text>
+              <text x="40" y="357" font-size="18">좌석에서 바뀐 내용을 잠시 저장</text>
+            </g>
+            <g class="st s3">
+              <circle class="f-red" cx="58" cy="389" r="20"/>
+              <text class="f-wh" x="58" y="397.5" font-size="24" font-weight="800" text-anchor="middle">3</text>
+              <text x="88" y="395" font-size="18" font-weight="800">재부팅하면 비워집니다</text>
+            </g>
+
+            <!-- 1. 켤 때 불러오기 -->
+            <g class="st s1">
+              <line class="k-ink" x1="340" y1="200" x2="484" y2="200" stroke-width="5"/>
+              <polygon class="f-ink" points="500,200 480,188 480,212"/>
+              <text x="420" y="168" font-size="18" font-weight="800" text-anchor="middle">불러옵니다</text>
+              <circle class="f-red" cx="420" cy="200" r="20"/>
+              <text class="f-wh" x="420" y="208.5" font-size="24" font-weight="800" text-anchor="middle">1</text>
+            </g>
+            <!-- 2. 바뀐 내용 잠시 저장 -->
+            <g class="st s2">
+              <path class="k-red" d="M500 262 H420 V352 H358" fill="none" stroke-width="4" stroke-dasharray="10 7"/>
+              <polygon class="f-red" points="340,352 360,340 360,364"/>
+              <circle class="f-red" cx="420" cy="307" r="20"/>
+              <text class="f-wh" x="420" y="315.5" font-size="24" font-weight="800" text-anchor="middle">2</text>
+              <text x="450" y="314" font-size="18" font-weight="800">바뀐 내용</text>
+            </g>
+
+            <!-- 스위치 -->
+            <rect class="f-gray k-ink" x="500" y="180" width="160" height="100" rx="14" stroke-width="2.5"/>
+            <text x="580" y="224" font-size="22" font-weight="800" text-anchor="middle">스위치</text>
+            <text x="580" y="256" font-size="18" text-anchor="middle">네트워크 연결</text>
+
+            <!-- 랜선 -->
+            <path class="k-ink" d="M660 230 H710 M710 55 V385 M710 55 H760 M710 165 H760 M710 275 H760 M710 385 H760" fill="none" stroke-width="3"/>
+
+            <!-- 좌석 PC -->
+            <rect class="k-ink" x="760" y="10" width="236" height="90" rx="12" fill="none" stroke-width="2.5"/>
+            <rect class="k-ink" x="780" y="34" width="44" height="30" rx="4" fill="none" stroke-width="2.5"/>
+            <path class="k-ink" d="M802 64 V74 M793 76 H811" fill="none" stroke-width="2.5"/>
+            <text x="842" y="49" font-size="20" font-weight="800">좌석 PC</text>
+            <text x="842" y="81" font-size="18">하드디스크 없음</text>
+
+            <rect class="k-ink" x="760" y="120" width="236" height="90" rx="12" fill="none" stroke-width="2.5"/>
+            <rect class="k-ink" x="780" y="144" width="44" height="30" rx="4" fill="none" stroke-width="2.5"/>
+            <path class="k-ink" d="M802 174 V184 M793 186 H811" fill="none" stroke-width="2.5"/>
+            <text x="842" y="159" font-size="20" font-weight="800">좌석 PC</text>
+            <text x="842" y="191" font-size="18">하드디스크 없음</text>
+
+            <rect class="k-ink" x="760" y="230" width="236" height="90" rx="12" fill="none" stroke-width="2.5"/>
+            <rect class="k-ink" x="780" y="254" width="44" height="30" rx="4" fill="none" stroke-width="2.5"/>
+            <path class="k-ink" d="M802 284 V294 M793 296 H811" fill="none" stroke-width="2.5"/>
+            <text x="842" y="269" font-size="20" font-weight="800">좌석 PC</text>
+            <text x="842" y="301" font-size="18">하드디스크 없음</text>
+
+            <rect class="k-ink" x="760" y="340" width="236" height="90" rx="12" fill="none" stroke-width="2.5" stroke-dasharray="8 6"/>
+            <text x="878" y="392" font-size="19" font-weight="800" text-anchor="middle">좌석 수만큼 더</text>
+          </svg>
+
+          <!-- 휴대폰용 세로 그림 -->
+          <svg class="v" viewBox="0 0 400 780" role="img" aria-labelledby="dgTitleV">
+            <title id="dgTitleV">노하드 원리 그림. 매장 서버 안에 윈도우 이미지, 게임 디스크, 라이트백 SSD가 있고, 서버는 스위치를 거쳐 하드디스크가 없는 좌석 PC 여러 대와 이어져 있습니다. 1, 켤 때 서버에서 불러옵니다. 2, 바뀐 내용은 라이트백 SSD에 잠시 저장됩니다. 3, 재부팅하면 비워집니다.</title>
+            <!-- 매장 서버 -->
+            <rect class="f-ink" x="0" y="0" width="400" height="388" rx="18"/>
+            <text class="f-wh" x="20" y="40" font-size="22" font-weight="800">매장 서버</text>
+            <g class="st s1">
+              <rect class="f-gray" x="16" y="58" width="368" height="86" rx="12"/>
+              <text x="32" y="93" font-size="20" font-weight="800">윈도우 이미지</text>
+              <text x="32" y="126" font-size="18">좌석이 쓰는 윈도우 원본</text>
+              <rect class="f-gray" x="16" y="154" width="368" height="86" rx="12"/>
+              <text x="32" y="189" font-size="20" font-weight="800">게임 디스크</text>
+              <text x="32" y="222" font-size="18">게임을 모아 둔 저장장치</text>
+            </g>
+            <g class="st s2 s3">
+              <rect class="f-gray k-red" x="18" y="252" width="364" height="118" rx="11" stroke-width="4"/>
+              <text x="32" y="282" font-size="20" font-weight="800">라이트백 SSD</text>
+              <text x="32" y="310" font-size="18">좌석에서 바뀐 내용을 잠시 저장</text>
+            </g>
+            <g class="st s3">
+              <circle class="f-red" cx="52" cy="344" r="20"/>
+              <text class="f-wh" x="52" y="352.5" font-size="24" font-weight="800" text-anchor="middle">3</text>
+              <text x="82" y="350" font-size="18" font-weight="800">재부팅하면 비워집니다</text>
+            </g>
+
+            <!-- 1. 켤 때 불러오기 -->
+            <g class="st s1">
+              <line class="k-ink" x1="140" y1="388" x2="140" y2="468" stroke-width="5"/>
+              <polygon class="f-ink" points="140,484 128,464 152,464"/>
+              <circle class="f-red" cx="140" cy="430" r="20"/>
+              <text class="f-wh" x="140" y="438.5" font-size="24" font-weight="800" text-anchor="middle">1</text>
+              <text x="108" y="437" font-size="18" font-weight="800" text-anchor="end">불러옵니다</text>
+            </g>
+            <!-- 2. 바뀐 내용 잠시 저장 -->
+            <g class="st s2">
+              <line class="k-red" x1="260" y1="484" x2="260" y2="404" stroke-width="4" stroke-dasharray="10 7"/>
+              <polygon class="f-red" points="260,388 248,408 272,408"/>
+              <circle class="f-red" cx="260" cy="436" r="20"/>
+              <text class="f-wh" x="260" y="444.5" font-size="24" font-weight="800" text-anchor="middle">2</text>
+              <text x="292" y="443" font-size="18" font-weight="800">바뀐 내용</text>
+            </g>
+
+            <!-- 스위치 -->
+            <rect class="f-gray k-ink" x="110" y="484" width="180" height="86" rx="14" stroke-width="2.5"/>
+            <text x="200" y="520" font-size="21" font-weight="800" text-anchor="middle">스위치</text>
+            <text x="200" y="552" font-size="18" text-anchor="middle">네트워크 연결</text>
+
+            <!-- 랜선 -->
+            <path class="k-ink" d="M200 570 V736 M174 642 H226 M174 736 H226" fill="none" stroke-width="3"/>
+
+            <!-- 좌석 PC -->
+            <rect class="k-ink" x="2" y="602" width="172" height="80" rx="12" fill="none" stroke-width="2.5"/>
+            <text x="88" y="636" font-size="19" font-weight="800" text-anchor="middle">좌석 PC</text>
+            <text x="88" y="664" font-size="18" text-anchor="middle">하드디스크 없음</text>
+
+            <rect class="k-ink" x="226" y="602" width="172" height="80" rx="12" fill="none" stroke-width="2.5"/>
+            <text x="312" y="636" font-size="19" font-weight="800" text-anchor="middle">좌석 PC</text>
+            <text x="312" y="664" font-size="18" text-anchor="middle">하드디스크 없음</text>
+
+            <rect class="k-ink" x="2" y="696" width="172" height="80" rx="12" fill="none" stroke-width="2.5"/>
+            <text x="88" y="730" font-size="19" font-weight="800" text-anchor="middle">좌석 PC</text>
+            <text x="88" y="758" font-size="18" text-anchor="middle">하드디스크 없음</text>
+
+            <rect class="k-ink" x="226" y="696" width="172" height="80" rx="12" fill="none" stroke-width="2.5" stroke-dasharray="8 6"/>
+            <text x="312" y="742" font-size="18" font-weight="800" text-anchor="middle">좌석 수만큼 더</text>
+          </svg>
+          <figcaption>원리를 쉽게 그린 그림입니다. 실제 장비 구성과 좌석 수는 매장마다 다릅니다.</figcaption>
+        </figure>
+
+        <ol class="steps">
+          <li data-s="1"><span class="n" aria-hidden="true">1</span><h3>켤 때</h3><p>좌석 PC를 켜면 스위치를 거쳐 서버에서 윈도우와 게임을 불러옵니다. 좌석에는 하드디스크가 없습니다.</p></li>
+          <li data-s="2"><span class="n" aria-hidden="true">2</span><h3>쓰는 중</h3><p>손님이 쓰면서 바뀐 내용은 서버의 라이트백 SSD에 잠시 저장됩니다. 원본은 그대로입니다.</p></li>
+          <li data-s="3"><span class="n" aria-hidden="true">3</span><h3>다시 켜면</h3><p>재부팅하면 그 좌석에서 바뀐 내용이 지워집니다. 그래서 늘 처음 상태로 켜집니다.</p></li>
+        </ol>
+      </div>
+      <p class="hint">어려운 말은 아래 <a href="#words">용어 풀이</a>에 한 줄씩 모아 두었습니다.</p>
+      <div class="real" id="real">
+        <h3>그림 속 장비, 실제로는 이렇게 생겼습니다</h3>
+        <p class="real-sub">엔터시스템이 설치한 매장에서 찍은 사진입니다. 사진을 누르면 크게 볼 수 있습니다.</p>
+        <div class="photos">
+          <figure class="photo wide"><button type="button" aria-label="사진 크게 보기: 설치를 마친 PC방 매장 전경"><img src="assets/store.jpg" alt="설치를 마친 PC방 매장 전경" width="1440" height="1080" loading="lazy"></button><figcaption>설치를 마친 매장입니다. 좌석 PC는 하드디스크 없이 서버에서 바로 켜집니다.</figcaption></figure>
+          <figure class="photo"><button type="button" aria-label="사진 크게 보기: 노하드 서버 2대와 통신 랙"><img src="assets/servers.jpg" alt="노하드 서버 2대와 통신 랙" width="750" height="1000" loading="lazy"></button><figcaption>매장 서버실입니다. 노하드 서버 2대와 통신 랙을 한자리에 두었습니다.</figcaption></figure>
+          <figure class="photo"><button type="button" aria-label="사진 크게 보기: 랙 안에 정리한 스위치와 노하드 서버"><img src="assets/rack.jpg" alt="랙 안에 정리한 스위치와 노하드 서버" width="750" height="1000" loading="lazy"></button><figcaption>회선 장비·스위치·서버를 랙 하나에 넣어 정리했습니다.</figcaption></figure>
+          <figure class="photo"><button type="button" aria-label="사진 크게 보기: 좌석별 번호를 붙인 네트워크 배선"><img src="assets/cables.jpg" alt="좌석별 번호를 붙인 네트워크 배선" width="750" height="1000" loading="lazy"></button><figcaption>좌석마다 번호를 붙인 배선입니다. 문제가 생긴 자리를 바로 찾습니다.</figcaption></figure>
+          <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 랙에 설치한 스위치 4대와 노하드 서버"><img src="assets/new1.jpg" alt="신규 매장 랙에 설치한 스위치 4대와 노하드 서버" width="483" height="633" loading="lazy"></button><figcaption>신규 매장 설치입니다. 스위치 4대와 서버를 한 랙에 넣고 배선을 정리했습니다.</figcaption></figure>
+          <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 랙의 스위치·보안 장비와 노하드 서버 2대"><img src="assets/new2.jpg" alt="신규 매장 랙의 스위치·보안 장비와 노하드 서버 2대" width="688" height="918" loading="lazy"></button><figcaption>신규 매장입니다. 스위치·보안 장비·노하드 서버 2대를 설치했습니다.</figcaption></figure>
+          <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 서버실의 랙과 배선"><img src="assets/new3.jpg" alt="신규 매장 서버실의 랙과 배선" width="680" height="912" loading="lazy"></button><figcaption>신규 매장 서버실입니다. 랙 설치와 배선 정리를 마쳤습니다.</figcaption></figure>
+        </div>
+        <p class="photo-note">사진에는 손님 얼굴과 개인정보가 나오지 않게 했습니다. 매장 이름은 사장님 동의를 받은 뒤 싣습니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 좋은 점 -->
+  <section class="blk gray" id="good">
+    <div class="wrap">
+      <div class="sh">좋은 점</div>
+      <h2>손님이 계속 바뀌는 PC방에 잘 맞습니다</h2>
+      <p class="sub">좌석을 하나하나 손보지 않고, 서버에서 한 번에 관리할 수 있습니다.</p>
+      <div class="goods">
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.34-5.66M20 4v5h-5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>재부팅하면 처음 상태로</h3>
+          <p>바이러스나 손님이 바꾼 설정이 다음 손님에게 남지 않습니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>게임·패치는 서버에서 한 번에</h3>
+          <p>좌석마다 따로 깔지 않아도 됩니다. 서버에서 한 번 하면 모든 좌석에 적용됩니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="6" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 12h6M17 12h.01" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>좌석 저장장치 걱정이 줄어듭니다</h3>
+          <p>좌석마다 하드디스크나 SSD를 달 필요가 없어서, 고장 난 것을 찾아 바꿀 일이 줄어듭니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="2" y="4" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M6 18h6M9 14v4M19 13v8M15 17h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>새 좌석 세팅이 빠릅니다</h3>
+          <p>새 PC를 연결해 서버에 등록하면 같은 윈도우와 게임으로 켜집니다. 사양이 다른 PC는 드라이버를 맞춰야 할 수 있습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 주의할 점 -->
+  <section class="blk" id="care">
+    <div class="wrap">
+      <div class="sh">주의할 점</div>
+      <h2>솔직하게, 이런 점은 조심해야 합니다</h2>
+      <p class="sub">노하드에도 약점이 있습니다. 미리 알고 평소에 챙기면 대부분 줄일 수 있습니다.</p>
+      <ul class="cares">
+        <li class="card">
+          <h3>서버가 멈추면 매장 전체가 멈춥니다</h3>
+          <p>모든 좌석이 서버 한 곳에 기대고 있습니다. 서버에 문제가 생기면 여러 좌석, 때로는 매장 전체가 영향을 받습니다.</p>
+          <p class="fix"><b>챙기는 법</b>이상을 빨리 알아채고, 바로 손쓸 사람이 있어야 합니다.</p>
+        </li>
+        <li class="card">
+          <h3>손님이 몰리면 서버가 바빠집니다</h3>
+          <p>주말처럼 많은 좌석이 한꺼번에 켜지고 게임을 불러오면 서버 부담이 커집니다. 문제는 가장 바쁠 때 드러나기 쉽습니다.</p>
+          <p class="fix"><b>챙기는 법</b>한가한 평일에 미리 점검해 두는 것이 좋습니다.</p>
+        </li>
+        <li class="card">
+          <h3>네트워크가 느리면 다 느려집니다</h3>
+          <p>좌석 PC는 랜선과 스위치로 서버에서 받아 씁니다. 연결이 나쁘면 로딩이 느려지거나 끊길 수 있습니다.</p>
+          <p class="fix"><b>챙기는 법</b>스위치와 랜선도 서버만큼 챙겨야 합니다.</p>
+        </li>
+        <li class="card">
+          <h3>라이트백 SSD는 소모품입니다</h3>
+          <p>좌석에서 바뀐 내용이 계속 쓰이면서 닳습니다. 얼마나 쓰는지와 제품에 따라 바꿀 때가 다릅니다. 상태를 확인하고 미리 바꾸는 것이 좋습니다.</p>
+          <p class="fix"><b>챙기는 법</b>고장 나기 전에 교체 시기를 정해 두십시오.</p>
+        </li>
+        <li class="card">
+          <h3>게임 디스크가 차면 설치가 막힙니다</h3>
+          <p>게임은 점점 커지고 많아집니다. 디스크가 꽉 차면 새 게임도, 패치도 깔 수 없습니다.</p>
+          <p class="fix"><b>챙기는 법</b>남은 공간을 미리 보고 정리하거나 늘려야 합니다.</p>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 관리 -->
+  <section class="blk gray mg" id="manage">
+    <div class="wrap">
+      <div class="sh">그래서, 관리</div>
+      <h2>그래서 노하드는 <em>설치보다 관리</em>가 중요합니다</h2>
+      <p class="sub">매장 전체가 서버 한 곳에 기대는 만큼, 꾸준히 지켜보고 미리 손보는 것이 핵심입니다. 엔터시스템은 이렇게 챙깁니다.</p>
+      <div class="facts">
+        <div><b>580여 곳</b><span>관리 중인 PC방</span></div>
+        <div><b>약 5만 5천 대</b><span>원격으로 지켜보는 PC</span></div>
+        <div><b>24시간</b><span>교대 근무 관리 센터</span></div>
+      </div>
+      <p class="src">PC방 수와 PC 대수는 2026년 10월, 엔터시스템 관리 시스템 기준입니다.</p>
+      <div class="grid3">
+        <div class="card">
+          <span class="badge now">지금 하고 있습니다</span>
+          <h3>실시간으로 지켜봅니다</h3>
+          <p>좌석 PC의 상태·온도·전원을 원격으로 계속 봅니다. 이상을 빨리 알아챌 수 있습니다.</p>
+        </div>
+        <div class="card">
+          <span class="badge now">지금 하고 있습니다</span>
+          <h3>평일에 미리 점검합니다</h3>
+          <p>손님이 몰리는 주말이 오기 전, 평일에 미리 점검합니다.</p>
+        </div>
+        <div class="card">
+          <span class="badge now">지금 하고 있습니다</span>
+          <h3>24시간 전화를 받습니다</h3>
+          <p>교대 근무하는 관리 센터가 밤·주말·공휴일에도 받습니다. 상담 기록과 통화 요약이 남습니다.</p>
+        </div>
+      </div>
+      <ul class="extra">
+        <li>게임 설치·업데이트는 원격으로 합니다. 좌석마다 손댈 일이 없습니다.</li>
+        <li>부품 교체처럼 꼭 필요할 때는 기사가 찾아갑니다. 출장비는 지역마다 다릅니다. <span class="todo">[지역별 출장비 기준]</span></li>
+        <li><span class="badge">준비 중</span> 게임 디스크 증설과 라이트백 SSD 교체 비용을 렌탈사·할부사를 통해 나눠 내는 방법을 준비하고 있습니다.</li>
+      </ul>
+      <p class="award">아이러브PC방이 뽑은 2026년 1분기 주요 상품(노하드 솔루션)에 이름을 올렸습니다. <a href="https://www.hankyung.com/article/202605084585O" target="_blank" rel="noopener">관련 기사 보기(새 창)</a></p>
+    </div>
+  </section>
+
+  <!-- 실시간 모니터링 -->
+  <section class="blk dark" id="monitor">
+    <div class="wrap">
+      <div class="sh">엔플 · 실시간 모니터링</div>
+      <h2>매장 상태를 사장님이 직접 확인합니다</h2>
+      <p class="sub">엔터시스템 고객 매장에는 전용 모니터링 사이트 '엔플'을 드립니다. 휴대폰이나 PC로 접속하면 좌석 PC의 상태와 게임 패치 현황을 실시간으로 볼 수 있고, 게임 설치·삭제도 바로 요청할 수 있습니다.</p>
+      <div class="grid3">
+        <div class="card dk">
+          <div class="ico red"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 0 1 4 0v8.3a4 4 0 1 1-4 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M12 10v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>좌석별 CPU·그래픽카드 온도</h3>
+          <p>좌석마다 CPU·그래픽카드의 사용률과 온도, 메모리, 랜 속도, 실행 중인 게임을 한눈에 봅니다. 온도가 비정상적으로 높은 좌석은 알림으로 알려 드립니다.</p>
+        </div>
+        <div class="card dk">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <h3>실시간 게임 패치 현황</h3>
+          <p>설치 완료·업데이트 중·동기화 중인 게임과 오늘 업데이트 완료율을 바로 확인합니다. 손님이 묻기 전에 패치 상태를 알 수 있습니다.</p>
+        </div>
+        <div class="card dk">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>설치·삭제 요청</h3>
+          <p>원하는 게임의 설치나 삭제를 사이트에서 바로 요청하면 엔터시스템이 처리합니다. 전화하지 않아도 됩니다.</p>
+        </div>
+      </div>
+      <div class="shots">
+        <figure class="shot"><button type="button" aria-label="화면 크게 보기: 좌석 모니터링"><img src="assets/monitor-seats.jpg" alt="좌석별 CPU·그래픽카드 사용률과 온도, 메모리, 랜 속도, 실행 중인 게임을 보여 주는 모니터링 화면" width="1241" height="356" loading="lazy"></button><figcaption>엔플 좌석 모니터링 화면입니다. CPU·그래픽카드 사용률과 온도, 실행 중인 게임이 좌석마다 보입니다.</figcaption></figure>
+        <figure class="shot"><button type="button" aria-label="화면 크게 보기: 게임 패치 현황"><img src="assets/monitor-patch.jpg" alt="전체 게임, 설치 완료, 업데이트 중, 동기화 중 개수와 오늘 업데이트 완료율을 보여 주는 게임 패치 현황 화면" width="1138" height="640" loading="lazy"></button><figcaption>엔플 게임 패치 현황 화면입니다. 설치 완료·업데이트 중·동기화 중 개수와 오늘 업데이트 완료율을 보여 줍니다.</figcaption></figure>
+      </div>
+      <p class="note">사이트 주소와 로그인 정보는 설치 때 드립니다. 화면은 2026년 10월 기준이며 매장에 따라 다를 수 있습니다.</p>
+    </div>
+  </section>
+
+  <!-- 비교 -->
+  <section class="blk" id="compare">
+    <div class="wrap">
+      <div class="sh">비교</div>
+      <h2 id="compareTitle">좌석마다 저장장치를 다는 방식과 비교하면</h2>
+      <p class="sub">어느 쪽이 무조건 낫다고 하기는 어렵습니다. 좌석 수, 매장 환경, 관리할 사람이 있는지에 따라 다릅니다.</p>
+      <p class="swipe" aria-hidden="true">표가 잘리면 옆으로 밀어서 보십시오.</p>
+      <div class="tbl-wrap" role="region" aria-labelledby="compareTitle" tabindex="0">
+        <table class="tbl">
+          <thead>
+            <tr><th scope="col">구분</th><th scope="col">노하드</th><th scope="col">좌석마다 저장장치를 다는 방식</th></tr>
+          </thead>
+          <tbody>
+            <tr><th scope="row">게임 업데이트</th><td>서버에서 한 번 하면 모든 좌석에 적용됩니다.</td><td>좌석마다 해야 합니다. 배포 프로그램을 쓰면 일을 줄일 수 있습니다.</td></tr>
+            <tr><th scope="row">바이러스·설정 복구</th><td>재부팅하면 처음 상태로 돌아갑니다.</td><td>복구 프로그램을 따로 쓰거나 좌석마다 손봐야 합니다.</td></tr>
+            <tr><th scope="row">장애가 나면 영향 범위</th><td>서버나 네트워크에 문제가 생기면 여러 좌석, 때로는 매장 전체가 영향을 받습니다.</td><td>보통 고장 난 그 좌석만 영향을 받습니다.</td></tr>
+            <tr><th scope="row">초기 장비</th><td>성능 좋은 서버, 게임 디스크, 라이트백 SSD, 스위치가 필요합니다. 좌석 PC에는 저장장치가 없습니다.</td><td>좌석마다 저장장치가 들어갑니다. 큰 서버는 꼭 필요하지 않습니다.</td></tr>
+            <tr><th scope="row">관리 핵심</th><td>서버와 네트워크를 꾸준히 지켜보고 미리 점검하기</td><td>좌석마다 저장장치 상태와 프로그램을 고르게 챙기기</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="note">일반적인 차이를 정리한 표입니다. 실제로는 매장 장비와 구성에 따라 다릅니다.</p>
+    </div>
+  </section>
+
+  <!-- 용어 풀이 -->
+  <section class="blk gray" id="words">
+    <div class="wrap">
+      <div class="sh">용어 풀이</div>
+      <h2>어려운 말, 한 줄로 풀었습니다</h2>
+      <p class="sub">상담이나 점검 때 자주 듣는 말입니다.</p>
+      <dl class="terms">
+        <div><dt>노하드</dt><dd>좌석 PC에 하드디스크 없이, 서버에서 윈도우와 게임을 불러와 켜는 방식입니다.</dd></div>
+        <div><dt>서버</dt><dd>모든 좌석에 윈도우와 게임을 나눠 주는 매장의 중심 컴퓨터입니다.</dd></div>
+        <div><dt>게임 디스크</dt><dd>서버 안에서 게임을 모아 두는 저장장치로, 꽉 차면 새 게임을 깔 수 없습니다.</dd></div>
+        <div><dt>라이트백 SSD</dt><dd>좌석에서 바뀐 내용을 잠시 저장했다가 재부팅하면 비우는 서버 속 SSD입니다.</dd></div>
+        <div><dt>이미지</dt><dd>좌석 PC가 불러오는 윈도우 원본으로, 고치면 모든 좌석에 한 번에 반영됩니다.</dd></div>
+        <div><dt>스위치</dt><dd>서버와 좌석 PC를 랜선으로 이어 주는 네트워크 장치입니다.</dd></div>
+      </dl>
+    </div>
+  </section>
+
+  <!-- 자주 묻는 질문 -->
+  <section class="blk faq" id="faq">
+    <div class="wrap">
+      <div class="sh">자주 묻는 질문</div>
+      <h2>노하드, 이런 점이 궁금하십니까?</h2>
+      <div class="faq-list">
+        <details>
+          <summary>좌석 PC에 정말 저장장치가 없습니까?</summary>
+          <p>네. 노하드 방식의 좌석 PC는 하드디스크나 SSD 없이 켜집니다. 윈도우와 게임은 켤 때마다 매장 서버에서 불러옵니다.</p>
+        </details>
+        <details>
+          <summary>손님이 깐 프로그램이나 바꾼 설정은 어떻게 됩니까?</summary>
+          <p>재부팅하면 지워지고 처음 상태로 돌아갑니다. 게임 계정처럼 게임사 서버에 저장되는 정보는 계정에 그대로 남습니다. 매장에서 꼭 남겨야 하는 설정은 서버의 원본(이미지)에 넣어야 합니다.</p>
+        </details>
+        <details>
+          <summary>서버가 멈추면 영업을 못 합니까?</summary>
+          <p>서버가 멈추면 좌석 PC가 켜지지 않거나 멈출 수 있습니다. 그래서 평소 점검과 빠른 대응이 중요합니다. 엔터시스템은 교대 근무 관리 센터가 24시간 전화를 받고, 원격으로 먼저 확인합니다.</p>
+        </details>
+        <details>
+          <summary>노하드는 게임이 느리지 않습니까?</summary>
+          <p>서버, 게임 디스크, 네트워크가 매장 규모에 맞으면 대체로 불편 없이 씁니다. 셋 중 하나라도 부족하면 로딩이 느려질 수 있고, 손님이 몰릴 때 더 티가 납니다.</p>
+        </details>
+        <details>
+          <summary>라이트백 SSD는 언제 바꿔야 합니까?</summary>
+          <p>쓰는 양과 제품에 따라 바꿀 때가 다른 소모품입니다. 갑자기 멈추기 전에 교체 시기를 정해 두는 것이 좋습니다. 교체 비용을 나눠 내는 방법은 준비 중입니다.</p>
+        </details>
+        <details>
+          <summary>창업이나 전환을 준비 중입니다. 무엇부터 하면 됩니까?</summary>
+          <p>서버 자리, 랜선, 스위치 위치는 PC·인테리어 공사 계획과 함께 정하는 것이 좋습니다. 좌석 수와 지금 장비(새 매장이면 계획 중인 PC)를 알려 주시면 필요한 구성을 안내해 드리겠습니다. 상담은 무료입니다. 새 매장이라면 <a href="startup.html">PC방 창업 지원(준비 중)</a>도 함께 보십시오.</p>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+
+<script>
+  // 원리 그림을 단계별로 보기 (스크립트가 없으면 버튼 없이 그림 전체가 보여요)
+  (function () {
+    var wrap = document.getElementById('dgWrap');
+    var ctl = document.getElementById('dgCtl');
+    if (!wrap || !ctl || !ctl.querySelectorAll) return;
+    var btns = ctl.querySelectorAll('button[data-step]');
+    function show(step) {
+      wrap.setAttribute('data-step', step);
+      for (var i = 0; i < btns.length; i++) {
+        btns[i].setAttribute('aria-pressed', btns[i].getAttribute('data-step') === step ? 'true' : 'false');
+      }
+    }
+    for (var i = 0; i < btns.length; i++) {
+      btns[i].addEventListener('click', function () { show(this.getAttribute('data-step')); });
+    }
+    ctl.hidden = false;
+  })();
+</script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

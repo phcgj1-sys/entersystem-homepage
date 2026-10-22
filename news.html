@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>사장님 소식 | 엔터시스템</title>
+<meta name="description" content="전기요금 개편, 윈도우 10 지원 종료, 키오스크 접근성 의무처럼 PC방 운영에 영향을 주는 소식을 쉬운 말로 정리했습니다.">
+<meta property="og:title" content="사장님 소식 | 엔터시스템">
+<meta property="og:description" content="PC방 사장님이 알아 둘 제도 변화와 매장 관리 안내를 쉬운 말로 정리했습니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 (사장님 소식 목록) */
+  .page-hero h1 { text-wrap: balance; } /* 휴대폰에서 '알아 / 둘' 처럼 끊기지 않게 두 줄을 고르게 */
+  .posts { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; max-width: 880px; }
+  .post { display: flex; flex-direction: column; gap: 10px; border-left: 6px solid var(--red); }
+  .pmeta { display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px; font-size: 14px; color: var(--mut); }
+  .post h3 { margin: 0; font-size: clamp(20px, 2.4vw, 24px); line-height: 1.4; }
+  .post h3 a { text-decoration: none; }
+  .post h3 a:hover { color: var(--red-text); text-decoration: underline; }
+  .post p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .read { align-self: flex-start; display: inline-flex; align-items: center; gap: 6px; min-height: 44px; font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .read:hover { text-decoration: underline; }
+  .more-note { margin: 22px 0 0; font-size: 15px; color: var(--mut); }
+
+  @media (max-width: 640px) {
+    .post { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html" aria-current="page">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › 사장님 소식</div>
+      <h1>PC방 사장님이 알아 둘 <em>소식</em></h1>
+      <p class="lead">전기요금, 윈도우, 키오스크처럼 매장 운영에 영향을 주는 변화를 쉬운 말로 정리했습니다. 소식 글에는 출처를 달았고, ‘안내’ 글은 매장을 관리하며 겪은 일을 바탕으로 썼습니다.</p>
+    </div>
+  </section>
+
+  <section class="blk" aria-labelledby="list-h">
+    <div class="wrap">
+      <div class="sh">최근 글</div>
+      <h2 id="list-h">먼저 챙겨 볼 소식</h2>
+      <p class="sub">글은 작성한 날 기준입니다. 제도는 바뀔 수 있으니 중요한 결정 전에는 담당 기관에 확인하십시오.</p>
+
+      <ul class="posts">
+        <li class="card post">
+          <div class="pmeta"><span class="badge">안내</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-choose-vendor.html">노하드 업체를 고를 때 물어볼 10가지</a></h3>
+          <p>노하드는 설치보다 관리가 중요합니다. 업체를 고르거나 바꾸기 전에 물어볼 10가지와, 답을 적어 비교하는 빈 표를 정리했습니다.</p>
+          <a class="read" href="news-choose-vendor.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">안내</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-weekend-outage.html">주말 장애를 줄이는 평일 점검 7가지</a></h3>
+          <p>노하드 매장은 손님이 몰리는 주말에 문제가 드러나기 쉽습니다. 게임 디스크 여유부터 비상 연락까지, 한가한 평일에 사장님이 챙길 7가지를 모았습니다.</p>
+          <a class="read" href="news-weekend-outage.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">화재보험</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-fire-insurance.html">화재배상책임보험, 갱신일을 놓치면 과태료</a></h3>
+          <p>PC방은 화재배상책임보험에 꼭 가입해야 합니다. 보험이 하루만 끊겨도 과태료 대상이 될 수 있다고 합니다. 증권에서 확인할 것과 매장을 넘겨받을 때 챙길 것을 정리했습니다.</p>
+          <a class="read" href="news-fire-insurance.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">스마트상점</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-smart-store.html">스마트상점 기술보급사업, PC방도 볼 만합니까?</a></h3>
+          <p>키오스크 같은 스마트기술 도입 비용을 나라에서 지원하는 사업입니다. 2026년 지원 내용과 다음 모집 전에 확인할 점, ‘무료로 해 준다’는 연락에 대한 주의를 정리했습니다.</p>
+          <a class="read" href="news-smart-store.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">청소년 고용</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-youth-hiring.html">PC방도 청소년 아르바이트를 쓸 수 있게 되었습니다</a></h3>
+          <p>10월 8일부터 PC방이 청소년 고용금지업소에서 빠졌다고 합니다. 청소년이 일할 수 있는 시간과 그대로 남은 규제를 정리했습니다.</p>
+          <a class="read" href="news-youth-hiring.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">전기요금</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-electricity-2026.html">2026년 전기요금 개편, PC방 사장님이 볼 것</a></h3>
+          <p>6월부터 일반용 전기의 시간대별 요금 구간이 바뀌었고, (갑)Ⅱ 매장은 12월부터 요금제를 직접 고를 수 있습니다. 우리 매장이 해당되는지 고지서로 확인하는 법을 정리했습니다.</p>
+          <a class="read" href="news-electricity-2026.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">윈도우</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-windows10.html">윈도우 10 지원 종료, PC방은 무엇을 확인할까</a></h3>
+          <p>윈도우 10 일반 지원이 끝났고, 11월부터 엔비디아 새 드라이버는 윈도우 11에서만 지원한다고 합니다. 좌석 PC와 카운터 PC에서 확인할 것을 모았습니다.</p>
+          <a class="read" href="news-windows10.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+        <li class="card post">
+          <div class="pmeta"><span class="badge">키오스크</span><time datetime="2026-10-21">2026년 10월 21일</time></div>
+          <h3><a href="news-kiosk.html">키오스크 장애인 접근성 의무, 작은 PC방은 어떻게?</a></h3>
+          <p>올해 1월 28일부터 이미 설치한 키오스크도 장애인 접근성 의무 대상이 되었다고 합니다. 작은 매장이 대신할 수 있는 방법과 정부 지원을 정리했습니다.</p>
+          <a class="read" href="news-kiosk.html" aria-hidden="true" tabindex="-1">읽기 <span>→</span></a>
+        </li>
+      </ul>
+
+      <p class="more-note">새 글은 계속 올릴 예정입니다.</p>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

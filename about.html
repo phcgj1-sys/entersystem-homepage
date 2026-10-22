@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>회사 소개 | 엔터시스템</title>
+<meta name="description" content="PC방 노하드 서버를 설치하고 24시간 원격으로 관리하는 (주)엔터시스템을 소개합니다. 하는 일, 일하는 방식, 걸어온 길, 오시는 길을 담았습니다.">
+<meta property="og:title" content="회사 소개 | 엔터시스템">
+<meta property="og:description" content="PC방 노하드 서버를 설치하고 24시간 원격으로 관리하는 (주)엔터시스템을 소개합니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "(주)엔터시스템",
+  "description": "PC방 노하드 서버 설치와 24시간 원격 관리",
+  "foundingDate": "2020-02-04",
+  "telephone": "+82-1833-9899",
+  "email": "enterpc7979@naver.com",
+  "sameAs": ["https://pf.kakao.com/_gxjvhj"],
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "순화궁로 272 (별내동, 동광비즈타워) 919호",
+    "addressLocality": "남양주시",
+    "addressRegion": "경기도",
+    "addressCountry": "KR"
+  }
+}
+</script>
+<style>
+  /* 이 페이지에만 쓰는 스타일 */
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+  /* 첫 화면 꼬리표 */
+  .hero-tags { display: flex; flex-wrap: wrap; gap: 8px; margin: 26px 0 0; padding: 0; list-style: none; }
+  .hero-tags li { font-size: 14px; font-weight: 700; color: #ffd2d7; border: 1px solid rgba(255, 140, 153, .45); border-radius: 999px; padding: 5px 13px; }
+
+  /* 우리가 하는 일 */
+  .intro { display: grid; grid-template-columns: 1fr 1fr; gap: 48px; align-items: start; }
+  .intro .sub { margin-bottom: 18px; }
+  .more { font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .more:hover { text-decoration: underline; }
+  .dolist { list-style: none; margin: 0; padding: 0; border-top: 2px solid var(--ink); }
+  .dolist li { display: grid; grid-template-columns: 46px 1fr; gap: 16px; padding: 22px 0; border-bottom: 1px solid var(--line); }
+  .dolist .ico { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; }
+  .dolist li:first-child .ico { background: var(--red); }
+  .dolist h3 { margin: 0 0 4px; font-size: 19px; }
+  .dolist p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .dolist .more { display: inline-block; margin-top: 6px; font-size: 15px; }
+
+  /* 숫자 */
+  .nums { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .nums li { background: #fff; border: 1px solid var(--line); border-top: 4px solid var(--ink); border-radius: var(--radius); padding: 26px 22px; }
+  .nums li:first-child { border-top-color: var(--red); }
+  .nums b { display: block; font-size: clamp(30px, 3.4vw, 40px); line-height: 1.1; letter-spacing: -.03em; margin-bottom: 10px; }
+  .nums b small { font-size: .5em; letter-spacing: 0; margin-left: 2px; }
+  .nums span { display: block; color: var(--ink2); font-size: 15px; }
+  .nums-note { margin: 18px 0 0; font-size: 14px; color: var(--mut); }
+
+  /* 일하는 방식 */
+  .ways { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; counter-reset: w; }
+  .ways li { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 26px 22px; }
+  .ways li::before { counter-increment: w; content: counter(w); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; margin-bottom: 16px; }
+  .ways li:first-child::before { background: var(--red-strong); }
+  .ways h3 { margin: 0 0 8px; font-size: 20px; }
+  .ways p { margin: 0; font-size: 15px; color: var(--ink2); }
+
+  /* 걸어온 길 */
+  .tl { list-style: none; margin: 0; padding: 0; max-width: 760px; }
+  .tl li { position: relative; margin-left: 8px; padding: 0 0 40px 32px; border-left: 2px solid #cfcfcf; }
+  .tl li:last-child { padding-bottom: 0; border-left-color: transparent; }
+  .tl li::before { content: ""; position: absolute; left: -9px; top: 4px; width: 16px; height: 16px; border-radius: 50%; background: var(--ink); box-shadow: 0 0 0 4px #fff; }
+  .tl li.hot::before { background: var(--red); }
+  .tl li.next::before { background: var(--gray); border: 2px dashed #8a8a8a; }
+  .tl .date { display: block; font-size: 15px; font-weight: 800; color: var(--red-text); letter-spacing: .02em; margin-bottom: 4px; }
+  .tl h3 { margin: 0 0 6px; font-size: 20px; line-height: 1.35; }
+  .tl p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .tl .more { display: inline-block; margin-top: 10px; font-size: 15px; }
+
+  /* 오시는 길 */
+  .visit { display: grid; grid-template-columns: 1.1fr .9fr; gap: 40px; align-items: start; }
+  .info { margin: 0; border-top: 2px solid var(--ink); }
+  .info div { display: grid; grid-template-columns: 110px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .info dt { font-weight: 800; }
+  .info dd { margin: 0; color: var(--ink2); }
+  .mapcard {
+    position: relative; overflow: hidden; border-radius: var(--radius); padding: 30px 26px; color: #fff;
+    background-color: var(--ink);
+    background-image: linear-gradient(rgba(255, 255, 255, .06) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, .06) 1px, transparent 1px);
+    background-size: 28px 28px;
+  }
+  .mapcard .pin { width: 26px; height: 26px; border-radius: 50% 50% 50% 0; background: var(--red); transform: rotate(-45deg); margin-bottom: 18px; position: relative; }
+  .mapcard .pin::after { content: ""; position: absolute; inset: 8px; border-radius: 50%; background: var(--ink); }
+  .mapcard h3 { margin: 0 0 6px; font-size: 22px; }
+  .mapcard p { margin: 0 0 20px; color: #d6d6d6; }
+  .mapcard small { display: block; margin-top: 12px; color: #a8a8a8; font-size: 13px; }
+
+  @media (max-width: 980px) {
+    .intro, .visit { grid-template-columns: 1fr; gap: 32px; }
+    .nums, .ways { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 640px) {
+    .ways { grid-template-columns: 1fr; }
+    .nums { grid-template-columns: 1fr; gap: 10px; }
+    .nums li { display: flex; align-items: center; gap: 14px; padding: 18px; }
+    .nums b { flex: none; min-width: 128px; margin: 0; font-size: 30px; }
+    .info div { grid-template-columns: 84px 1fr; gap: 12px; }
+    .mapcard { padding: 26px 20px; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html" aria-current="page">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html" aria-current="page">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › 회사 소개</div>
+      <h1>PC방이 멈추지 않게,<br><em>뒤에서 지키는 회사</em></h1>
+      <p class="lead">엔터시스템은 PC방 노하드 서버를 설치하고 24시간 원격으로 관리합니다. 밤에도, 주말에도, 공휴일에도 관리 센터가 전화를 받습니다.</p>
+      <ul class="hero-tags" aria-label="회사 한눈에 보기">
+        <li>2020년 2월 설립</li>
+        <li>경기도 남양주</li>
+        <li>아이러브PC방 선정 2026년 1분기 주요 상품</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="blk" id="what">
+    <div class="wrap intro">
+      <div>
+        <div class="sh">우리가 하는 일</div>
+        <h2>설치하고 끝이 아니라, 매일 지켜봅니다</h2>
+        <p class="sub">엔터시스템은 PC방 노하드 서버를 설치하고, 그 뒤로도 24시간 원격으로 관리합니다. 서버 일은 저희가 맡겠습니다. 사장님은 손님과 매장에 집중하십시오.</p>
+        <a class="more" href="nohard.html">노하드가 처음이라면, 노하드란? <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="dolist">
+        <li>
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="7" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><rect x="4" y="14" width="16" height="7" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 6.5h.01M8 17.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>노하드 서버 설치</h3>
+            <p>PC방에 노하드 서버를 설치합니다. 좌석 PC는 하드디스크 없이 서버에서 윈도우와 게임을 불러옵니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></span>
+          <div>
+            <h3>24시간 원격 관리</h3>
+            <p>좌석 PC의 상태·온도·전원을 원격으로 지켜봅니다. 교대로 근무하는 관리 센터가 밤·주말·공휴일에도 전화를 받습니다.</p>
+          </div>
+        </li>
+        <li>
+          <span class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+          <div>
+            <h3>엔터TV</h3>
+            <p>매장에서 쓰는 업소용 TV 셋톱입니다.</p>
+            <a class="more" href="tv.html">엔터TV 자세히 보기 <span aria-hidden="true">→</span></a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="blk gray" id="cases">
+    <div class="wrap">
+      <div class="sh">설치 현장</div>
+      <h2>저희가 설치하고 관리하는 매장입니다</h2>
+      <p class="sub">매장 전경부터 서버실의 노하드 서버와 통신 랙, 좌석마다 번호를 붙인 배선까지 실제 설치 모습입니다. 사진을 누르면 크게 볼 수 있습니다.</p>
+      <div class="photos">
+        <figure class="photo wide"><button type="button" aria-label="사진 크게 보기: 설치를 마친 PC방 매장 전경"><img src="assets/store.jpg" alt="설치를 마친 PC방 매장 전경" width="1440" height="1080" loading="lazy"></button><figcaption>설치를 마친 매장입니다. 좌석 PC는 하드디스크 없이 서버에서 바로 켜집니다.</figcaption></figure>
+        <figure class="photo"><button type="button" aria-label="사진 크게 보기: 노하드 서버 2대와 통신 랙"><img src="assets/servers.jpg" alt="노하드 서버 2대와 통신 랙" width="750" height="1000" loading="lazy"></button><figcaption>매장 서버실입니다. 노하드 서버 2대와 통신 랙을 한자리에 두었습니다.</figcaption></figure>
+        <figure class="photo"><button type="button" aria-label="사진 크게 보기: 랙 안에 정리한 스위치와 노하드 서버"><img src="assets/rack.jpg" alt="랙 안에 정리한 스위치와 노하드 서버" width="750" height="1000" loading="lazy"></button><figcaption>회선 장비·스위치·서버를 랙 하나에 넣어 정리했습니다.</figcaption></figure>
+        <figure class="photo"><button type="button" aria-label="사진 크게 보기: 좌석별 번호를 붙인 네트워크 배선"><img src="assets/cables.jpg" alt="좌석별 번호를 붙인 네트워크 배선" width="750" height="1000" loading="lazy"></button><figcaption>좌석마다 번호를 붙인 배선입니다. 문제가 생긴 자리를 바로 찾습니다.</figcaption></figure>
+        <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 랙에 설치한 스위치 4대와 노하드 서버"><img src="assets/new1.jpg" alt="신규 매장 랙에 설치한 스위치 4대와 노하드 서버" width="483" height="633" loading="lazy"></button><figcaption>신규 매장 설치입니다. 스위치 4대와 서버를 한 랙에 넣고 배선을 정리했습니다.</figcaption></figure>
+        <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 랙의 스위치·보안 장비와 노하드 서버 2대"><img src="assets/new2.jpg" alt="신규 매장 랙의 스위치·보안 장비와 노하드 서버 2대" width="688" height="918" loading="lazy"></button><figcaption>신규 매장입니다. 스위치·보안 장비·노하드 서버 2대를 설치했습니다.</figcaption></figure>
+        <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 서버실의 랙과 배선"><img src="assets/new3.jpg" alt="신규 매장 서버실의 랙과 배선" width="680" height="912" loading="lazy"></button><figcaption>신규 매장 서버실입니다. 랙 설치와 배선 정리를 마쳤습니다.</figcaption></figure>
+      </div>
+      <p class="photo-note">사진에는 손님 얼굴과 개인정보가 나오지 않게 했습니다. 매장 이름은 사장님 동의를 받은 뒤 싣습니다.</p>
+    </div>
+  </section>
+
+  <section class="blk" id="numbers">
+    <div class="wrap">
+      <div class="sh">숫자로 보는 엔터시스템</div>
+      <h2>지금 이만큼 맡고 있습니다</h2>
+      <p class="sub">PC방 사장님들이 믿고 맡겨 주신 만큼, 매일 지켜보고 있습니다.</p>
+      <ul class="nums">
+        <li><b>580<small>여 곳</small></b><span>관리 중인 PC방</span></li>
+        <li><b><small>약 </small>5만 5천<small> 대</small></b><span>상태·온도·전원을 원격으로 보는 PC</span></li>
+        <li><b>24<small>시간</small></b><span>교대 근무 관리 센터가 전화를 받습니다</span></li>
+        <li><b>396<small>곳</small></b><span>엔터TV를 쓰는 PC방</span></li>
+      </ul>
+      <p class="nums-note">2026년 10월 기준입니다. 관리 중인 PC방과 PC 수는 회사 관리 시스템에 등록된 숫자입니다.</p>
+    </div>
+  </section>
+
+  <section class="blk gray" id="how">
+    <div class="wrap">
+      <div class="sh">일하는 방식</div>
+      <h2>문제가 커지기 전에, 생기면 바로</h2>
+      <p class="sub">원격으로 먼저 보고, 기록으로 이어 가고, 바쁜 시간 전에 미리 챙깁니다. 꼭 필요할 때는 직접 찾아갑니다.</p>
+      <ol class="ways">
+        <li>
+          <h3>원격으로 먼저</h3>
+          <p>전화를 받으면 매장에 가기 전에 원격으로 먼저 확인하고 고칩니다. 기사를 기다리는 시간이 줄어듭니다.</p>
+        </li>
+        <li>
+          <h3>기록으로 이어서</h3>
+          <p>상담 기록과 통화 요약이 남습니다. 다른 담당자가 전화를 받아도 같은 설명을 처음부터 다시 하지 않으셔도 됩니다.</p>
+        </li>
+        <li>
+          <h3>바쁜 시간 전에 미리</h3>
+          <p>PC 상태·온도·전원을 보다가 이상이 보이면, 손님이 몰리기 전에 평일에 미리 점검합니다.</p>
+        </li>
+        <li>
+          <h3>필요하면 방문</h3>
+          <p>부품 교체처럼 원격으로 할 수 없는 일은 기사가 매장으로 찾아갑니다.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="blk" id="history">
+    <div class="wrap">
+      <div class="sh">걸어온 길</div>
+      <h2>엔터시스템이 걸어온 길</h2>
+      <p class="sub">설립부터 지금까지 PC방 곁에서 일해 왔습니다.</p>
+      <ol class="tl">
+        <li>
+          <span class="date">2020. 02</span>
+          <h3>(주)엔터시스템 설립</h3>
+          <p>2020년 2월 4일에 회사를 세웠습니다.</p>
+        </li>
+        <li class="hot">
+          <span class="date">2026. 1분기</span>
+          <h3>아이러브PC방 선정 2026년 1분기 주요 상품</h3>
+          <p>노하드 솔루션 분야에 이름을 올렸습니다. 보도에서는 “시스템 안정화와 장애 발생 시 사후 처리”를 강점으로 소개했습니다.</p>
+          <a class="more" href="https://www.hankyung.com/article/202605084585O" target="_blank" rel="noopener">보도 보기 (2026.05.08)<span class="sr-only">, 새 창</span> <span aria-hidden="true">↗</span></a>
+        </li>
+        <li class="next">
+          <span class="date"><span class="todo">[ ]</span></span>
+          <h3><span class="todo">[추가할 연혁]</span></h3>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="blk gray" id="visit">
+    <div class="wrap">
+      <div class="sh">오시는 길</div>
+      <h2>남양주 별내에 있습니다</h2>
+      <p class="sub">사무실 주소와 찾아오시는 방법입니다.</p>
+      <div class="visit">
+        <dl class="info">
+          <div><dt>주소</dt><dd>경기도 남양주시 순화궁로 272<br>(별내동, 동광비즈타워) 919호</dd></div>
+          <div><dt>대중교통</dt><dd><span class="todo">[ ]</span></dd></div>
+          <div><dt>주차</dt><dd><span class="todo">[ ]</span></dd></div>
+          <div><dt>전화</dt><dd><a href="tel:18339899">1833-9899</a> (24시간)</dd></div>
+          <div><dt>메일</dt><dd><a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a></dd></div>
+          <div><dt>카카오톡</dt><dd><a href="https://pf.kakao.com/_gxjvhj" target="_blank" rel="noopener">엔터시스템 채널</a></dd></div>
+        </dl>
+        <div class="mapcard">
+          <div class="pin" aria-hidden="true"></div>
+          <h3>동광비즈타워 919호</h3>
+          <p>경기도 남양주시 순화궁로 272 (별내동)</p>
+          <a class="btn" href="https://map.kakao.com/link/search/동광비즈타워별내" target="_blank" rel="noopener">카카오맵에서 보기<span class="sr-only">, 새 창</span></a>
+          <small>카카오맵이 새 창으로 열립니다.</small>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

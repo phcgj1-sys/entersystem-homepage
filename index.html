@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엔터시스템 | PC방 노하드 서버 24시간 관리</title>
+<meta name="description" content="전국 PC방 580여 곳의 노하드 서버를 24시간 원격으로 관리하는 엔터시스템. 장애가 나면 전화 한 통, 원격으로 먼저 확인합니다.">
+<meta property="og:title" content="엔터시스템 | PC방 노하드 서버 24시간 관리">
+<meta property="og:description" content="전국 PC방 580여 곳의 노하드 서버를 24시간 원격으로 관리합니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "(주)엔터시스템",
+  "description": "PC방 노하드 서버 설치와 24시간 원격 관리",
+  "foundingDate": "2020-02-04",
+  "telephone": "+82-1833-9899",
+  "email": "enterpc7979@naver.com",
+  "sameAs": ["https://pf.kakao.com/_gxjvhj"],
+  "logo": "assets/enter-logo.png",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "순화궁로 272 (별내동, 동광비즈타워) 919호",
+    "addressLocality": "남양주시",
+    "addressRegion": "경기도",
+    "addressCountry": "KR"
+  }
+}
+</script>
+<style>
+  :root { --seat: #2a2a2a; --seat-on: #4a4a4a; }
+
+  /* 기존 고객용 한 줄 띠 */
+  .cust { background: var(--gray); border-bottom: 1px solid var(--line); font-size: 15px; color: var(--ink2); }
+  .cust .wrap { padding-top: 2px; padding-bottom: 2px; }
+  .cust p { margin: 0; line-height: 1.5; }
+  .cust b { color: var(--ink); }
+  .cust a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; color: var(--red-text); text-underline-offset: 3px; }
+  .cust .todo { white-space: nowrap; }
+
+  /* 첫 화면 */
+  .hero { background: var(--ink); color: #fff; position: relative; overflow: hidden; }
+  .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: var(--red); }
+  .hero .wrap { padding-top: 76px; padding-bottom: 80px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
+  .award { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #ffd2d7; border: 1px solid rgba(255, 140, 153, .45); border-radius: 999px; padding: 6px 14px; margin-bottom: 12px; text-decoration: none; }
+  .award:hover { border-color: #ff8c99; }
+  .award i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); display: inline-block; flex-shrink: 0; }
+  .press { margin: 0 0 22px; font-size: 14px; line-height: 1.55; color: #bdbdbd; max-width: 620px; }
+  .press a { color: #fff; text-underline-offset: 3px; }
+  .hero h1 { margin: 0 0 20px; font-size: clamp(36px, 5.6vw, 62px); line-height: 1.15; letter-spacing: -.03em; }
+  .hero h1 em { font-style: normal; color: var(--red); }
+  .hero p.lead { margin: 0 0 30px; font-size: clamp(17px, 2.1vw, 20px); color: #d6d6d6; max-width: 620px; }
+  .hero .btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 52px; }
+  .stat { border-top: 2px solid rgba(255, 255, 255, .25); padding-top: 14px; }
+  /* '약 5만 5천 대'가 좁은 칸에서 넘치지 않게 글자 크기를 맞춰요 */
+  .stat b { display: block; font-size: clamp(22px, 2.7vw, 30px); line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; }
+  .stat span { font-size: 14px; color: #bdbdbd; }
+  .stat-note { margin: 12px 0 0; font-size: 13px; color: #a8a8a8; }
+
+  /* 관리 화면 예시 */
+  .board { margin: 0; background: #141414; border: 1px solid #2c2c2c; border-radius: 20px; padding: 20px; box-shadow: 0 30px 60px rgba(0, 0, 0, .45); }
+  .board-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #bdbdbd; margin-bottom: 14px; gap: 10px; }
+  .board-head b { color: #fff; font-size: 15px; }
+  .live { display: inline-flex; align-items: center; gap: 6px; color: var(--ok); font-weight: 700; }
+  .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
+  .seats { display: grid; grid-template-columns: repeat(8, 1fr); gap: 7px; }
+  .seat { aspect-ratio: 1; border-radius: 6px; background: var(--seat-on); }
+  .seat.idle { background: var(--seat); outline: 1px dashed #444; outline-offset: -1px; }
+  .seat.alert { background: var(--red); animation: pulse 1.6s ease-in-out infinite; }
+  .seat.fixed { background: var(--seat-on); box-shadow: inset 0 0 0 2px var(--ok); }
+  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 24, .6); } 50% { box-shadow: 0 0 0 7px rgba(255, 0, 24, 0); } }
+  .alert-box { margin-top: 16px; background: #1f1f1f; border-left: 4px solid var(--red); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #e6e6e6; min-height: 72px; }
+  .alert-box b { color: #fff; }
+  .alert-box .t { color: #9a9a9a; font-size: 12px; display: block; margin-bottom: 2px; }
+  .board-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; font-size: 12px; color: #a8a8a8; }
+  .board-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
+  .board-cap { margin: 10px 0 0; font-size: 12px; color: #8a8a8a; text-align: right; }
+
+  /* 처음 오신 분 */
+  .start { background: var(--white); border-bottom: 1px solid var(--line); }
+  .start .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+  .start a { display: flex; gap: 14px; align-items: center; padding: 22px 20px; text-decoration: none; border-right: 1px solid var(--line); }
+  .start a:last-child { border-right: 0; }
+  .start a:hover { background: var(--gray); }
+  .start .n { flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 800; }
+  .start a:nth-child(2) .n { background: var(--red-strong); }
+  .start b { display: block; font-size: 17px; }
+  .start span { font-size: 14px; color: var(--mut); }
+
+  /* 걱정 → 해결 */
+  .worry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+  .wc { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; }
+  .wc .q { font-size: 15px; color: var(--mut); margin-bottom: 6px; }
+  .wc h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.35; }
+  .wc p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .wc .foot { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
+  .wc .foot a { font-size: 14px; font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .wc .foot a:hover { text-decoration: underline; }
+
+  /* 서비스 */
+  .svc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .sc { border: 1px solid var(--line); border-radius: 18px; padding: 26px 22px; background: #fff; display: flex; flex-direction: column; }
+  .sc .ico { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
+  .sc:first-child .ico { background: var(--red-strong); }
+  .sc h3 { margin: 0 0 8px; font-size: 20px; }
+  .sc p { margin: 0 0 12px; font-size: 15px; color: var(--ink2); }
+  .sc ul { margin: 0; padding-left: 18px; font-size: 15px; color: var(--ink2); }
+  .sc .more { margin-top: auto; padding-top: 14px; font-size: 15px; font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .sc .more:hover { text-decoration: underline; }
+
+  /* 관리 흐름 */
+  .flow { display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: f; }
+  .fs { position: relative; padding: 0 22px 0 0; }
+  .fs::before { counter-increment: f; content: counter(f); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; margin-bottom: 14px; position: relative; z-index: 1; }
+  .fs::after { content: ""; position: absolute; top: 20px; left: 40px; right: 0; height: 2px; background: var(--line); }
+  .fs:last-child::after { display: none; }
+  .fs.red::before { background: var(--red-strong); }
+  .fs h3 { margin: 0 0 6px; font-size: 19px; }
+  .fs p { margin: 0; font-size: 15px; color: var(--ink2); }
+  .tip { margin-top: 36px; background: var(--gray); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .tip p { margin: 0; color: var(--ink2); }
+  .tip b { color: var(--ink); }
+
+  /* 업체 변경 */
+  .move { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: start; }
+  .when { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 22px; padding: 0; list-style: none; }
+  .when li { background: var(--soft); color: var(--red-text); font-weight: 700; font-size: 15px; padding: 7px 14px; border-radius: 999px; }
+  .move .btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .move .ask { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 800; color: var(--red-text); text-underline-offset: 3px; }
+  .ms { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; margin: 0; padding: 0; list-style: none; }
+  .ms li { display: grid; grid-template-columns: 120px 1fr; border-bottom: 1px solid var(--line); }
+  .ms li:last-child { border-bottom: 0; }
+  .ms .k { background: var(--ink); color: #fff; font-weight: 800; font-size: 15px; padding: 16px; display: flex; align-items: center; }
+  .ms li:nth-child(3) .k { background: var(--red-strong); }
+  .ms .v { padding: 16px 18px; font-size: 15px; color: var(--ink2); }
+  .ms .v b { color: var(--ink); display: block; font-size: 17px; margin-bottom: 2px; }
+
+  /* 준비 중 */
+  .soon { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .sn { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; }
+  .sn .badge { align-self: flex-start; margin-bottom: 12px; }
+  .sn h3 { margin: 0 0 8px; font-size: 19px; }
+  .sn p { margin: 0; font-size: 15px; color: var(--ink2); }
+  .sn .more { margin-top: auto; padding-top: 14px; font-size: 15px; font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .sn .more:hover { text-decoration: underline; }
+  .soon-note { margin-top: 18px; font-size: 14px; color: var(--mut); }
+
+  /* 자료 */
+  .docs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .dc { display: block; text-decoration: none; border-radius: 18px; padding: 24px 22px 48px; background: var(--ink); color: #fff; position: relative; overflow: hidden; }
+  .dc::after { content: "→"; position: absolute; right: 22px; bottom: 16px; font-size: 22px; color: var(--red); font-weight: 800; transition: transform .15s; }
+  .dc:hover { background: #1c1c1c; }
+  .dc:hover::after { transform: translateX(4px); }
+  .dc small { color: #ff8c99; font-weight: 800; font-size: 13px; letter-spacing: .06em; }
+  .dc h3 { margin: 6px 0 6px; font-size: 20px; }
+  .dc p { margin: 0; color: #bdbdbd; font-size: 15px; }
+
+  /* 상담 */
+  .move h2 { text-wrap: balance; } /* 좁은 칸에서 '바꿀 / 때가'로 끊기지 않게 */
+  .cta { background: var(--ink); color: #fff; padding: 84px 0; }
+  .cta .wrap { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
+  .cta h2 { color: #fff; }
+  .cta p { color: #cfcfcf; margin: 0 0 8px; font-size: 18px; }
+  .cta ul { margin: 18px 0 0; padding-left: 20px; color: #cfcfcf; }
+  .contact { background: #161616; border: 1px solid #2c2c2c; border-radius: 18px; padding: 24px; }
+  .contact dl { margin: 0; }
+  /* dl 안의 줄만 (버튼 .btn.line 에 안 걸리게) */
+  .contact dl .line { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid #2c2c2c; font-size: 16px; }
+  .contact dt { color: #a8a8a8; flex-shrink: 0; }
+  .contact dd { margin: 0; text-align: right; font-weight: 800; }
+  .contact dd a { color: #fff; }
+  .contact .btns { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
+  .contact .btns .btn { flex: 1; }
+
+  @media (max-width: 980px) {
+    .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
+    .worry, .soon, .docs, .svc { grid-template-columns: 1fr 1fr; }
+    .worry .wc:last-child { grid-column: 1 / -1; } /* 카드 3개가 두 칸에 놓일 때 빈칸이 생기지 않게 */
+    .flow { grid-template-columns: 1fr 1fr; row-gap: 28px; }
+    .fs:nth-child(2)::after { display: none; }
+    .move, .cta .wrap { grid-template-columns: 1fr; }
+    .start .wrap { padding: 0; }
+  }
+  @media (max-width: 640px) {
+    .hero .wrap { padding-top: 48px; padding-bottom: 60px; }
+    .award { font-size: 13px; padding: 6px 12px; }
+    .stats { gap: 10px; margin-top: 40px; }
+    .stat b { font-size: clamp(16px, 4.8vw, 22px); } /* 375px 화면에서 '약 5만 5천 대'가 칸을 넘지 않게 */
+    .cust { font-size: 14px; }
+    .stat span { font-size: 12px; display: block; line-height: 1.45; margin-top: 4px; } /* 두 줄이 될 때 줄 사이가 벌어지지 않게 */
+    .board { padding: 14px; }
+    .seats { gap: 5px; }
+    .start .wrap { grid-template-columns: 1fr; }
+    .start a { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px; }
+    .start a:last-child { border-bottom: 0; }
+    .worry, .soon, .docs, .svc { grid-template-columns: 1fr; }
+    .flow { grid-template-columns: 1fr; }
+    .fs::after { display: none; }
+    .ms li { grid-template-columns: 1fr; }
+    .ms .k { padding: 10px 16px; }
+    .contact dl .line { flex-direction: column; gap: 2px; }
+    .cta { padding: 60px 0; } /* 다른 구역(section.blk)과 같은 휴대폰 여백 */
+    .contact dd { text-align: left; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분과 '준비 중' 서비스는 실제 정보로 바꾸거나 빼야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+
+<aside class="cust" aria-label="기존 고객 안내">
+  <div class="wrap">
+    <p><b>엔터시스템 고객이십니까?</b> 장애·게임 설치 요청은 <a href="help.html">고객지원</a> · 급하면 24시간 전화 <a href="tel:18339899">1833-9899</a></p>
+  </div>
+</aside>
+
+<section class="hero">
+  <div class="wrap">
+    <div>
+      <a class="award" href="https://www.hankyung.com/article/202605084585O" target="_blank" rel="noopener"><i></i>아이러브PC방 선정 2026년 1분기 주요 상품 · 노하드 솔루션<span class="sr-only"> (새 창)</span></a>
+      <p class="press">보도에서는 “시스템 안정화와 장애 발생 시 사후 처리”를 강점으로 소개했습니다. <a href="https://www.hankyung.com/article/202605084585O" target="_blank" rel="noopener">보도 보기 (2026.05.08)<span class="sr-only">, 새 창</span></a> · 2020년 설립 · 경기도 남양주</p>
+      <h1>PC방 서버,<br>밤에도 <em>저희가 지킵니다.</em></h1>
+      <p class="lead">전국 PC방 580여 곳의 노하드 서버를 24시간 원격으로 관리합니다. 장애가 나면 전화 한 통 주십시오. 원격으로 먼저 확인하고, 필요하면 기사가 찾아갑니다.</p>
+      <div class="btns">
+        <a class="btn" href="#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단(8가지 질문)</a>
+      </div>
+      <div class="stats">
+        <div class="stat"><b>580여 곳</b><span>관리 중인 PC방</span></div>
+        <div class="stat"><b>약 5만 5천 대</b><span>원격으로 지켜보는 PC</span></div>
+        <div class="stat"><b>24시간</b><span>교대 근무 관리 센터</span></div>
+      </div>
+      <p class="stat-note">숫자는 2026년 10월, 관리 시스템 기준입니다.</p>
+    </div>
+
+    <figure class="board" aria-label="관리 화면 예시: 좌석 48개 중 1개에서 이상을 감지해 원격으로 조치하는 모습">
+      <div class="board-head"><b>OO PC방 · 1관</b><span class="live">실시간</span></div>
+      <div class="seats" id="seats" aria-hidden="true"></div>
+      <div class="alert-box" id="alertBox"><span class="t">관리 센터 · 방금</span><b>23번 좌석 그래픽카드 온도 이상</b> → 원격으로 확인 중입니다. 사장님께 연락드리겠습니다.</div>
+      <div class="board-legend" aria-hidden="true">
+        <span><i style="background:var(--seat-on)"></i>사용 중</span>
+        <span><i style="background:var(--seat);outline:1px dashed #555"></i>빈자리</span>
+        <span><i style="background:var(--red)"></i>이상 감지</span>
+      </div>
+      <figcaption class="board-cap">관리 화면을 쉽게 그린 예시입니다. 실제 화면과 다릅니다.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<nav class="start" aria-label="처음 오신 분">
+  <div class="wrap">
+    <a href="nohard.html"><span class="n">1</span><span><b>노하드가 처음이십니까?</b><span>원리와 장단점을 그림으로 설명합니다</span></span></a>
+    <a href="switch.html"><span class="n">2</span><span><b>업체를 바꾸려면</b><span>준비할 것과 바꾸는 날 순서</span></span></a>
+    <a href="startup.html"><span class="n">3</span><span><b>PC방 창업을 준비 중이면</b><span>입지 분석부터 오픈 준비까지 · 준비 중</span></span></a>
+  </div>
+</nav>
+
+<section class="blk gray" id="worry">
+  <div class="wrap">
+    <div class="sh">사장님 걱정, 이렇게 덜어 드립니다</div>
+    <h2>PC방은 손님이 몰릴 때 문제가 납니다</h2>
+    <p class="sub">주말 밤, 신작 출시일, 대회 시즌. 가장 바쁜 날 멈추지 않도록 평소에 미리 챙깁니다.</p>
+    <div class="worry">
+      <div class="wc">
+        <div class="q">"주말에 서버가 멈추면 어떡하죠?"</div>
+        <h3>평일에 미리 점검합니다</h3>
+        <p>PC 상태·온도·전원을 원격으로 계속 지켜봅니다. 이상이 보이면 손님이 몰리기 전에 먼저 연락드립니다. 그래도 멈추면 밤·주말에도 관리 센터가 전화를 받고 원격으로 먼저 확인합니다.</p>
+        <div class="foot"><span class="badge now">지금 하고 있습니다</span><a href="news-weekend-outage.html">주말 장애를 줄이는 평일 점검 7가지</a></div>
+      </div>
+      <div class="wc">
+        <div class="q">"새 게임, 언제 깔아 주세요?"</div>
+        <h3>요청하시면 원격으로 설치합니다</h3>
+        <p>설치·업데이트는 서버에서 한 번에 하므로 좌석마다 손댈 일이 없습니다. 패치는 영업에 지장이 적은 시간에 합니다.</p>
+        <div class="foot"><span class="badge now">지금 하고 있습니다</span></div>
+      </div>
+      <div class="wc">
+        <div class="q">"매장 TV는 또 다른 업체예요"</div>
+        <h3>TV도 한 업체에서</h3>
+        <p>엔터TV를 쓰시면 노하드와 TV의 문의 창구도, 청구서도 하나입니다. 고장도 같은 관리 센터가 봅니다.</p>
+        <div class="foot"><span class="badge now">지금 하고 있습니다</span><a href="tv.html">엔터TV 보기</a></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk" id="service">
+  <div class="wrap">
+    <div class="sh">서비스</div>
+    <h2>노하드 설치부터 매일의 관리까지</h2>
+    <p class="sub">PC방 운영에 필요한 서버 일을 한 곳에서 맡습니다.</p>
+    <div class="svc">
+      <div class="sc">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="3" width="16" height="7" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><rect x="4" y="14" width="16" height="7" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 6.5h.01M8 17.5h.01" stroke="currentColor" stroke-width="3" stroke-linecap="round"/></svg></div>
+        <h3>노하드 서버 설치·관리</h3>
+        <p>좌석 PC에 하드디스크 없이 서버에서 윈도우와 게임을 불러옵니다.</p>
+        <ul><li>재부팅하면 깨끗한 상태로</li><li>게임·패치는 서버에서 한 번에</li><li>서버·네트워크 장비 공급</li></ul>
+        <a class="more" href="nohard.html">노하드 원리 보기</a>
+      </div>
+      <div class="sc">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+        <h3>24시간 장애 대응</h3>
+        <p>교대 근무하는 관리 센터가 밤과 주말에도 전화를 받습니다.</p>
+        <ul><li>원격으로 먼저 확인·조치</li><li>상담 기록이 남아 같은 설명 반복 없이</li><li>필요하면 기사 방문</li></ul>
+        <a class="more" href="help.html">고객지원</a>
+      </div>
+      <div class="sc">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+        <h3>게임 설치·업데이트</h3>
+        <p>신작과 요청하신 게임을 원격으로 처리합니다.</p>
+        <ul><li>요청하신 게임 설치·삭제</li><li>대형 패치 대응</li><li>디스크 공간 관리 상담</li></ul>
+      </div>
+      <div class="sc">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>엔터TV</h3>
+        <p>업소용 TV 셋톱입니다. PC방 396곳이 쓰고 있습니다(2026년 10월 기준).</p>
+        <ul><li>방문 설치</li><li>고장 나면 같은 관리 센터에서</li><li>노하드와 청구서 하나로</li></ul>
+        <a class="more" href="tv.html">엔터TV 자세히 보기</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk dark" id="monitor">
+  <div class="wrap">
+    <div class="sh">엔플 · 실시간 모니터링</div>
+    <h2>매장 상태를 사장님이 직접 확인합니다</h2>
+    <p class="sub">엔터시스템 고객 매장에는 전용 모니터링 사이트 '엔플'을 드립니다. 휴대폰이나 PC로 접속하면 좌석 PC의 상태와 게임 패치 현황을 실시간으로 볼 수 있고, 게임 설치·삭제도 바로 요청할 수 있습니다.</p>
+    <div class="grid3">
+      <div class="card dk">
+        <div class="ico red"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M10 5a2 2 0 0 1 4 0v8.3a4 4 0 1 1-4 0z" stroke="currentColor" stroke-width="2" fill="none" stroke-linejoin="round"/><path d="M12 10v6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>좌석별 CPU·그래픽카드 온도</h3>
+        <p>좌석마다 CPU·그래픽카드의 사용률과 온도, 메모리, 랜 속도, 실행 중인 게임을 한눈에 봅니다. 온도가 비정상적으로 높은 좌석은 알림으로 알려 드립니다.</p>
+      </div>
+      <div class="card dk">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M20 12a8 8 0 1 1-2.3-5.7" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/><path d="M20 4v5h-5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        <h3>실시간 게임 패치 현황</h3>
+        <p>설치 완료·업데이트 중·동기화 중인 게임과 오늘 업데이트 완료율을 바로 확인합니다. 손님이 묻기 전에 패치 상태를 알 수 있습니다.</p>
+      </div>
+      <div class="card dk">
+        <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="3" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 12h8M12 8v8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+        <h3>설치·삭제 요청</h3>
+        <p>원하는 게임의 설치나 삭제를 사이트에서 바로 요청하면 엔터시스템이 처리합니다. 전화하지 않아도 됩니다.</p>
+      </div>
+    </div>
+    <div class="shots">
+      <figure class="shot"><button type="button" aria-label="화면 크게 보기: 좌석 모니터링"><img src="assets/monitor-seats.jpg" alt="좌석별 CPU·그래픽카드 사용률과 온도, 메모리, 랜 속도, 실행 중인 게임을 보여 주는 모니터링 화면" width="1241" height="356" loading="lazy"></button><figcaption>엔플 좌석 모니터링 화면입니다. CPU·그래픽카드 사용률과 온도, 실행 중인 게임이 좌석마다 보입니다.</figcaption></figure>
+      <figure class="shot"><button type="button" aria-label="화면 크게 보기: 게임 패치 현황"><img src="assets/monitor-patch.jpg" alt="전체 게임, 설치 완료, 업데이트 중, 동기화 중 개수와 오늘 업데이트 완료율을 보여 주는 게임 패치 현황 화면" width="1138" height="640" loading="lazy"></button><figcaption>엔플 게임 패치 현황 화면입니다. 설치 완료·업데이트 중·동기화 중 개수와 오늘 업데이트 완료율을 보여 줍니다.</figcaption></figure>
+    </div>
+    <p class="note">사이트 주소와 로그인 정보는 설치 때 드립니다. 화면은 2026년 10월 기준이며 매장에 따라 다를 수 있습니다.</p>
+  </div>
+</section>
+
+<section class="blk gray" id="cases">
+  <div class="wrap">
+    <div class="sh">설치 사례</div>
+    <h2>설치 현장</h2>
+    <p class="sub">엔터시스템이 서버를 설치하고 관리하는 현장입니다. 사진을 누르면 크게 볼 수 있습니다.</p>
+    <div class="photos">
+      <figure class="photo wide"><button type="button" aria-label="사진 크게 보기: 설치를 마친 PC방 매장 전경"><img src="assets/store.jpg" alt="설치를 마친 PC방 매장 전경" width="1440" height="1080" loading="lazy"></button><figcaption>설치를 마친 매장입니다. 좌석 PC는 하드디스크 없이 서버에서 바로 켜집니다.</figcaption></figure>
+      <figure class="photo"><button type="button" aria-label="사진 크게 보기: 노하드 서버 2대와 통신 랙"><img src="assets/servers.jpg" alt="노하드 서버 2대와 통신 랙" width="750" height="1000" loading="lazy"></button><figcaption>매장 서버실입니다. 노하드 서버 2대와 통신 랙을 한자리에 두었습니다.</figcaption></figure>
+      <figure class="photo"><button type="button" aria-label="사진 크게 보기: 랙 안에 정리한 스위치와 노하드 서버"><img src="assets/rack.jpg" alt="랙 안에 정리한 스위치와 노하드 서버" width="750" height="1000" loading="lazy"></button><figcaption>회선 장비·스위치·서버를 랙 하나에 넣어 정리했습니다.</figcaption></figure>
+      <figure class="photo"><button type="button" aria-label="사진 크게 보기: 좌석별 번호를 붙인 네트워크 배선"><img src="assets/cables.jpg" alt="좌석별 번호를 붙인 네트워크 배선" width="750" height="1000" loading="lazy"></button><figcaption>좌석마다 번호를 붙인 배선입니다. 문제가 생긴 자리를 바로 찾습니다.</figcaption></figure>
+      <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 랙에 설치한 스위치 4대와 노하드 서버"><img src="assets/new1.jpg" alt="신규 매장 랙에 설치한 스위치 4대와 노하드 서버" width="483" height="633" loading="lazy"></button><figcaption>신규 매장 설치입니다. 스위치 4대와 서버를 한 랙에 넣고 배선을 정리했습니다.</figcaption></figure>
+      <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 랙의 스위치·보안 장비와 노하드 서버 2대"><img src="assets/new2.jpg" alt="신규 매장 랙의 스위치·보안 장비와 노하드 서버 2대" width="688" height="918" loading="lazy"></button><figcaption>신규 매장입니다. 스위치·보안 장비·노하드 서버 2대를 설치했습니다.</figcaption></figure>
+      <figure class="photo"><button type="button" aria-label="사진 크게 보기: 신규 매장 서버실의 랙과 배선"><img src="assets/new3.jpg" alt="신규 매장 서버실의 랙과 배선" width="680" height="912" loading="lazy"></button><figcaption>신규 매장 서버실입니다. 랙 설치와 배선 정리를 마쳤습니다.</figcaption></figure>
+    </div>
+    <p class="photo-note">사진에는 손님 얼굴과 개인정보가 나오지 않게 했습니다. 매장 이름은 사장님 동의를 받은 뒤 싣습니다.</p>
+  </div>
+</section>
+
+<section class="blk" id="how">
+  <div class="wrap">
+    <div class="sh">관리 방식</div>
+    <h2>문제가 생기면, 이렇게 움직입니다</h2>
+    <p class="sub">대부분은 매장에 가지 않고 원격으로 해결합니다. 그래서 빠릅니다.</p>
+    <div class="flow">
+      <div class="fs"><h3>계속 지켜봅니다</h3><p>좌석 PC의 상태·온도·전원을 관리 시스템으로 실시간 확인합니다.</p></div>
+      <div class="fs red"><h3>먼저 알아챕니다</h3><p>이상이 보이거나 사장님 전화가 오면 담당자가 확인합니다.</p></div>
+      <div class="fs"><h3>원격으로 고칩니다</h3><p>서버와 좌석 설정을 원격으로 바로잡고, 결과를 알려 드립니다.</p></div>
+      <div class="fs"><h3>필요하면 방문합니다</h3><p>부품 교체가 필요하면 기사가 찾아갑니다. 지역에 따라 출장비가 있습니다. <span class="todo">[지역별 출장비 기준]</span></p></div>
+    </div>
+    <div class="tip">
+      <p><b>급하면 바로 전화 주십시오.</b> 여유가 있을 때는 자주 묻는 증상과 바로 해 볼 수 있는 방법을 먼저 보십시오.</p>
+      <a class="btn ghost sm" href="help.html">고객지원 가기</a>
+    </div>
+  </div>
+</section>
+
+<section class="blk gray" id="move">
+  <div class="wrap move">
+    <div>
+      <div class="sh">업체 변경</div>
+      <h2>노하드 업체, 바꿀 때가 있습니다</h2>
+      <p class="sub" style="margin-bottom:22px">PC방은 시설을 바꿀 때 업체도 다시 고릅니다. 그때 영업 공백을 줄이며 옮겨 드립니다.</p>
+      <ul class="when">
+        <li>리모델링</li>
+        <li>PC 업그레이드</li>
+        <li>서버 교체</li>
+        <li>매장 인수</li>
+        <li>장애가 반복될 때</li>
+      </ul>
+      <div class="btns">
+        <a class="btn" href="#contact">업체 변경 상담 신청</a>
+        <a class="btn ghost" href="switch.html">준비할 것 보기</a>
+        <a class="ask" href="news-choose-vendor.html">업체를 고를 때 물어볼 10가지 — 저희에게도 똑같이 물어보십시오</a>
+      </div>
+    </div>
+    <ol class="ms" aria-label="업체 변경 순서">
+      <li><div class="k">1. 점검</div><div class="v"><b>상담·현장 점검</b>지금 서버 사양, 좌석 수, 게임 디스크 상태를 확인합니다. 현장 점검 비용은 <span class="todo">[무료 여부 확인]</span></div></li>
+      <li><div class="k">2. 준비</div><div class="v"><b>새 서버에 미리 옮겨 두기</b>쓰시던 윈도우·게임 설정을 새 서버에 미리 옮겨 둡니다.</div></li>
+      <li><div class="k">3. 전환</div><div class="v"><b>손님이 적은 시간에 전환</b>영업 공백을 줄이도록 새벽에 바꿉니다. 걸리는 시간은 <span class="todo">[매장 규모별]</span></div></li>
+      <li><div class="k">4. 확인</div><div class="v"><b>바꾼 직후에는 더 자주 확인</b>전환 직후 생기는 작은 오류를 먼저 찾아 고칩니다.</div></li>
+      <li><div class="k">비용</div><div class="v"><b>업체를 옮길 때 드는 비용과 조건</b><span class="todo">[대표님 확인 후 기재]</span></div></li>
+    </ol>
+  </div>
+</section>
+
+<section class="blk" id="docs">
+  <div class="wrap">
+    <div class="sh">사장님 자료실</div>
+    <h2>필요한 자료를 바로 보십시오</h2>
+    <p class="sub">지금 쓰고 계신 사장님도, 처음 알아보시는 사장님도 보실 수 있습니다.</p>
+    <div class="docs">
+      <a class="dc" href="help.html"><small>지금 고객이라면</small><h3>고객지원</h3><p>증상별 해결 방법과, 연락할 때 보낼 요청 메시지 만들기</p></a>
+      <a class="dc" href="news-choose-vendor.html"><small>업체를 고른다면</small><h3>업체 고를 때 물어볼 10가지</h3><p>물어볼 것 10가지와, 답을 적어 비교하는 빈 표</p></a>
+      <a class="dc" href="news-weekend-outage.html"><small>주말이 걱정되면</small><h3>주말 장애 평일 점검 7가지</h3><p>게임 디스크 여유부터 비상 연락까지, 한가한 평일에 챙길 것</p></a>
+      <a class="dc" href="energy.html"><small>전기요금이 부담되면</small><h3>전기요금 계산기</h3><p>빈자리 PC가 한 달에 쓰는 전기 어림 계산</p></a>
+      <a class="dc" href="faq.html"><small>궁금한 게 있으면</small><h3>자주 묻는 질문</h3><p>노하드 관리, 업체 변경, 엔터TV까지 많이 묻는 질문 모음</p></a>
+      <a class="dc" href="news.html"><small>새 소식이 궁금하면</small><h3>사장님 소식</h3><p>제도 변화 소식 6편과 매장 관리 안내 2편을 쉬운 말로 정리했습니다</p></a>
+    </div>
+  </div>
+</section>
+
+<section class="blk gray faq" id="faq">
+  <div class="wrap">
+    <div class="sh">자주 묻는 질문</div>
+    <h2>사장님들이 많이 묻는 질문</h2>
+    <details>
+      <summary>노하드가 무엇입니까?</summary>
+      <p>좌석 PC에 하드디스크를 두지 않고, 매장 서버에서 윈도우와 게임을 불러와 켜는 방식입니다. 재부팅하면 처음 상태로 돌아가므로 바이러스나 손님이 바꾼 설정이 남지 않고, 게임 업데이트는 서버에서 한 번만 하면 됩니다. <a href="nohard.html">그림으로 자세히 보기</a></p>
+    </details>
+    <details>
+      <summary>밤이나 주말, 공휴일에도 연락됩니까?</summary>
+      <p>네. 관리 센터가 교대로 근무해 24시간 전화를 받습니다. 손님이 가장 많은 시간에 장애가 나기 쉬우므로, 그 시간을 비우지 않는 것이 저희 일입니다.</p>
+    </details>
+    <details>
+      <summary>지방 매장도 관리받을 수 있습니까?</summary>
+      <p>네. 전국 매장을 원격으로 관리하고 있습니다. 부품 교체처럼 방문이 꼭 필요한 일은 지역에 따라 출장비가 있습니다. <span class="todo">[지역별 출장비 기준]</span></p>
+    </details>
+    <details>
+      <summary>업체를 바꾸면 영업을 쉬어야 합니까?</summary>
+      <p>영업을 길게 쉬지 않도록 손님이 가장 적은 시간에 바꿉니다. 쓰시던 게임과 설정은 미리 맞춰 둡니다. 바꾸는 동안에는 좌석을 잠시 못 쓸 수 있습니다. 걸리는 시간은 <span class="todo">[매장 규모별]</span> 현장 점검 때 알려 드립니다. <a href="switch.html">준비할 것 보기</a></p>
+    </details>
+    <details>
+      <summary>관리비와 계약 기간은 어떻게 됩니까?</summary>
+      <p>좌석 수와 서버 구성에 따라 달라지므로 상담 때 안내해 드립니다. <span class="todo">[공개할 기본 요금·약정 조건]</span></p>
+    </details>
+    <details>
+      <summary>엔터TV만 따로 쓸 수 있습니까?</summary>
+      <p>네. 노하드를 쓰지 않는 매장도 쓸 수 있습니다. PC방이 아닌 업소는 <span class="todo">[콘텐츠 권리 확인 후 기재]</span> 자세한 요금과 조건은 <a href="tv.html">엔터TV 소개</a>에서 보십시오.</p>
+    </details>
+    <p style="margin-top:18px"><a class="btn ghost sm" href="faq.html">질문 모음 전체 보기</a></p>
+  </div>
+</section>
+
+<section class="blk" id="soon">
+  <div class="wrap">
+    <div class="sh">준비 중인 서비스</div>
+    <h2>사장님 부담을 줄일 새 서비스</h2>
+    <p class="sub">지금 준비하고 있습니다. 관심 있으시면 상담 때 말씀해 주십시오. 나오면 먼저 알려 드리겠습니다.</p>
+    <div class="soon">
+      <div class="sn"><span class="badge">준비 중</span><h3>전기요금 진단</h3><p>시간대별로 켜진 PC 수로 빈자리 낭비와 계약전력을 점검할 예정입니다. (갑)Ⅱ 요금 매장은 12월부터 고를 수 있는 요금제도 함께 봐 드릴 예정입니다.</p><a class="more" href="energy.html">어림 계산기는 지금 써 보기</a></div>
+      <div class="sn"><span class="badge">준비 중</span><h3>윈도우 11 전환</h3><p>엔비디아가 11월부터 새 드라이버를 윈도우 11용으로만 낸다고 합니다(<a href="https://www.ilovepcbang.com/news/articleView.html?idxno=201266" target="_blank" rel="noopener">업계 보도<span class="sr-only">, 새 창</span></a>). 노하드 이미지 전환과 보안 설정을 함께 맡을 예정입니다.</p></div>
+      <div class="sn"><span class="badge">준비 중</span><h3>무인 운영 지원</h3><p>출동과 보안은 허가받은 보안회사가, 손님 응대와 PC 원격 조치는 엔터시스템이 맡는 방식으로 준비하고 있습니다.</p></div>
+      <div class="sn"><span class="badge">준비 중</span><h3>사무실·교육장 노하드</h3><p>교육장, 학원 전산실, 콜센터처럼 여러 사람이 같이 쓰는 PC를 PC방처럼 관리하는 서비스를 준비하고 있습니다.</p><a class="more" href="office.html">시범 운영 안내 보기</a></div>
+      <div class="sn"><span class="badge">준비 중</span><h3>디스크·SSD 나눠 내기</h3><p>게임 디스크가 꽉 차면 지우고 다시 까는 대신 디스크를 늘리는 방법입니다. 게임 디스크 증설과 라이트백 SSD 교체를 렌탈사·할부사를 통해 나눠 내실 수 있게 준비하고 있습니다. 라이트백 SSD는 쓸수록 닳는 소모품이라, 고장 나기 전에 교체 시기를 알려 드리는 것도 함께 준비하고 있습니다.</p><a class="more" href="nohard.html#words">라이트백이 무엇입니까?</a></div>
+      <div class="sn"><span class="badge">준비 중</span><h3>PC방 창업 지원</h3><p>프랜차이즈가 아닌 창업 지원입니다. 입지 분석부터 오픈 준비까지 필요한 만큼만 돕는 서비스를 준비하고 있습니다.</p><a class="more" href="startup.html">창업 지원 자세히 보기</a></div>
+    </div>
+    <p class="soon-note">준비 중인 서비스는 내용과 조건이 바뀔 수 있습니다.</p>
+  </div>
+</section>
+
+<section class="cta" id="contact">
+  <div class="wrap">
+    <div>
+      <div class="sh" style="color:#ff8c99">상담 신청</div>
+      <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+      <p>상담은 무료입니다. 이것만 알려 주시면 빠릅니다.</p>
+      <ul>
+        <li>매장 이름과 지역</li>
+        <li>좌석 수</li>
+        <li>지금 쓰는 노하드 업체와 고민</li>
+      </ul>
+    </div>
+    <div class="contact">
+      <dl>
+        <div class="line"><dt>전화 (24시간)</dt><dd><a href="tel:18339899">1833-9899</a></dd></div>
+        <div class="line"><dt>카카오톡</dt><dd><a href="https://pf.kakao.com/_gxjvhj" target="_blank" rel="noopener">엔터시스템 채널</a></dd></div>
+        <div class="line"><dt>메일</dt><dd><a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a></dd></div>
+        <div class="line"><dt>주소</dt><dd>경기도 남양주시 순화궁로 272<br>(별내동, 동광비즈타워) 919호</dd></div>
+      </dl>
+      <div class="btns">
+        <a class="btn" href="tel:18339899">전화 상담</a>
+        <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 문의</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+
+<script>
+  // 관리 화면 예시: 좌석 48개 (빈자리 일부, 이상 1개)
+  (function () {
+    var box = document.getElementById('seats');
+    if (!box) return;
+    var idle = [3, 4, 11, 12, 19, 28, 35, 36, 43, 44, 45];
+    var alertSeat = 22; // 23번 좌석 (0부터 셈)
+    for (var i = 0; i < 48; i++) {
+      var d = document.createElement('div');
+      d.className = 'seat' + (idle.indexOf(i) >= 0 ? ' idle' : '') + (i === alertSeat ? ' alert' : '');
+      box.appendChild(d);
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    var seat = box.children[alertSeat];
+    var msg = document.getElementById('alertBox');
+    var first = msg.innerHTML;
+    var done = '<span class="t">관리 센터 · 방금</span><b>23번 좌석 원격 확인 완료</b> → 온도를 확인하고 사장님께 결과를 알려 드렸습니다.';
+    var fixed = false, turns = 0;
+    var timer = setInterval(function () {
+      if (++turns > 5) { clearInterval(timer); return; }
+      fixed = !fixed;
+      seat.className = 'seat ' + (fixed ? 'fixed' : 'alert');
+      msg.style.borderLeftColor = fixed ? 'var(--ok)' : 'var(--red)';
+      msg.innerHTML = fixed ? done : first;
+    }, 4000);
+  })();
+</script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

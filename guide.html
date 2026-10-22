@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>고객지원 인쇄용 안내문 | 엔터시스템</title>
+<style>
+  :root {
+    --red: #ff0018;
+    --red-strong: #e00016;
+    --red-text: #d6001c;
+    --ink: #0a0a0a;
+    --ink-2: #333;
+    --muted: #666;
+    --line: #e7e7e7;
+    --soft: #fff1f3;
+    --paper: #ffffff;
+    --desk: #f3f3f3;
+  }
+  * { box-sizing: border-box; }
+  html { font-size: 15px; }
+  body {
+    margin: 0;
+    background: var(--desk);
+    color: var(--ink);
+    font-family: "Pretendard", "Malgun Gothic", "맑은 고딕", "Apple SD Gothic Neo", sans-serif;
+    line-height: 1.5;
+    word-break: keep-all;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+  .sheet {
+    max-width: 210mm;
+    margin: 24px auto;
+    background: var(--paper);
+    box-shadow: 0 2px 18px rgba(0, 0, 0, .08);
+  }
+  .top {
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    background: var(--ink);
+    color: #fff;
+    padding: 1.1rem 1.4rem;
+    border-bottom: .35rem solid var(--red);
+  }
+  .logo { width: 3.4rem; height: 3.4rem; border-radius: .5rem; flex: none; }
+  .eyebrow { margin: 0; font-size: .8rem; color: #ffb3bb; letter-spacing: .02em; }
+  h1 { margin: .15rem 0 .2rem; font-size: 1.55rem; line-height: 1.25; }
+  .lead { margin: 0; font-size: .92rem; color: #e9e9e9; }
+  .body { padding: 1rem 1.4rem 1.1rem; }
+  .tell {
+    background: var(--soft);
+    border: 1px solid #ffd0d6;
+    border-radius: .6rem;
+    padding: .65rem .9rem;
+    margin-bottom: .9rem;
+  }
+  .tell h2 { margin: 0 0 .35rem; font-size: .95rem; color: var(--red-text); }
+  .tell ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-wrap: wrap;
+    gap: .35rem .5rem;
+    counter-reset: t;
+  }
+  .tell li {
+    counter-increment: t;
+    background: #fff;
+    border: 1px solid #ffd0d6;
+    border-radius: 999px;
+    padding: .15rem .65rem .15rem .3rem;
+    font-size: .86rem;
+  }
+  .tell li::before {
+    content: counter(t);
+    display: inline-grid;
+    place-items: center;
+    width: 1.15rem;
+    height: 1.15rem;
+    margin-right: .3rem;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-size: .72rem;
+    font-weight: 700;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .7rem;
+  }
+  .card {
+    border: 1px solid var(--line);
+    border-radius: .6rem;
+    padding: .65rem .8rem .55rem;
+    break-inside: avoid;
+  }
+  .card h3 {
+    display: flex;
+    align-items: center;
+    gap: .45rem;
+    margin: 0 0 .35rem;
+    font-size: .98rem;
+    line-height: 1.3;
+  }
+  .n {
+    display: inline-grid;
+    place-items: center;
+    flex: none;
+    width: 1.45rem;
+    height: 1.45rem;
+    border-radius: .35rem;
+    background: var(--ink);
+    color: #fff;
+    font-size: .8rem;
+  }
+  .card.hot { border-color: #ffb3bb; }
+  .card.hot .n { background: var(--red); }
+  .tag {
+    margin-left: auto;
+    font-size: .7rem;
+    font-weight: 700;
+    color: var(--red-text);
+    background: var(--soft);
+    border-radius: 999px;
+    padding: .05rem .45rem;
+    white-space: nowrap;
+  }
+  ul { margin: 0; padding-left: 1.05rem; }
+  li { font-size: .86rem; color: var(--ink-2); margin: .12rem 0; }
+  li b { color: var(--ink); }
+  .extra {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: .7rem;
+    margin-top: .7rem;
+  }
+  .mini {
+    border-radius: .6rem;
+    background: #f7f7f7;
+    padding: .55rem .8rem;
+    font-size: .84rem;
+    color: var(--ink-2);
+  }
+  .mini strong { display: block; margin-bottom: .15rem; color: var(--ink); font-size: .88rem; }
+  .mini.warn { background: #111; color: #eee; }
+  .mini.warn strong { color: #ff8c99; }
+  .foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: .4rem 1rem;
+    margin-top: .8rem;
+    padding-top: .6rem;
+    border-top: 2px solid var(--ink);
+    font-size: .9rem;
+  }
+  .foot .call b { color: var(--red-text); }
+  .foot .co { color: var(--muted); font-size: .8rem; }
+  .draft {
+    margin-top: .6rem;
+    border: 1px dashed #bbb;
+    border-radius: .4rem;
+    padding: .35rem .6rem;
+    font-size: .75rem;
+    color: var(--muted);
+  }
+  @media (max-width: 700px) {
+    .sheet { margin: 0; box-shadow: none; }
+    .top, .body { padding-left: 16px; padding-right: 16px; }
+    .grid, .extra { grid-template-columns: 1fr; }
+    h1 { font-size: 1.3rem; }
+  }
+  @page { size: A4; margin: 8mm; }
+  @media print {
+    html { font-size: 9.6pt; }
+    body { background: #fff; }
+    .sheet { max-width: none; margin: 0; box-shadow: none; }
+  }
+</style>
+</head>
+<body>
+<!-- es-homebar: 홈페이지 공통 줄 -->
+<style>
+  .es-homebar { background: #0a0a0a; color: #d6d6d6; font: 600 14px/1.4 "Pretendard", "Malgun Gothic", sans-serif; }
+  .es-homebar .in { max-width: 1120px; margin: 0 auto; padding: 9px 24px; display: flex; gap: 8px 18px; align-items: center; flex-wrap: wrap; }
+  .es-homebar a { color: #d6d6d6; text-decoration: none; }
+  .es-homebar a:hover { color: #fff; text-decoration: underline; }
+  .es-homebar a.home { color: #fff; font-weight: 800; margin-right: auto; }
+  .es-homebar a.home::before { content: "← "; color: #ff0018; }
+  @media (max-width: 640px) { .es-homebar .in { padding: 8px 16px; } .es-homebar .more { display: none; } }
+  @media print { .es-homebar { display: none; } }
+</style>
+<nav class="es-homebar" aria-label="엔터시스템 홈페이지">
+  <div class="in">
+    <a class="home" href="index.html">엔터시스템 홈</a>
+    <a class="more" href="nohard.html">노하드란?</a>
+    <a class="more" href="switch.html">업체 변경</a>
+    <a class="more" href="checkup.html">매장 자가진단</a>
+    <a href="index.html#contact">상담 신청</a>
+  </div>
+</nav>
+
+<main class="sheet">
+  <header class="top">
+    <img class="logo" src="assets/enter-logo.png" alt="엔터시스템 로고">
+    <div>
+      <p class="eyebrow">(주)엔터시스템 · 노하드 관리</p>
+      <h1>고객지원 인쇄용 안내문</h1>
+      <p class="lead">자주 들어오는 문의를 모았습니다. 해 보고 안 되면 바로 연락 주십시오. 24시간 받습니다.</p>
+    </div>
+  </header>
+
+  <div class="body">
+    <section class="tell" aria-labelledby="tell-h">
+      <h2 id="tell-h">연락 주실 때 이것만 알려 주시면 훨씬 빠릅니다</h2>
+      <ol>
+        <li><b>매장 이름</b></li>
+        <li><b>자리 번호</b> (몇 번 PC)</li>
+        <li><b>게임 이름</b>과 증상</li>
+        <li><b>화면 사진</b> (오류 메시지)</li>
+        <li><b>다른 자리도</b> 그런지</li>
+      </ol>
+    </section>
+
+    <section class="grid">
+      <article class="card hot">
+        <h3><span class="n">1</span>게임이 안 켜지거나 오류가 납니다<span class="tag">가장 많습니다</span></h3>
+        <ul>
+          <li>먼저 <b>그 자리 PC를 재부팅</b>해 주십시오. 노하드는 재부팅하면 처음 상태로 돌아가므로 이것만으로 풀리는 경우가 많습니다.</li>
+          <li><b>다른 자리도 같은지</b> 봐 주십시오. 한 자리만이면 그 PC 문제, 여러 자리면 저희가 서버부터 확인하겠습니다.</li>
+          <li>"업데이트 중"이 뜨면 패치가 끝날 때까지 잠시 기다려 주십시오.</li>
+        </ul>
+      </article>
+
+      <article class="card hot">
+        <h3><span class="n">2</span>새 게임 설치·재설치가 필요합니다</h3>
+        <ul>
+          <li>카톡으로 <b>정확한 게임 이름</b>과 <b>어디 게임인지</b>(스팀·넥슨 등) 보내 주십시오.</li>
+          <li>게임 디스크가 꽉 찼다면 <b>지워도 될 게임</b>도 알려 주십시오.</li>
+          <li>큰 게임은 설치에 몇 시간 걸립니다. 바쁜 시간이면 손님이 빠진 새벽에 해 드립니다.</li>
+          <li>해외 서버 전용 게임(VPN 필요)은 설치가 어렵고, 오피스 같은 유료 프로그램은 라이선스 동의서가 필요합니다.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3><span class="n">3</span>마우스·키보드가 이상합니다</h3>
+        <ul>
+          <li><b>다른 USB 포트</b>에 꽂아 보십시오. 포트만 바꿔도 풀리는 경우가 있습니다.</li>
+          <li>앞 손님이 감도·설정을 바꿨다면 <b>재부팅</b>하면 원래대로 돌아갑니다.</li>
+          <li>다른 자리에 꽂아도 안 되면 장치 고장입니다.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3><span class="n">4</span>화면이 안 나오거나 이상합니다</h3>
+        <ul>
+          <li>모니터 케이블이 <b>그래픽카드 쪽 포트</b>에 꽂혀 있는지 봐 주십시오. 메인보드 쪽에 꽂으면 화면이 안 나옵니다.</li>
+          <li>모니터 전원과 입력 설정(HDMI·DP)을 확인해 주십시오.</li>
+          <li>주사율(Hz)이나 해상도를 바꾸려면 자리 번호와 원하는 값을 알려 주십시오.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3><span class="n">5</span>렉이 걸리거나 인터넷이 끊깁니다</h3>
+        <ul>
+          <li><b>한 자리만</b> → 그 자리 재부팅.</li>
+          <li><b>한 줄만</b> → 그 줄 허브의 전원 코드가 헐겁지 않은지 보고, 손님이 적을 때 허브를 껐다 켜 주십시오.</li>
+          <li><b>매장 전체</b> → 공유기·허브 전원과 랜선을 확인하고 통신사에도 문의해 주십시오. 저희도 원격으로 같이 보겠습니다.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3><span class="n">6</span>게임 중에 PC가 꺼지거나 재부팅됩니다</h3>
+        <ul>
+          <li>관리프로그램(게토·피카 등)에 <b>이용 시간이 남아 있는지</b> 봐 주십시오. 시간이 남았는데 꺼졌다면 관리프로그램 회사에도 문의가 필요합니다.</li>
+          <li>같은 자리에서 자주 그러면 메모리·온도 문제일 수 있습니다. 자리 번호를 알려 주시면 원격으로 점검합니다.</li>
+          <li>먼지 청소를 오래 안 했다면 청소도 도움이 됩니다.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3><span class="n">7</span>서버·전원은 이렇게 해 주십시오</h3>
+        <ul>
+          <li><b>서버는 직접 끄지 마십시오.</b> 청소·이동·전기 공사 전에 미리 연락 주시면 손님 없는 시간에 안전하게 빼 드립니다.</li>
+          <li>원격으로 안 켜지는 자리는 <b>PC 전원 버튼을 직접</b> 누르십시오.</li>
+          <li>정전·화재 뒤 다시 켤 때도 연락 주시면 패치 상태를 확인합니다.</li>
+        </ul>
+      </article>
+
+      <article class="card">
+        <h3><span class="n">8</span>미리 알려 주시면 좋습니다</h3>
+        <ul>
+          <li><b>PC 추가·교체</b>: 사양(CPU·그래픽카드)을 알려 주시면 준비합니다.</li>
+          <li><b>리모델링·이전·허브 증설</b>: 방문이 필요할 수 있습니다.</li>
+          <li><b>바탕화면·로그인 화면 변경</b>: 이미지를 카톡으로 보내 주시면 새벽에 바꿔 드립니다.</li>
+        </ul>
+      </article>
+    </section>
+
+    <section class="extra">
+      <div class="mini">
+        <strong>짧게 자주 묻는 것</strong>
+        손님 PC에서 프린터가 안 되면 파일을 USB에 담아 카운터 PC에서 출력하는 게 가장 빠릅니다. 결제창의 보안 프로그램은 내려받은 뒤 '실행'까지 눌러야 설치됩니다.
+      </div>
+      <div class="mini warn">
+        <strong>매장 보안 한 줄</strong>
+        카운터 PC에는 저희가 안내하지 않은 원격 프로그램(팀뷰어, VNC 등)을 깔지 마십시오. 다른 사람이 매장 PC에 들어올 수 있습니다.
+      </div>
+    </section>
+
+    <footer class="foot">
+      <span class="call">연락 <b>1833-9899</b> · 카카오톡 <b>엔터시스템 채널</b> · 24시간, 공휴일에도 당직</span>
+      <span class="co">(주)엔터시스템</span>
+    </footer>
+    <p class="draft">초안입니다. 나눠 드리기 전에 현장 팀장님이 내용을 확인해 주십시오. [ ] 부분은 실제 정보로 바꾸고, 확인이 끝나면 이 안내 문구를 지우십시오.</p>
+  </div>
+</main>
+</body>
+</html>

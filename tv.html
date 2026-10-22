@@ -1,0 +1,468 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>엔터TV 업소용 셋톱 | 엔터시스템</title>
+<meta name="description" content="업소 TV에 셋톱 하나만 연결하면 됩니다. 설치비 0원, 화면이 안 나오면 엔터시스템 24시간 관리 센터가 원격으로 먼저 확인합니다.">
+<meta property="og:title" content="엔터TV 업소용 셋톱 | 엔터시스템">
+<meta property="og:description" content="업소 TV, 셋톱 하나로 끝. 설치부터 고장 대응까지 엔터시스템이 24시간 맡습니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 (엔터TV) */
+
+  /* 첫 화면: 로고처럼 기울어진 타일 무늬 */
+  .tv-hero::before {
+    content: ""; position: absolute; inset: -40%;
+    background-image:
+      linear-gradient(rgba(255, 255, 255, .07) 2px, transparent 2px),
+      linear-gradient(90deg, rgba(255, 255, 255, .07) 2px, transparent 2px);
+    background-size: 64px 64px;
+    transform: rotate(-30deg);
+    pointer-events: none;
+  }
+  .tv-hero .wrap { position: relative; }
+  .tv-hero-grid { display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: 40px; align-items: center; }
+  .eyebrow { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; margin: 0 0 16px; font-size: 14px; font-weight: 700; color: #d6d6d6; }
+  .tv-tag { display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 10px; border: 1px solid rgba(255, 255, 255, .3); border-radius: 999px; color: #fff; font-weight: 800; }
+  .tv-tag::before { content: ""; width: 9px; height: 9px; background: var(--red); transform: rotate(-30deg); flex-shrink: 0; }
+  .tv-tag b { color: var(--red); }
+  .tv-tag small { font-size: 12px; font-weight: 600; color: #bdbdbd; }
+  .tv-hero p.lead { margin-bottom: 24px; max-width: 560px; }
+  .price-pill {
+    display: inline-flex; align-items: baseline; gap: 4px 8px; flex-wrap: wrap; max-width: 100%;
+    background: rgba(255, 255, 255, .06); border: 1px solid rgba(255, 255, 255, .18); border-left: 4px solid var(--red);
+    border-radius: 12px; padding: 10px 18px; margin-bottom: 18px;
+  }
+  .price-pill strong { font-size: 24px; }
+  .ott-chips { list-style: none; padding: 0; margin: 0 0 26px; display: flex; flex-wrap: wrap; gap: 8px; }
+  .ott-chips li { font-size: 14px; font-weight: 700; padding: 6px 12px; border-radius: 999px; background: rgba(255, 255, 255, .08); border: 1px solid rgba(255, 255, 255, .2); }
+  .ott-chips li.plus { border-color: var(--red); background: rgba(255, 0, 24, .18); }
+  .tv-btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero-art { display: block; width: 100%; max-width: 460px; justify-self: center; }
+
+  /* 이 페이지 차례 */
+  .tv-toc { background: var(--white); border-bottom: 1px solid var(--line); }
+  .tv-toc .wrap { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 16px; padding-top: 16px; padding-bottom: 16px; }
+  .tv-toc .lab { font-size: 14px; font-weight: 800; color: var(--mut); }
+  .tv-toc ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .tv-toc a { display: inline-flex; align-items: center; min-height: 44px; padding: 6px 16px; border: 1px solid var(--line); border-radius: 999px; background: var(--white); color: var(--ink2); text-decoration: none; font-size: 15px; font-weight: 700; }
+  .tv-toc a:hover { border-color: var(--ink); color: var(--ink); }
+  .tv-toc a.go { background: var(--red-strong); border-color: var(--red-strong); color: #fff; }
+  .tv-toc a.go:hover { background: #c40013; }
+
+  /* 제공 콘텐츠 칩 */
+  .contents { list-style: none; margin: 0 0 16px; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 10px; }
+  .content { background: var(--white); border: 1px solid var(--line); border-radius: 14px; padding: 16px 10px; text-align: center; font-weight: 700; }
+  .content small { display: block; font-weight: 500; font-size: 12px; color: var(--mut); margin-top: 2px; }
+  .content.wavve { border: 2px solid var(--red); }
+  .note { color: var(--mut); font-size: 14px; margin: 16px 0 0; }
+  .contents-note { margin: 0 0 32px; }
+
+  /* 특징 카드 (카드 바탕은 공통 .card) */
+  .cards { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 16px; }
+  .cards .ico { width: 44px; height: 44px; border-radius: 12px; background: var(--soft); color: var(--red-text); display: grid; place-items: center; margin-bottom: 14px; }
+  .cards h3 { margin: 0 0 8px; font-size: 18px; }
+  .cards p { margin: 0; color: var(--ink2); font-size: 15px; }
+
+  /* 단계 흐름 */
+  .tv-flow { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .tv-step { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; }
+  .tv-step .num { display: inline-block; font-size: 13px; font-weight: 800; color: #fff; background: var(--ink); padding: 2px 10px; border-radius: 6px; }
+  .tv-step:first-child .num { background: var(--red-strong); }
+  .tv-step h3 { margin: 12px 0 8px; font-size: 18px; }
+  .tv-step p { margin: 0; color: var(--ink2); font-size: 15px; }
+
+  /* 숫자 띠 (검정 바탕 위 작은 빨간 글씨는 다른 페이지처럼 #ff8c99) */
+  .tv-numbers { background: var(--ink); color: #fff; }
+  .tv-numbers .sh { color: #ff8c99; }
+  .tv-numbers .sub { color: #cfcfcf; }
+  .tv-stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; text-align: center; }
+  .tv-stat { border: 1px solid rgba(255, 255, 255, .14); border-radius: var(--radius); padding: 30px 18px; background: rgba(255, 255, 255, .04); }
+  .tv-stat .big { font-size: clamp(30px, 5vw, 42px); font-weight: 800; line-height: 1.2; }
+  .tv-stat .big .r { color: var(--red); }
+  .tv-stat .label { color: #cfcfcf; margin-top: 6px; }
+
+  /* 이용 매장 */
+  .venues { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  .venue { background: var(--white); border: 1px solid var(--line); border-left: 4px solid var(--ink); border-radius: 12px; padding: 16px; }
+  .venue.hot { border-left-color: var(--red); }
+  .venue strong { display: block; font-size: 16px; }
+  .venue span { color: var(--mut); font-size: 14px; }
+
+  /* 요금 카드 */
+  .plans { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  .plan { background: var(--white); border: 1px solid var(--line); border-radius: var(--radius); padding: 28px; } /* 다른 카드와 같은 모서리 */
+  .plan.featured { border: 2px solid var(--red); }
+  .plan .tag { display: inline-block; font-size: 13px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: var(--ink); color: #fff; }
+  .plan.featured .tag { background: var(--red-strong); }
+  .plan h3 { margin: 12px 0 4px; font-size: 20px; }
+  .plan .amount { font-size: 36px; font-weight: 800; line-height: 1.3; margin: 6px 0 2px; letter-spacing: -.02em; }
+  .plan .amount small { font-size: 16px; font-weight: 500; color: var(--mut); letter-spacing: 0; }
+  .plan ul { margin: 16px 0 0; padding-left: 20px; color: var(--ink2); }
+  .plan li { margin: 6px 0; }
+  .plan li::marker { color: var(--red); }
+
+  /* 자주 묻는 질문 (모양은 공통 .faq) */
+  .faq-list { max-width: 880px; }
+
+  /* 상담 */
+  #inquiry { padding-top: 0; }
+  .inquiry { position: relative; overflow: hidden; background: var(--ink); color: #fff; border-radius: 24px; padding: 48px 28px; text-align: center; }
+  .inquiry::after { content: ""; position: absolute; right: -40px; top: -40px; width: 140px; height: 140px; background: var(--red-strong); transform: rotate(-30deg); border-radius: 18px; opacity: .9; }
+  .inquiry > * { position: relative; z-index: 1; }
+  .inquiry h2 { color: #fff; }
+  .inquiry p { color: #cfcfcf; margin: 0 0 24px; }
+  .inquiry .tv-btns { justify-content: center; }
+
+  @media (max-width: 960px) {
+    .cards, .plans { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 900px) {
+    .contents { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  }
+  @media (max-width: 860px) {
+    .tv-hero-grid { grid-template-columns: minmax(0, 1fr); }
+    .venues { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .tv-flow, .plans { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .hero-art { max-width: 260px; } /* 휴대폰 첫 화면이 너무 길지 않게 그림만 조금 작게 */
+    .tv-stats { grid-template-columns: minmax(0, 1fr); }
+    .venue { padding: 14px 12px; }
+    .plan { padding: 24px 20px; }
+    .inquiry { padding: 40px 18px; }
+    .inquiry::after { display: none; }
+  }
+  @media (max-width: 560px) {
+    .cards { grid-template-columns: minmax(0, 1fr); }
+  }
+  @media (max-width: 520px) {
+    .contents { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media print {
+    .tv-hero::before, .tv-toc, .tv-btns, .inquiry::after { display: none !important; }
+    .tv-numbers, .inquiry { background: #fff !important; color: #000 !important; }
+    .tv-hero *, .tv-numbers *, .inquiry * { color: #000 !important; }
+    .price-pill, .ott-chips li, .tv-tag, .tv-stat { background: #fff !important; border-color: #999 !important; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero tv-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › 엔터TV</div>
+      <div class="tv-hero-grid">
+        <div>
+          <p class="eyebrow"><span class="tv-tag">엔터<b>TV</b> <small>by 엔터시스템</small></span>업소용 TV 셋톱박스</p>
+          <h1>업소 TV,<br>셋톱 하나로 <em>끝.</em></h1>
+          <p class="lead">손님이 기다리는 시간을 볼거리로 채우십시오. 설치부터 고장 대응까지 엔터시스템이 24시간 맡습니다.</p>
+          <div class="price-pill">셋톱 1대당 <strong>월 20,000원</strong> · 설치비 0원 · 약정 1년 <span class="todo">부가세 포함/별도 · 설치비·약정 조건 확인</span></div>
+          <ul class="ott-chips" aria-label="제공 콘텐츠">
+            <li>넷플릭스</li><li>디즈니+</li><li>왓챠</li><li>티빙</li><li>유튜브</li><li>만화</li><li class="plus">+ 웨이브</li>
+          </ul>
+          <p style="margin:-8px 0 18px"><span class="todo">제공 콘텐츠: 계약·약관 확인 후 공개</span></p>
+          <div class="tv-btns">
+            <a class="btn" href="#inquiry">무료 상담 신청</a>
+            <a class="btn line" href="#price">요금 보기</a>
+            <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카카오톡 문의</a>
+          </div>
+        </div>
+
+        <!-- TV 화면 안에 로고 같은 타일, 가운데 빨간 타일이 재생 버튼 -->
+        <svg class="hero-art" viewBox="0 0 460 340" role="img" aria-label="엔터TV 셋톱을 연결한 TV 그림">
+          <rect x="18" y="16" width="424" height="250" rx="18" fill="#141416" stroke="#ffffff" stroke-opacity=".7" stroke-width="3"/>
+          <rect x="36" y="34" width="388" height="214" rx="10" fill="#0a0a0a"/>
+          <g transform="translate(230 141) rotate(-30)">
+            <rect x="-96" y="-96" width="58" height="58" rx="6" fill="#26262a"/>
+            <rect x="-29" y="-96" width="58" height="58" rx="6" fill="#26262a"/>
+            <rect x="38"  y="-96" width="58" height="58" rx="6" fill="#26262a"/>
+            <rect x="-96" y="-29" width="58" height="58" rx="6" fill="#26262a"/>
+            <rect x="-29" y="-29" width="58" height="58" rx="6" fill="#ff0018"/>
+            <rect x="-96" y="38"  width="58" height="58" rx="6" fill="#26262a"/>
+            <rect x="-29" y="38"  width="58" height="58" rx="6" fill="#26262a"/>
+          </g>
+          <path d="M222 126v30l26-15z" fill="#ffffff"/>
+          <rect x="180" y="276" width="100" height="9" rx="4.5" fill="#ffffff" fill-opacity=".4"/>
+          <g transform="translate(300 290)">
+            <rect width="124" height="38" rx="9" fill="#141416" stroke="#ffffff" stroke-opacity=".6" stroke-width="2"/>
+            <rect x="12" y="15" width="8" height="8" fill="#ff0018" transform="rotate(-30 16 19)"/>
+            <text x="30" y="24" font-size="13" font-weight="700" fill="#ffffff" font-family="Pretendard, Malgun Gothic, sans-serif">엔터TV</text>
+            <circle cx="110" cy="19" r="4" fill="#ff0018"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <nav class="tv-toc" aria-label="이 페이지 차례">
+    <div class="wrap">
+      <span class="lab" aria-hidden="true">이 페이지 차례</span>
+      <ul>
+        <li><a href="#about">서비스</a></li>
+        <li><a href="#care">관리</a></li>
+        <li><a href="#venues">이용 매장</a></li>
+        <li><a href="#price">요금</a></li>
+        <li><a href="#faq">자주 묻는 질문</a></li>
+        <li><a class="go" href="#inquiry">상담 신청</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <section class="blk" id="about">
+    <div class="wrap">
+      <div class="sh">서비스</div>
+      <h2>TV에 셋톱만 꽂으면 준비 끝</h2>
+      <p class="sub">넷플릭스, 디즈니+, 왓챠, 티빙, 유튜브, 만화까지 엔터TV 하나로 볼 수 있습니다. 손님은 덜 지루하고, 사장님은 TV 걱정을 덜 수 있습니다.</p>
+      <ul class="contents" aria-label="제공 콘텐츠">
+        <li class="content">넷플릭스<small>OTT</small></li>
+        <li class="content">디즈니+<small>OTT</small></li>
+        <li class="content">왓챠<small>OTT</small></li>
+        <li class="content">티빙<small>OTT</small></li>
+        <li class="content">유튜브<small>동영상</small></li>
+        <li class="content">만화<small>웹툰·만화</small></li>
+        <li class="content wavve">웨이브<small>PC방 132,000원 요금제</small></li>
+      </ul>
+      <p class="note contents-note"><span class="todo">공개 전 확인: 각 OTT를 어떤 조건(제휴 계약 / 손님 본인 계정 로그인)으로 제공하는지, 업소 TV에서 여러 손님이 함께 보는 공개 시청이 각 서비스 약관상 가능한지</span></p>
+      <div class="cards">
+        <div class="card">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M7 8h7a3 3 0 0 1 0 6H8" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+          <h3>합리적인 요금</h3>
+          <p>셋톱 1대당 월 2만 원, 약정은 1년. TV가 몇 대든 필요한 만큼만 쓰십시오.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+          <h3>24시간 원격 관리</h3>
+          <p>화면이 안 나오면 전화 한 통. 교대 근무하는 관리 센터가 원격으로 먼저 확인합니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><path d="M4 20l6-6M14 4l6 6-8 8-6-6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>설치비 0원</h3>
+          <p>방문 설치부터 리모컨 사용법 안내까지, 설치비 없이 해 드립니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="22" height="22" viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="12" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M8 20h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>PC방이라면 더 편하게</h3>
+          <p>노하드 관리와 TV를 한 업체에서. 문의 창구도, 청구서도 하나입니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk gray" id="care">
+    <div class="wrap">
+      <div class="sh">관리</div>
+      <h2>고장 나면, 전화 한 통이면 됩니다</h2>
+      <p class="sub">PC방 노하드를 24시간 관리하는 관리 센터가 매장 TV 문의도 받습니다.</p>
+      <ol class="tv-flow">
+        <li class="tv-step"><span class="num">1단계</span><h3>전화 한 통</h3><p>화면이 안 나오거나 끊기면 관리 센터로 연락 주십시오. 밤에도 받습니다.</p></li>
+        <li class="tv-step"><span class="num">2단계</span><h3>원격으로 먼저 확인</h3><p>셋톱과 네트워크를 원격으로 먼저 확인하고, 되는 건 그 자리에서 해결합니다.</p></li>
+        <li class="tv-step"><span class="num">3단계</span><h3>필요하면 방문</h3><p>원격으로 안 되면 기사가 방문하거나 셋톱을 교체합니다. 지역에 따라 출장비가 있습니다. <span class="todo">[지역별 출장비 기준]</span></p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="blk tv-numbers" id="numbers">
+    <div class="wrap">
+      <div class="sh">숫자로 보는 엔터TV</div>
+      <h2>이미 많은 매장의 TV를 맡고 있습니다</h2>
+      <p class="sub">2026년 10월, 엔터시스템 관리 시스템 기준입니다.</p>
+      <div class="tv-stats">
+        <div class="tv-stat"><div class="big"><span class="r">396</span>곳</div><div class="label">엔터TV를 쓰는 PC방</div></div>
+        <div class="tv-stat"><div class="big"><span class="r">1</span>곳</div><div class="label">노하드와 TV 문의 창구</div></div>
+        <div class="tv-stat"><div class="big"><span class="r">24</span>시간</div><div class="label">교대 근무 관리 센터</div></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk gray" id="venues">
+    <div class="wrap">
+      <div class="sh">이용 매장</div>
+      <h2>이런 매장에 잘 맞습니다</h2>
+      <p class="sub">손님이 머물거나 기다리는 시간이 있는 곳이라면 어디든 좋습니다. <span class="todo">[PC방 밖 업종 판매 여부·콘텐츠 권리 확인 후 공개]</span></p>
+      <div class="venues">
+        <div class="venue hot"><strong>당구장</strong><span>테이블마다 TV</span></div>
+        <div class="venue hot"><strong>스크린골프</strong><span>방·로비 TV</span></div>
+        <div class="venue"><strong>볼링장·스크린야구</strong><span>대기석 TV</span></div>
+        <div class="venue"><strong>병원 대기실</strong><span>진료 기다리는 시간</span></div>
+        <div class="venue"><strong>요양원</strong><span>방·거실마다</span></div>
+        <div class="venue"><strong>미용실</strong><span>시술 기다리는 시간</span></div>
+        <div class="venue hot"><strong>PC방</strong><span>노하드와 함께 관리</span></div>
+        <div class="venue"><strong>그 밖의 매장</strong><span>상담해 주십시오</span></div>
+      </div>
+      <p class="note">업종에 따라 영상 이용 조건이 다를 수 있습니다. 상담 때 매장에 맞는 조건을 안내해 드립니다.</p>
+    </div>
+  </section>
+
+  <section class="blk" id="price">
+    <div class="wrap">
+      <div class="sh">요금제</div>
+      <h2>요금</h2>
+      <p class="sub">부가세 <span class="todo">포함/별도</span> <span class="todo">설치비·약정 조건 확인</span></p>
+      <div class="plans">
+        <div class="plan featured">
+          <span class="tag">일반 매장</span>
+          <h3>셋톱 요금</h3>
+          <div class="amount">20,000원 <small>/ 셋톱 1대 · 월</small></div>
+          <ul>
+            <li>넷플릭스 · 디즈니+ · 왓챠 · 티빙 · 유튜브 · 만화</li>
+            <li>24시간 원격 관리와 장애 대응</li>
+            <li>설치비 0원</li>
+            <li>약정 1년</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <span class="tag">PC방 전용</span>
+          <h3>기본 요금제</h3>
+          <div class="amount">99,000원 <small>/ 매장 · 월</small></div>
+          <ul>
+            <li>넷플릭스 · 디즈니+ · 왓챠 · 티빙 · 유튜브 · 만화</li>
+            <li>노하드 관리와 함께 이용 가능</li>
+            <li>설치비 0원 · 약정 1년</li>
+          </ul>
+        </div>
+        <div class="plan">
+          <span class="tag">PC방 전용</span>
+          <h3>웨이브 포함 요금제</h3>
+          <div class="amount">132,000원 <small>/ 매장 · 월</small></div>
+          <ul>
+            <li>기본 요금제 전체 <b>+ 웨이브</b></li>
+            <li>노하드 관리와 함께 이용 가능</li>
+            <li>설치비 0원 · 약정 1년</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk gray">
+    <div class="wrap">
+      <div class="sh">신청 방법</div>
+      <h2>신청부터 시청까지</h2>
+      <ol class="tv-flow">
+        <li class="tv-step"><span class="num">01</span><h3>상담 신청</h3><p>전화나 카카오톡으로 매장 TV 대수와 위치를 알려 주십시오.</p></li>
+        <li class="tv-step"><span class="num">02</span><h3>방문 설치</h3><p>약속한 날 방문해 셋톱을 연결하고 사용법을 안내합니다.</p></li>
+        <li class="tv-step"><span class="num">03</span><h3>바로 시청, 24시간 관리</h3><p>설치한 날부터 시청하고, 문제가 생기면 언제든 연락 주십시오.</p></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="blk faq" id="faq">
+    <div class="wrap">
+      <div class="sh">궁금한 점</div>
+      <h2>자주 묻는 질문</h2>
+      <div class="faq-list">
+        <details><summary>약정이 있습니까?</summary><p>1년 약정입니다. <span class="todo">중도 해지 조건(위약금 등)</span></p></details>
+        <details><summary>설치비가 있습니까?</summary><p>없습니다. 방문 설치와 사용법 안내까지 무료로 해 드립니다. <span class="todo">[설치비·약정 조건 확인]</span></p></details>
+        <details><summary>웨이브도 볼 수 있습니까?</summary><p>PC방 웨이브 포함 요금제(월 132,000원)를 고르시면 볼 수 있습니다. 기본 요금제는 월 99,000원입니다.</p></details>
+        <details><summary>화면이 안 나오면 어떻게 합니까?</summary><p>관리 센터로 연락 주시면 원격으로 먼저 확인합니다. 원격으로 해결되지 않으면 방문하거나 셋톱을 교체해 드립니다. 지역에 따라 출장비가 있습니다. <span class="todo">[지역별 출장비 기준]</span></p></details>
+        <details><summary>우리 매장에서 틀어도 괜찮습니까?</summary><p><span class="todo">업종별 이용 범위를 확인한 뒤 적어 주세요. 확인 전에는 "상담 때 매장에 맞는 조건을 안내해 드립니다"로 두세요.</span></p></details>
+        <details><summary>인터넷은 어떤 걸 써야 합니까?</summary><p><span class="todo">필요한 인터넷 속도와, 특정 통신사 가입이 필요한지 적어 주세요.</span></p></details>
+      </div>
+    </div>
+  </section>
+
+  <section class="blk" id="inquiry">
+    <div class="wrap">
+      <div class="inquiry">
+        <h2>매장 TV, 엔터TV로 바꿔 보십시오</h2>
+        <p>TV 대수만 알려 주시면 월 요금을 바로 안내해 드립니다.</p>
+        <div class="tv-btns">
+          <a class="btn" href="tel:18339899">전화 상담 1833-9899</a>
+          <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카카오톡 상담</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

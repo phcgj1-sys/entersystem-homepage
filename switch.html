@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>업체 변경 안내 | 엔터시스템</title>
+<meta name="description" content="노하드 업체를 바꿀 때 준비할 것, 바꾸는 날 진행 순서, 영업 공백을 줄이는 방법을 안내합니다.">
+<meta property="og:title" content="업체 변경 안내 | 엔터시스템">
+<meta property="og:description" content="노하드 업체를 바꿀 때 준비할 것, 바꾸는 날 진행 순서, 영업 공백을 줄이는 방법을 안내합니다.">
+<meta property="og:type" content="website">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 */
+  [hidden] { display: none !important; }
+  .sr { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0; }
+
+  /* 첫 화면 */
+  .award { display: inline-flex; align-items: center; gap: 8px; max-width: 100%; font-size: 14px; font-weight: 700; color: #ffd2d7; border: 1px solid rgba(255, 140, 153, .45); border-radius: 999px; padding: 6px 14px; margin-bottom: 18px; }
+  .award i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+  .hero-btns { display: flex; gap: 12px; flex-wrap: wrap; margin-top: 28px; }
+
+  /* 이럴 때 많이 바꿔요 */
+  .why .card { display: flex; flex-direction: column; }
+  .why .badge { align-self: flex-start; margin-bottom: 12px; }
+  .why h3 { margin: 0 0 8px; font-size: 20px; line-height: 1.35; }
+  .why p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .tip { margin-top: 28px; background: #fff; border: 1px solid var(--line); border-left: 4px solid var(--red); border-radius: 14px; padding: 18px 22px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .tip p { margin: 0; color: var(--ink2); }
+  .tip b { color: var(--ink); }
+
+  /* 체크리스트 */
+  .check { display: grid; grid-template-columns: .85fr 1.15fr; gap: 40px; align-items: start; }
+  .check-side { position: sticky; top: 88px; }
+  .check-side .sub { margin-bottom: 24px; }
+  .ck-box { background: var(--gray); border-radius: var(--radius); padding: 20px 22px; }
+  .ck-count { margin: 0 0 10px; font-weight: 700; }
+  .ck-count b { font-size: 28px; color: var(--red-text); }
+  .ck-bar { height: 10px; background: #dedede; border-radius: 999px; overflow: hidden; }
+  .ck-bar i { display: block; height: 100%; width: 0; background: var(--red); transition: width .2s; }
+  .ck-done { margin: 12px 0 0; font-weight: 700; color: var(--ok-text); }
+  .ck-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+  .ck-note { margin: 14px 0 0; font-size: 14px; color: var(--mut); }
+  .ck-list fieldset { border: 1px solid var(--line); border-radius: var(--radius); padding: 16px 20px 8px; margin: 0 0 16px; min-width: 0; }
+  .ck-list fieldset:last-child { margin-bottom: 0; }
+  .ck-list legend { font-weight: 800; font-size: 18px; padding: 0 8px; margin-left: -8px; }
+  .ck-list .hint { margin: 0 0 6px; font-size: 14px; color: var(--mut); }
+  .ck { display: flex; gap: 14px; align-items: flex-start; padding: 12px; margin: 0 -12px; border-radius: 12px; cursor: pointer; }
+  .ck:hover { background: var(--gray); }
+  .ck input { width: 22px; height: 22px; margin: 2px 0 0; flex-shrink: 0; accent-color: var(--red); cursor: pointer; }
+  .ck b { display: block; }
+  .ck small { display: block; font-size: 15px; color: var(--mut); }
+  .ck.on b { color: var(--ok-text); }
+  .print-only { display: none; }
+
+  /* 진행 순서 */
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: s; }
+  .steps li { counter-increment: s; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; display: flex; flex-direction: column; }
+  .steps li::before { content: counter(s); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; margin-bottom: 14px; flex-shrink: 0; }
+  .steps li.hot { border-color: #ffb3bb; }
+  .steps li.hot::before { background: var(--red-strong); }
+  .steps h3 { margin: 0 0 8px; font-size: 19px; line-height: 1.35; }
+  .steps p { margin: 0 0 16px; font-size: 15px; color: var(--ink2); }
+  .steps .you { margin: auto 0 0; padding-top: 12px; border-top: 1px solid var(--line); font-size: 14px; color: var(--mut); }
+  .steps .you b { color: var(--ink); }
+
+  /* 전환하는 날 */
+  .day-wrap { display: grid; grid-template-columns: 1.3fr .7fr; gap: 40px; align-items: start; }
+  .ex { display: flex; gap: 10px; align-items: flex-start; margin: 0 0 32px; padding: 14px 18px; background: #fffbe6; border: 1px solid #f0e2a0; border-radius: 14px; color: #5c4a00; font-size: 15px; max-width: 760px; }
+  .ex .badge { flex-shrink: 0; margin-top: 2px; }
+  .day { list-style: none; margin: 0; padding: 0; }
+  .day li { position: relative; padding: 0 0 28px 40px; }
+  .day li::before { content: ""; position: absolute; left: 4px; top: 4px; width: 20px; height: 20px; border-radius: 50%; background: #fff; border: 3px solid var(--ink); box-sizing: border-box; }
+  .day li::after { content: ""; position: absolute; left: 13px; top: 28px; bottom: 2px; width: 2px; background: var(--line); }
+  .day li:last-child { padding-bottom: 0; }
+  .day li:last-child::after { display: none; }
+  .day li.hot::before { border-color: var(--red); background: var(--red); }
+  .day .at { display: inline-block; font-size: 14px; font-weight: 800; color: var(--red-text); background: var(--soft); border-radius: 999px; padding: 2px 10px; margin-bottom: 6px; }
+  .day h3 { margin: 0 0 4px; font-size: 20px; line-height: 1.35; }
+  .day p { margin: 0; color: var(--ink2); }
+  .gap-box { position: sticky; top: 88px; background: var(--ink); color: #fff; border-radius: var(--radius); padding: 24px 24px 10px; }
+  .gap-box h3 { margin: 0 0 14px; font-size: 20px; }
+  .gap-box ul { list-style: none; margin: 0; padding: 0; }
+  .gap-box li { border-top: 1px solid #2c2c2c; padding: 12px 0 14px; color: #cfcfcf; font-size: 15px; }
+  .gap-box li b { display: block; color: #fff; font-size: 17px; }
+
+  /* 바꾼 뒤 */
+  .nums { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .num { background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 20px 22px; }
+  .num b { display: block; font-size: clamp(26px, 3.4vw, 36px); line-height: 1.15; letter-spacing: -.02em; }
+  .num span { color: var(--mut); font-size: 15px; }
+  .src { margin: 10px 0 28px; font-size: 14px; color: var(--mut); }
+  .ico { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
+  .after .card h3 { margin: 0 0 8px; font-size: 20px; }
+  .after .card p { margin: 0; color: var(--ink2); font-size: 16px; }
+  .tvcard { margin-top: 16px; background: var(--ink); color: #fff; border-radius: var(--radius); padding: 26px 24px; display: flex; gap: 20px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+  .tvcard .badge { background: rgba(255, 255, 255, .14); color: #fff; }
+  .tvcard h3 { margin: 10px 0 6px; font-size: 20px; }
+  .tvcard p { margin: 0; color: #cfcfcf; max-width: 640px; }
+
+  /* 비용 */
+  .cost .tbl { min-width: 0; }
+  .cost .tbl tbody th { width: 30%; font-weight: 800; background: var(--gray); }
+  .cost-wrap { max-width: 860px; }
+  .soon-line { margin: 18px 0 0; display: flex; gap: 10px; align-items: flex-start; color: var(--ink2); font-size: 15px; }
+  .soon-line .badge { flex-shrink: 0; margin-top: 2px; }
+
+  /* 자주 묻는 질문 */
+  .faq .badge { vertical-align: 2px; }
+
+  @media (max-width: 980px) {
+    .check, .day-wrap { grid-template-columns: 1fr; gap: 28px; }
+    .check-side, .gap-box { position: static; }
+    .steps { grid-template-columns: 1fr; gap: 12px; }
+    .steps li { display: grid; grid-template-columns: 40px 1fr; column-gap: 16px; padding: 20px; }
+    .steps li::before { grid-row: 1 / span 3; margin: 0; }
+    .steps li > * { grid-column: 2; }
+    .steps p { margin-bottom: 12px; }
+  }
+  @media (max-width: 640px) {
+    .award { font-size: 13px; padding: 6px 12px; }
+    .ck-list fieldset { padding: 14px 14px 6px; }
+    .ck { padding: 12px 8px; margin: 0 -8px; }
+    .nums { grid-template-columns: 1fr; gap: 8px; }
+    .num { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; padding: 14px 18px; }
+    .num b { font-size: 24px; }
+    .tvcard { padding: 22px 20px; }
+  }
+
+  @media print {
+    .check-side, .gap-box { position: static; }
+    .ck-bar i { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    /* '체크리스트 인쇄' 버튼을 눌렀을 때는 체크리스트만 */
+    html.print-check footer.site,
+    html.print-check .cta-band,
+    html.print-check .ck-btns,
+    html.print-check main > section:not(#check) { display: none !important; }
+    html.print-check .check { grid-template-columns: 1fr; gap: 16px; }
+    html.print-check .print-only { display: block; margin: 0 0 8px; font-weight: 800; }
+  }
+</style>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html" aria-current="page">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html" aria-current="page">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › 업체 변경 안내</div>
+      <span class="award"><i></i>아이러브PC방 선정 2026년 1분기 주요 상품 · 노하드 솔루션</span>
+      <h1>업체 변경, <em>영업 공백을 줄입니다</em></h1>
+      <p class="lead">노하드 업체를 바꿀까 고민 중이십니까? 무엇을 준비하고, 바꾸는 날 어떻게 하는지 모았습니다. 손님이 가장 적은 시간에 바꿔서 영업 공백을 줄입니다.</p>
+      <div class="hero-btns">
+        <a class="btn" href="index.html#contact">업체 변경 상담 신청</a>
+        <a class="btn line" href="#check">체크리스트 먼저 보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 이럴 때 많이 바꿔요 -->
+  <section class="blk gray why" id="why" aria-labelledby="why-h">
+    <div class="wrap">
+      <div class="sh">이럴 때 많이 바꿉니다</div>
+      <h2 id="why-h">노하드 업체, 이럴 때 다시 고릅니다</h2>
+      <p class="sub">PC방은 시설을 자주 손봅니다. 그때 노하드 업체도 다시 고르는 경우가 많습니다.</p>
+      <div class="grid3">
+        <div class="card">
+          <span class="badge">시설을 바꿀 때</span>
+          <h3>리모델링할 때</h3>
+          <p>인테리어를 바꾸면서 서버와 네트워크도 같이 손보는 경우가 많습니다. 공사 일정에 맞춰 같이 준비하면 편합니다.</p>
+        </div>
+        <div class="card">
+          <span class="badge">시설을 바꿀 때</span>
+          <h3>PC를 업그레이드할 때</h3>
+          <p>새 PC로 바꾸면 드라이버와 설정을 새로 맞춰야 합니다. 이때 노하드 이미지도 새로 만드는 경우가 많습니다.</p>
+        </div>
+        <div class="card">
+          <span class="badge">시설을 바꿀 때</span>
+          <h3>서버를 바꿀 때가 됐을 때</h3>
+          <p>서버와 SSD도 오래 쓰면 바꿔야 합니다. 어차피 바꿀 때라면 업체도 함께 비교해 보기 좋습니다.</p>
+        </div>
+        <div class="card">
+          <span class="badge">시설을 바꿀 때</span>
+          <h3>매장을 인수할 때</h3>
+          <p>매장을 넘겨받으면 쓰던 노하드 업체를 그대로 쓸지 정해야 합니다. 넘겨받는 계약 내용부터 확인해 보십시오.</p>
+        </div>
+        <div class="card">
+          <span class="badge now">운영이 불편할 때</span>
+          <h3>장애가 자꾸 반복될 때</h3>
+          <p>같은 문제가 계속 생기면 손님이 먼저 압니다. 원인이 서버인지 장비인지부터 같이 확인해 보겠습니다.</p>
+        </div>
+        <div class="card">
+          <span class="badge now">운영이 불편할 때</span>
+          <h3>게임 설치가 늦을 때</h3>
+          <p>신작이 나오면 손님은 바로 찾습니다. 설치와 업데이트가 늦으면 그날 손님을 놓치기 쉽습니다.</p>
+        </div>
+      </div>
+      <div class="tip">
+        <p><b>아직 바꿀지 못 정하셨어도 괜찮습니다.</b> 상담은 무료입니다. 계약이 남아 있다면 끝나는 시기에 맞춰 천천히 준비하면 됩니다.</p>
+        <a class="btn ghost sm" href="#check">체크리스트 보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 바꾸기 전 확인 체크리스트 -->
+  <section class="blk" id="check" aria-labelledby="check-h">
+    <div class="wrap check">
+      <div class="check-side">
+        <p class="print-only">(주)엔터시스템 · 노하드 업체 변경 체크리스트</p>
+        <div class="sh">바꾸기 전 확인</div>
+        <h2 id="check-h">상담 전에 이것만 확인해 보십시오</h2>
+        <p class="sub">미리 알아 두면 상담이 짧아지고 준비도 빨라집니다. 모르는 항목은 비워 두셔도 됩니다. 현장 점검 때 같이 확인합니다.</p>
+        <div class="ck-box">
+          <div id="ckTools" hidden>
+            <p class="ck-count" id="ckCount" aria-live="polite"><b id="ckDone">0</b>개 확인 / 전체 <span id="ckTotal">11</span>개</p>
+            <div class="ck-bar" aria-hidden="true"><i id="ckBar"></i></div>
+            <p class="ck-done" id="ckAll" hidden>모두 확인하셨습니다. 상담 때 이 내용을 알려 주십시오.</p>
+            <div class="ck-btns">
+              <button type="button" class="btn ghost sm" id="ckPrint">체크리스트 인쇄</button>
+              <button type="button" class="btn ghost sm" id="ckReset">체크 모두 지우기</button>
+            </div>
+          </div>
+          <p class="ck-note" id="ckNote">체크한 항목은 이 브라우저에만 남습니다. 어디로도 보내지 않습니다.</p>
+        </div>
+      </div>
+
+      <div class="ck-list" id="ckList">
+        <fieldset>
+          <legend>지금 업체와의 계약</legend>
+          <p class="hint">계약서를 펴 놓고 보십시오. 헷갈리는 조항은 전문가에게 물어보시는 것이 좋습니다.</p>
+          <label class="ck"><input type="checkbox" id="c-term"><span><b>계약 기간</b><small>계약이 언제 끝나는지 확인하십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-notice"><span><b>해지 통보 기간</b><small>끝내려면 언제까지 알려야 하는지 보십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-penalty"><span><b>위약금 조항</b><small>중간에 끝낼 때 내야 하는 돈이 있는지 보십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-owner"><span><b>서버·장비가 누구 것인지</b><small>사장님 것인지, 업체에서 빌린 것인지 보십시오.</small></span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>매장 장비</legend>
+          <label class="ck"><input type="checkbox" id="c-server"><span><b>서버 사양과 대수</b><small>서버가 몇 대인지, 견적서나 사양표가 있는지 보십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-seats"><span><b>좌석 수와 PC 사양</b><small>좌석 수와 CPU·그래픽카드를 적어 두십시오. 사양이 섞여 있으면 종류별로 적으십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-program"><span><b>쓰는 관리프로그램 이름</b><small>카운터에서 요금과 좌석을 관리하는 프로그램입니다.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-games"><span><b>자주 쓰는 게임 목록</b><small>손님이 많이 찾는 게임, 꼭 있어야 하는 게임을 적어 두십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-network"><span><b>네트워크 구성</b><small>스위치(허브)가 몇 개인지, 인터넷 회선은 어디 것인지 보십시오.</small></span></label>
+          <label class="ck"><input type="checkbox" id="c-devices"><span><b>매장 TV·키오스크 등 연결 장비</b><small>매장 네트워크에 같이 물려 있는 장비를 적어 두십시오.</small></span></label>
+        </fieldset>
+
+        <fieldset>
+          <legend>영업 시간</legend>
+          <label class="ck"><input type="checkbox" id="c-quiet"><span><b>손님이 가장 적은 시간대</b><small>요일과 시간대를 알려 주시면 바꾸는 날을 잡기 쉽습니다.</small></span></label>
+        </fieldset>
+      </div>
+    </div>
+  </section>
+
+  <!-- 진행 순서 -->
+  <section class="blk gray" id="steps" aria-labelledby="steps-h">
+    <div class="wrap">
+      <div class="sh">진행 순서</div>
+      <h2 id="steps-h">상담부터 평소 관리까지 5단계</h2>
+      <p class="sub">바꾸는 날 할 일을 줄이려고, 준비는 미리 해 둡니다.</p>
+      <ol class="steps">
+        <li>
+          <h3>상담·현장 점검</h3>
+          <p>지금 서버 사양, 좌석 수, 게임 디스크 상태를 확인합니다. 지금 장비를 그대로 쓸 수 있는지도 봅니다. 현장 점검 비용은 <span class="todo">[무료 여부 확인]</span></p>
+          <p class="you"><b>사장님은</b> 체크리스트 내용을 알려 주십시오.</p>
+        </li>
+        <li>
+          <h3>새 서버에 미리 옮겨 두기</h3>
+          <p>쓰시던 게임과 설정에 맞춰 새 이미지를 미리 만들어 둡니다. 바꾸는 날 할 일이 줄어듭니다.</p>
+          <p class="you"><b>사장님은</b> 꼭 있어야 하는 게임을 알려 주십시오.</p>
+        </li>
+        <li class="hot">
+          <h3>손님이 적은 시간에 전환</h3>
+          <p>영업 공백을 줄이도록 손님이 가장 적은 시간에 바꿉니다. 걸리는 시간은 <span class="todo">[매장 규모별]</span></p>
+          <p class="you"><b>사장님은</b> 바꿀 날짜와 시간을 같이 정합니다.</p>
+        </li>
+        <li>
+          <h3>바꾼 직후 집중 확인</h3>
+          <p>바꾼 직후 생기는 작은 오류를 먼저 찾아 고칩니다. 평소보다 더 자주 확인합니다.</p>
+          <p class="you"><b>사장님은</b> 조금이라도 이상하면 바로 전화 주십시오.</p>
+        </li>
+        <li>
+          <h3>이후 평소 관리</h3>
+          <p>24시간 관리 센터가 원격으로 지켜보고, 평일에 미리 점검합니다.</p>
+          <p class="you"><b>사장님은</b> 영업에만 신경 쓰시면 됩니다.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 전환하는 날 예시 -->
+  <section class="blk" id="day" aria-labelledby="day-h">
+    <div class="wrap">
+      <div class="sh">전환하는 날</div>
+      <h2 id="day-h">바꾸는 날은 이렇게 흘러갑니다</h2>
+      <p class="ex"><span class="badge now">예시</span><span>이해를 돕는 예시입니다. 실제 순서와 시간은 매장마다 다릅니다. 현장 점검 뒤에 우리 매장 일정을 따로 알려 드립니다.</span></p>
+      <div class="day-wrap">
+        <ol class="day">
+          <li>
+            <span class="at">바꾸기 며칠 전</span>
+            <h3>날짜와 시간을 정합니다</h3>
+            <p>손님이 가장 적은 시간대를 보고 사장님과 같이 정합니다. 미리 만든 이미지도 한 번 더 확인합니다.</p>
+          </li>
+          <li>
+            <span class="at">영업 마감 전</span>
+            <h3>마지막으로 준비를 확인합니다</h3>
+            <p>새로 쓸 서버와 이미지, 게임 목록이 다 준비되었는지 봅니다. 24시간 매장은 손님이 줄어드는 때에 맞춥니다.</p>
+          </li>
+          <li class="hot">
+            <span class="at">손님이 가장 적은 시간</span>
+            <h3>전환을 시작합니다</h3>
+            <p>좌석 PC가 새 서버에서 켜지도록 바꿉니다. 영업 공백을 줄이려고 이 시간을 고릅니다.</p>
+          </li>
+          <li>
+            <span class="at">전환 직후</span>
+            <h3>좌석을 켜서 하나씩 확인합니다</h3>
+            <p>윈도우, 게임, 관리프로그램이 잘 되는지 봅니다. 문제가 보이면 바로 고칩니다.</p>
+          </li>
+          <li>
+            <span class="at">첫 손님 전</span>
+            <h3>자주 쓰는 게임을 직접 켜 봅니다</h3>
+            <p>손님이 많이 찾는 게임부터 확인합니다. 결과는 사장님께 알려 드립니다.</p>
+          </li>
+          <li>
+            <span class="at">바꾼 직후</span>
+            <h3>평소보다 자주 지켜봅니다</h3>
+            <p>바꾼 직후 생기는 작은 오류를 먼저 찾아 고칩니다. 이상하면 언제든 전화 주십시오.</p>
+          </li>
+        </ol>
+        <aside class="gap-box" aria-labelledby="gap-h">
+          <h3 id="gap-h">영업 공백을 줄이는 방법</h3>
+          <ul>
+            <li><b>미리 준비합니다</b>쓰던 게임과 설정을 바꾸는 날 전에 맞춰 둡니다.</li>
+            <li><b>시간을 고릅니다</b>손님이 가장 적은 시간에 바꿉니다.</li>
+            <li><b>바로 확인합니다</b>첫 손님 전에 자주 쓰는 게임부터 켜 봅니다.</li>
+            <li><b>그 뒤에도 지켜봅니다</b>바꾼 직후에는 평소보다 자주 확인합니다.</li>
+          </ul>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- 바꾼 뒤 달라지는 점 -->
+  <section class="blk gray after" id="after" aria-labelledby="after-h">
+    <div class="wrap">
+      <div class="sh">바꾼 뒤</div>
+      <h2 id="after-h">바꾸고 나면 이렇게 관리합니다</h2>
+      <p class="sub">엔터시스템이 지금 관리하는 PC방에서 하고 있는 일입니다.</p>
+      <div class="nums">
+        <div class="num"><b>580여 곳</b><span>관리 중인 PC방</span></div>
+        <div class="num"><b>약 5만 5천 대</b><span>원격으로 보는 PC</span></div>
+        <div class="num"><b>24시간</b><span>교대 근무 관리 센터</span></div>
+      </div>
+      <p class="src">숫자는 2026년 10월, 관리 시스템 기준입니다.</p>
+      <div class="grid2">
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="2" fill="none"/><path d="M12 7v5l3 2" stroke="currentColor" stroke-width="2" stroke-linecap="round" fill="none"/></svg></div>
+          <h3>밤에도 주말에도 전화를 받습니다</h3>
+          <p>교대 근무하는 관리 센터가 밤·주말·공휴일에도 전화를 받습니다. 상담 기록과 통화 요약이 남아서 같은 설명을 또 하지 않아도 됩니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M3 12h4l2-5 4 10 2-5h6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>원격으로 계속 지켜봅니다</h3>
+          <p>좌석 PC의 상태·온도·전원을 원격으로 봅니다. 이상이 보이면 저희가 먼저 연락드립니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><rect x="4" y="5" width="16" height="15" rx="2" stroke="currentColor" stroke-width="2" fill="none"/><path d="M4 10h16M9 3v4M15 3v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></div>
+          <h3>평일에 미리 점검합니다</h3>
+          <p>가장 바쁜 날 멈추지 않도록, 손님이 몰리는 주말 전에 평일에 미리 점검합니다.</p>
+        </div>
+        <div class="card">
+          <div class="ico"><svg width="24" height="24" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11M7 10l5 5 5-5M5 20h14" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></div>
+          <h3>게임 설치는 원격으로</h3>
+          <p>요청하시면 원격으로 설치·업데이트합니다. 서버에서 한 번에 하니 좌석마다 손댈 일이 없습니다.</p>
+        </div>
+      </div>
+      <div class="tvcard">
+        <div>
+          <span class="badge">원하실 때만</span>
+          <h3>매장 TV도 한 업체에서</h3>
+          <p>업소용 TV 셋톱 엔터TV를 함께 쓰면 문의 창구도, 청구서도 하나입니다. PC방 396곳이 쓰고 있습니다(2026년 10월 기준).</p>
+        </div>
+        <a class="btn line" href="tv.html">엔터TV 자세히 보기</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 비용 안내 -->
+  <section class="blk cost" id="cost" aria-labelledby="cost-h">
+    <div class="wrap">
+      <div class="sh">비용</div>
+      <h2 id="cost-h">비용은 매장마다 다릅니다</h2>
+      <p class="sub">서버와 좌석 구성이 매장마다 다릅니다. 그래서 현장 점검 뒤에 정확히 알려 드립니다.</p>
+      <div class="cost-wrap">
+        <div class="tbl-wrap">
+          <table class="tbl">
+            <caption class="sr">업체 변경 비용 안내</caption>
+            <thead>
+              <tr><th scope="col">항목</th><th scope="col">안내</th></tr>
+            </thead>
+            <tbody>
+              <tr><th scope="row">상담</th><td>무료입니다.</td></tr>
+              <tr><th scope="row">현장 점검</th><td><span class="todo">[무료 여부 확인]</span></td></tr>
+              <tr><th scope="row">업체를 옮길 때 드는 비용과 조건</th><td><span class="todo">[대표님 확인 후 기재]</span></td></tr>
+              <tr><th scope="row">서버·장비</th><td>지금 장비를 그대로 쓸 수 있는지 현장 점검 때 확인합니다. 바꿔야 하면 이유와 비용을 먼저 설명해 드립니다.</td></tr>
+              <tr><th scope="row">월 관리비</th><td>좌석 수와 서버 구성에 따라 다릅니다. 상담 때 안내해 드립니다.</td></tr>
+              <tr><th scope="row">기사 방문 출장비</th><td>지역마다 다릅니다. <span class="todo">[지역별 출장비 기준]</span></td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="soon-line"><span class="badge">준비 중</span><span>디스크 증설과 라이트백 SSD 교체 비용을 나눠 내실 수 있게 준비하고 있습니다.</span></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 자주 묻는 질문 -->
+  <section class="blk gray faq" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="sh">자주 묻는 질문</div>
+      <h2 id="faq-h">바꾸기 전에 많이 묻는 질문</h2>
+      <details>
+        <summary>업체를 바꾸면 영업을 쉬어야 합니까?</summary>
+        <p>영업을 길게 쉬지 않도록 손님이 가장 적은 시간에 바꿉니다. 쓰시던 게임과 설정은 미리 맞춰 둡니다. 바꾸는 동안에는 좌석을 잠시 못 쓸 수 있습니다. 걸리는 시간은 <span class="todo">[매장 규모별]</span> 현장 점검 때 알려 드립니다.</p>
+      </details>
+      <details>
+        <summary>쓰던 게임은 그대로 쓸 수 있습니까?</summary>
+        <p>쓰시던 게임 목록을 받아서 새 이미지에 미리 맞춰 둡니다. 바꾸는 날 자주 쓰는 게임을 직접 켜 보고 확인합니다. 설치가 어려운 게임이 있으면 미리 말씀드립니다.</p>
+      </details>
+      <details>
+        <summary>서버를 새로 사야 합니까?</summary>
+        <p>현장 점검 뒤에 정합니다. 지금 서버를 그대로 쓸 수 있는지 먼저 확인합니다. 바꿔야 한다면 왜 바꿔야 하는지 설명해 드립니다. 서버가 지금 업체에서 빌린 것인지도 계약서에서 확인해 보십시오.</p>
+      </details>
+      <details>
+        <summary>지방 매장도 바꿀 수 있습니까?</summary>
+        <p>네. 관리는 원격으로 해서 전국 매장을 관리하고 있습니다. 부품 교체처럼 방문이 꼭 필요한 일은 지역에 따라 출장비가 있습니다. <span class="todo">[지역별 출장비 기준]</span> 현장 점검과 바꾸는 날 방문 일정은 상담 때 정합니다.</p>
+      </details>
+      <details>
+        <summary>지금 업체와 계약이 남아 있으면 어떻게 합니까?</summary>
+        <p>먼저 계약서에서 계약 기간, 해지 통보 기간, 위약금 조항을 확인해 보십시오. 계약이 끝나는 시기에 맞춰 미리 준비하면 서두르지 않아도 됩니다. 계약 내용이 헷갈리면 전문가에게 물어보시는 것이 좋습니다.</p>
+      </details>
+      <details>
+        <summary>관리프로그램도 바꿔야 합니까?</summary>
+        <p>지금 쓰시는 관리프로그램을 그대로 쓸 수 있는지 현장 점검 때 확인합니다. 체크리스트에 관리프로그램 이름을 적어 두시면 빠릅니다. 관리프로그램까지 바꾸고 싶으실 때 영업 공백을 줄이며 옮겨 드리는 일은 <span class="badge">준비 중</span>입니다.</p>
+      </details>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+
+<script>
+  // 바꾸기 전 확인 체크리스트: 체크한 항목은 이 브라우저(localStorage)에만 남고, 어디로도 보내지 않아요.
+  (function () {
+    var list = document.getElementById('ckList');
+    if (!list) return;
+    var boxes = Array.prototype.slice.call(list.querySelectorAll('input[type="checkbox"]'));
+    if (!boxes.length) return;
+
+    var KEY = 'entersystem-switch-checklist-v1';
+    var store = null;
+    try {
+      var t = '__es_test__';
+      window.localStorage.setItem(t, '1');
+      window.localStorage.removeItem(t);
+      store = window.localStorage;
+    } catch (e) { store = null; }
+
+    var tools = document.getElementById('ckTools');
+    var doneEl = document.getElementById('ckDone');
+    var totalEl = document.getElementById('ckTotal');
+    var bar = document.getElementById('ckBar');
+    var allMsg = document.getElementById('ckAll');
+    var note = document.getElementById('ckNote');
+
+    if (!store && note) {
+      note.textContent = '이 브라우저에서는 체크가 저장되지 않습니다. 페이지를 닫으면 지워집니다. 어디로도 보내지 않습니다.';
+    }
+
+    function load() {
+      if (!store) return {};
+      try {
+        var data = JSON.parse(store.getItem(KEY));
+        return (data && typeof data === 'object') ? data : {};
+      } catch (e) { return {}; }
+    }
+    function save() {
+      if (!store) return;
+      var data = {};
+      boxes.forEach(function (b) { if (b.checked) data[b.id] = 1; });
+      try { store.setItem(KEY, JSON.stringify(data)); } catch (e) {}
+    }
+    function update() {
+      var done = 0;
+      boxes.forEach(function (b) {
+        if (b.checked) done++;
+        var label = b.closest ? b.closest('.ck') : b.parentNode;
+        if (label) label.classList.toggle('on', b.checked);
+      });
+      doneEl.textContent = done;
+      totalEl.textContent = boxes.length;
+      bar.style.width = Math.round(done / boxes.length * 100) + '%';
+      allMsg.hidden = done !== boxes.length;
+    }
+
+    var saved = load();
+    boxes.forEach(function (b) {
+      if (saved[b.id]) b.checked = true;
+      b.addEventListener('change', function () { update(); save(); });
+    });
+    tools.hidden = false;
+    update();
+
+    document.getElementById('ckReset').addEventListener('click', function () {
+      boxes.forEach(function (b) { b.checked = false; });
+      update();
+      if (store) { try { store.removeItem(KEY); } catch (e) {} }
+    });
+
+    // 체크리스트만 인쇄해요 (인쇄가 끝나면 원래대로)
+    var root = document.documentElement;
+    document.getElementById('ckPrint').addEventListener('click', function () {
+      root.classList.add('print-check');
+      window.print();
+    });
+    window.addEventListener('afterprint', function () { root.classList.remove('print-check'); });
+  })();
+</script>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

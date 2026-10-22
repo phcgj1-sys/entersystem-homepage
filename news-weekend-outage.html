@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>주말 장애를 줄이는 평일 점검 7가지 | 엔터시스템</title>
+<meta name="description" content="노하드 매장은 손님이 몰리는 주말에 문제가 드러나기 쉽습니다. 게임 디스크 여유부터 비상 연락까지, 한가한 평일에 사장님이 챙길 7가지를 쉬운 말로 정리했습니다.">
+<meta property="og:title" content="주말 장애를 줄이는 평일 점검 7가지 | 엔터시스템">
+<meta property="og:description" content="가장 바쁜 날 멈추지 않게, 한가한 평일에 미리 챙겨 보십시오.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 (사장님 소식 글 · 안내) */
+  .page-hero h1 { font-size: clamp(30px, 4.4vw, 46px); }
+  .page-hero .meta { margin: 18px 0 0; font-size: 15px; color: #bdbdbd; }
+
+  /* 3줄 요약 · 안내 한 줄 */
+  .art .sum3 { background: var(--gray); border-left: 6px solid var(--red); border-radius: 14px; padding: 20px 22px; }
+  .art .sum3 h2 { margin: 0 0 8px; font-size: 20px; }
+  .art .sum3 ol { margin: 0; padding-left: 22px; }
+  .art .sum3 li { margin: 6px 0; color: var(--ink); font-weight: 600; }
+  .art .notice { margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; font-size: 15px; color: var(--mut); }
+  .art .inl { color: var(--red-text); font-weight: 700; }
+
+  /* 평일 점검 7가지 */
+  .art .pts { list-style: none; margin: 16px 0 0; padding: 0; counter-reset: p; display: grid; gap: 14px; }
+  .art .pts > li { counter-increment: p; margin: 0; padding: 20px 22px; background: #fff; border: 1px solid var(--line); border-radius: 16px; }
+  .art .pts h3 { display: flex; align-items: flex-start; gap: 12px; margin: 0 0 6px; font-size: 20px; line-height: 1.4; }
+  .art .pts h3::before { content: counter(p); flex-shrink: 0; width: 32px; height: 32px; border-radius: 50%; background: var(--red-strong); color: #fff; display: grid; place-items: center; font-size: 16px; font-weight: 800; }
+  .art .pts p { margin: 8px 0 0; font-size: 16px; }
+  .art .pts .k { display: inline-block; margin-right: 6px; padding: 0 8px; border-radius: 6px; background: var(--ink); color: #fff; font-size: 13px; font-weight: 800; line-height: 1.7; vertical-align: 1px; }
+  .art .pts .k.how { background: var(--soft); color: var(--red-text); }
+  .art .pts a { color: var(--red-text); font-weight: 700; }
+
+  /* 직접 하지 말 일 */
+  .art .warn { margin-top: 20px; padding: 18px 22px; background: var(--ink); border-radius: 16px; }
+  .art .warn h3 { margin: 0 0 6px; font-size: 19px; color: #ff8c99; }
+  .art .warn p { margin: 0; color: #e6e6e6; font-size: 16px; }
+  .art .warn p + p { margin-top: 6px; }
+
+  /* 사장님이 할 일 (그냥 목록이에요. 저장 기능은 없어요) */
+  .art .tasks { margin-top: 48px; border: 2px solid var(--ink); border-radius: var(--radius); padding: 22px 24px 12px; background: #fff; }
+  .art .tasks h2 { margin: 0 0 6px; font-size: clamp(22px, 2.8vw, 26px); }
+  .art .checks { list-style: none; margin: 0; padding: 0; }
+  .art .checks li { position: relative; margin: 0; padding: 12px 0 12px 36px; border-top: 1px solid var(--line); color: var(--ink); }
+  .art .checks li:first-child { border-top: 0; }
+  .art .checks li::before { content: ""; position: absolute; left: 7px; top: 21px; width: 10px; height: 10px; border: 5px solid var(--ink); border-radius: 50%; }
+  .art .checks a { color: var(--red-text); font-weight: 700; }
+
+  /* 관련 페이지 */
+  .art .rel { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .art .rel li { margin: 0; }
+  .art .rel a { display: block; text-decoration: none; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+  .art .rel a:hover { border-color: var(--ink); }
+  .art .rel b { display: block; font-size: 17px; color: var(--ink); }
+  .art .rel span { display: block; margin-top: 2px; font-size: 15px; color: var(--mut); }
+  .art .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 28px; font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .art .back:hover { text-decoration: underline; }
+
+  @media (max-width: 640px) {
+    .art .sum3 { padding: 16px; }
+    .art .tasks { padding: 18px 16px 8px; }
+    .art .pts > li { padding: 18px 16px; }
+    .art .pts h3 { font-size: 19px; }
+    .art .warn { padding: 16px; }
+  }
+  @media print {
+    .cta-band, footer.site, .art .back, #rel-h, .art .rel { display: none !important; }
+    .page-hero .meta { color: #333 !important; }
+    .page-hero::after { display: none; }
+    .art .pts > li, .art .warn, .art .tasks { break-inside: avoid; }
+    .art .warn { background: #fff !important; border: 2px solid #000; }
+    .art .warn h3, .art .warn p { color: #000 !important; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "주말 장애를 줄이는 평일 점검 7가지",
+  "description": "노하드 매장은 손님이 몰리는 주말에 문제가 드러나기 쉽습니다. 게임 디스크 여유부터 비상 연락까지, 한가한 평일에 사장님이 챙길 7가지를 쉬운 말로 정리했습니다.",
+  "datePublished": "2026-10-21",
+  "inLanguage": "ko-KR",
+  "author": {
+    "@type": "Organization",
+    "name": "(주)엔터시스템"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "(주)엔터시스템"
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › <a href="news.html">사장님 소식</a> › 주말 장애를 줄이는 평일 점검 7가지</div>
+      <h1>주말 장애를 줄이는 <em>평일 점검 7가지</em></h1>
+      <p class="lead">주말처럼 많은 좌석이 한꺼번에 켜지면 서버가 바빠지고, 숨어 있던 문제가 드러나기 쉽습니다. 한가한 평일에 사장님이 직접 챙길 수 있는 7가지를 모았습니다.</p>
+      <p class="meta"><time datetime="2026-10-21">2026년 10월 21일</time> 작성</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap">
+      <article class="prose art">
+        <section class="sum3" aria-labelledby="sum-h">
+          <h2 id="sum-h">3줄 요약</h2>
+          <ol>
+            <li>노하드 매장은 손님이 몰릴 때 서버가 가장 바쁩니다. 그래서 문제가 주말에 드러나기 쉽습니다.</li>
+            <li>게임 디스크 여유, 신작 일정, 서버 주변, 전원, 반복 증상, 원격 프로그램, 비상 연락. 이 7가지를 평일에 챙겨 보십시오.</li>
+            <li>서버를 끄거나 다시 켜는 일은 직접 하지 말고 관리 업체와 상의하십시오.</li>
+          </ol>
+        </section>
+        <p class="notice">이 글은 엔터시스템이 매장을 관리하며 겪은 일을 바탕으로 쓴 일반 안내입니다. 매장마다 다를 수 있습니다.</p>
+
+        <h2>왜 평일에 챙겨야 합니까</h2>
+        <p>노하드 매장은 모든 좌석이 서버 한 곳에 기대고 있습니다. 서버에 문제가 생기면 여러 좌석, 때로는 매장 전체가 멈출 수 있습니다.</p>
+        <p>주말처럼 많은 좌석이 한꺼번에 켜지고 게임을 불러오면 서버 부담이 커집니다. 그래서 문제는 가장 바쁠 때 드러나기 쉽습니다.</p>
+        <p>손님이 적은 평일에 미리 챙겨 두면 주말에 당황할 일이 줄어듭니다. 원리는 <a class="inl" href="nohard.html">노하드란?</a>에 그림으로 풀어 두었습니다.</p>
+
+        <h2>평일 점검 7가지</h2>
+        <p>항목마다 왜 챙겨야 하는지, 어떻게 하면 되는지 적었습니다.</p>
+        <ol class="pts" role="list">
+          <li>
+            <h3>게임 디스크 남은 공간 확인하기</h3>
+            <p><span class="k">왜</span>게임 디스크가 꽉 차면 새 게임도, 패치도 깔 수 없습니다. 게임은 점점 커지고 많아집니다.</p>
+            <p><span class="k how">어떻게</span>관리 업체에 남은 공간이 넉넉한지 물어보십시오. 모자라면 지워도 되는 게임을 함께 알려 주십시오.</p>
+          </li>
+          <li>
+            <h3>신작·큰 업데이트 일정 미리 알리기</h3>
+            <p><span class="k">왜</span>큰 게임은 설치에 몇 시간 걸립니다. 손님이 몰리는 시간에는 바로 깔기 어렵습니다.</p>
+            <p><span class="k how">어떻게</span>주말에 손님이 찾을 게임이 있으면 평일에 미리 정확한 게임 이름과 어디 게임인지 알려 주십시오. 손님이 적은 시간에 설치할 수 있고, 설치가 어려운 게임인지도 미리 알 수 있습니다.</p>
+          </li>
+          <li>
+            <h3>서버·스위치 주변의 열과 먼지 보기</h3>
+            <p><span class="k">왜</span>서버와 스위치는 모든 좌석이 기대는 장비입니다. PC는 온도가 높거나 먼지가 쌓이면 꺼지는 원인이 될 수 있습니다.</p>
+            <p><span class="k how">어떻게</span>서버와 스위치 주변에 짐을 쌓거나 덮어 두지 않았는지 보십시오. 먼지 청소가 필요하면 직접 열지 말고 관리 업체에 알려 손님 없는 시간에 하십시오.</p>
+          </li>
+          <li>
+            <h3>전원선·멀티탭 정리하기</h3>
+            <p><span class="k">왜</span>서버 전원이 꺼지면 매장 전체가 멈출 수 있습니다. 스위치(허브) 전원 코드가 헐거우면 그 줄 좌석이 끊길 수 있습니다.</p>
+            <p><span class="k how">어떻게</span>전원 코드가 헐겁지 않은지 눈으로 확인하십시오. 서버가 꽂힌 멀티탭에는 ‘끄지 마세요’라고 붙여 두면 실수로 끄는 일을 줄일 수 있습니다.</p>
+          </li>
+          <li>
+            <h3>반복되는 증상 적어 두기</h3>
+            <p><span class="k">왜</span>같은 자리에서 같은 문제가 자주 생기면 원인을 찾는 단서가 됩니다. 평일에 알리면 주말 전에 점검할 수 있습니다.</p>
+            <p><span class="k how">어떻게</span>자리 번호, 게임 이름, 언제부터 그런지, 화면 사진을 모아 두십시오. <a href="help.html#request">요청 메시지 만들기</a>로 정리하면 한 번에 보낼 수 있습니다.</p>
+          </li>
+          <li>
+            <h3>카운터 PC에 모르는 원격 프로그램 깔지 않기</h3>
+            <p><span class="k">왜</span>안내받지 않은 원격 프로그램이 있으면 다른 사람이 매장 PC에 들어올 수 있습니다.</p>
+            <p><span class="k how">어떻게</span>관리 업체가 안내하지 않은 원격 프로그램은 깔지 마십시오. 모르는 사람이 원격 연결을 해 달라고 하면 관리 업체에 먼저 확인하십시오.</p>
+          </li>
+          <li>
+            <h3>비상 연락 방법을 카운터에 붙여 두기</h3>
+            <p><span class="k">왜</span>문제가 생겼을 때 사장님이 매장에 없을 수도 있습니다. 카운터를 보는 직원도 누구에게 무엇을 알릴지 바로 알아야 합니다.</p>
+            <p><span class="k how">어떻게</span>관리 업체 연락처와, 연락할 때 알려 줄 것(매장 이름, 자리 번호, 게임 이름과 증상, 화면 사진, 다른 자리도 그런지)을 한 장에 적어 카운터에 붙여 두십시오. 엔터시스템 관리 매장은 <a href="guide.html">고객지원 인쇄용 안내문</a>을 뽑아 붙이면 됩니다.</p>
+          </li>
+        </ol>
+
+        <aside class="warn" aria-labelledby="warn-h">
+          <h3 id="warn-h">이런 일은 관리 업체와 먼저 상의하십시오</h3>
+          <p>서버를 끄거나 다시 켜기, 서버 전원선 뽑기, 서버 옮기기는 매장 전체에 영향을 줄 수 있습니다. 직접 하지 마십시오.</p>
+          <p>청소·이동·전기 공사 전에는 미리 알리고, 정전 뒤 다시 켤 때도 관리 업체에 알려 주십시오.</p>
+        </aside>
+
+        <section class="tasks" aria-labelledby="tasks-h">
+          <h2 id="tasks-h">사장님이 할 일</h2>
+          <ul class="checks">
+            <li>이번 주 평일에 게임 디스크 남은 공간을 관리 업체에 물어보십시오.</li>
+            <li>주말에 손님이 찾을 신작이 있으면 평일에 미리 알려 주십시오.</li>
+            <li>서버와 스위치 주변에 쌓인 짐을 치워 두십시오.</li>
+            <li>서버가 꽂힌 멀티탭에 ‘끄지 마세요’를 붙여 두십시오.</li>
+            <li>반복되는 증상은 <a href="help.html#request">요청 메시지 만들기</a>로 정리해 평일에 보내십시오.</li>
+            <li>카운터 PC에 모르는 원격 프로그램이 없는지 관리 업체에 확인해 달라고 하십시오.</li>
+            <li>비상 연락 방법을 카운터에 붙이고, 직원에게도 알려 주십시오.</li>
+          </ul>
+        </section>
+
+        <h2 id="rel-h">관련 페이지</h2>
+        <ul class="rel">
+          <li><a href="help.html"><b>고객지원</b><span>증상별로 먼저 해 볼 것을 찾고, 보낼 요청 메시지를 한 번에 만들 수 있습니다.</span></a></li>
+          <li><a href="guide.html"><b>고객지원 인쇄용 안내문</b><span>A4 한 장으로 뽑아 카운터에 붙여 두는 안내입니다.</span></a></li>
+          <li><a href="checkup.html"><b>매장 자가진단(8가지 질문)</b><span>8가지 질문에 답하면 우리 매장 서버에서 먼저 챙길 것을 알려 드립니다.</span></a></li>
+          <li><a href="nohard.html"><b>노하드란?</b><span>서버 하나로 매장 전체를 켜는 원리와 조심할 점을 쉽게 풀었습니다.</span></a></li>
+          <li><a href="news.html"><b>사장님 소식 전체 보기</b><span>PC방 운영에 도움이 되는 다른 글도 모아 두었습니다.</span></a></li>
+        </ul>
+
+        <a class="back" href="news.html"><span aria-hidden="true">←</span> 사장님 소식 목록으로</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>

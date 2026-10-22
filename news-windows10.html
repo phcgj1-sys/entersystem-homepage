@@ -1,0 +1,316 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>윈도우 10 지원 종료, PC방은 무엇을 확인할까 | 엔터시스템</title>
+<meta name="description" content="윈도우 10 일반 지원 종료, 연장 보안 업데이트(ESU), 엔비디아 드라이버 변화, 카운터 PC 보안까지. PC방이 확인할 것을 쉬운 말로 정리했습니다.">
+<meta property="og:title" content="윈도우 10 지원 종료, PC방은 무엇을 확인할까 | 엔터시스템">
+<meta property="og:description" content="좌석 PC와 카운터 PC에서 무엇을 확인할지 날짜순으로 정리했습니다.">
+<meta property="og:type" content="article">
+<meta property="og:image" content="assets/og-image.jpg">
+<!-- es-meta -->
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:site_name" content="엔터시스템">
+<meta property="og:locale" content="ko_KR">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="apple-touch-icon" href="assets/icon-180.png">
+<meta name="theme-color" content="#0a0a0a">
+<link rel="icon" href="assets/enter-logo.png">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
+<link rel="stylesheet" href="assets/site.css">
+<style>
+  /* 이 페이지에만 쓰는 스타일 (사장님 소식 글) */
+  .page-hero h1 { font-size: clamp(30px, 4.4vw, 46px); }
+  .page-hero .meta { margin: 18px 0 0; font-size: 15px; color: #bdbdbd; }
+
+  /* 3줄 요약 · 안내 한 줄 */
+  .art .sum3 { background: var(--gray); border-left: 6px solid var(--red); border-radius: 14px; padding: 20px 22px; }
+  .art .sum3 h2 { margin: 0 0 8px; font-size: 20px; }
+  .art .sum3 ol { margin: 0; padding-left: 22px; }
+  .art .sum3 li { margin: 6px 0; color: var(--ink); font-weight: 600; }
+  .art .notice { margin: 14px 0 0; padding: 12px 16px; border: 1px solid var(--line); border-radius: 12px; font-size: 15px; color: var(--mut); }
+
+  /* 본문 속 출처 번호 */
+  .art .cite { font-size: 13px; font-weight: 700; color: var(--mut); text-decoration: none; white-space: nowrap; }
+  .art .cite:hover { color: var(--red-text); text-decoration: underline; }
+
+  /* 날짜 흐름 */
+  .art .tl { list-style: none; margin: 16px 0; padding: 0; }
+  .art .tl li { position: relative; margin: 0; padding: 0 0 20px 32px; }
+  .art .tl li::before { content: ""; position: absolute; left: 4px; top: 6px; width: 14px; height: 14px; border-radius: 50%; background: var(--ink); }
+  .art .tl li::after { content: ""; position: absolute; left: 10px; top: 24px; bottom: 0; width: 2px; background: #d6d6d6; }
+  .art .tl li:last-child { padding-bottom: 0; }
+  .art .tl li:last-child::after { display: none; }
+  .art .tl li.hot::before { background: var(--red); }
+  .art .tl .when { display: block; font-size: 15px; font-weight: 800; color: var(--red-text); }
+
+  /* 사장님이 할 일 (그냥 목록이에요. 저장 기능은 없어요) */
+  .art .tasks { margin-top: 48px; border: 2px solid var(--ink); border-radius: var(--radius); padding: 22px 24px 12px; background: #fff; }
+  .art .tasks h2 { margin: 0 0 6px; font-size: clamp(22px, 2.8vw, 26px); }
+  .art .checks { list-style: none; margin: 0; padding: 0; }
+  .art .checks li { position: relative; margin: 0; padding: 12px 0 12px 36px; border-top: 1px solid var(--line); color: var(--ink); }
+  .art .checks li:first-child { border-top: 0; }
+  .art .checks li::before { content: ""; position: absolute; left: 7px; top: 21px; width: 10px; height: 10px; border: 5px solid var(--ink); border-radius: 50%; }
+
+  /* 엔터시스템 준비 중 안내 */
+  .art .svc { margin-top: 20px; padding: 16px 18px; border: 1px dashed #bdbdbd; border-radius: 14px; background: var(--gray); }
+  .art .svc p { margin: 8px 0 0; font-size: 16px; }
+
+  /* 출처 */
+  .art .srcs { margin: 0; padding-left: 24px; }
+  .art .srcs li { margin: 0 0 12px; font-size: 16px; }
+  .art .srcs li:target { background: var(--soft); box-shadow: 0 0 0 6px var(--soft); border-radius: 4px; }
+  .art .srcs a { color: var(--ink); font-weight: 700; }
+  .art .srcs .what { display: block; font-size: 14px; color: var(--mut); }
+  .lbl { display: inline-block; font-size: 12px; font-weight: 800; color: var(--ink2); background: #fff; border: 1px solid #cfcfcf; border-radius: 6px; padding: 0 6px; line-height: 1.6; margin-right: 4px; white-space: nowrap; vertical-align: 1px; }
+  .art .legend { margin: 4px 0 0; font-size: 14px; color: var(--mut); }
+
+  /* 관련 페이지 */
+  .art .rel { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .art .rel li { margin: 0; }
+  .art .rel a { display: block; text-decoration: none; background: #fff; border: 1px solid var(--line); border-radius: 14px; padding: 14px 18px; }
+  .art .rel a:hover { border-color: var(--ink); }
+  .art .rel b { display: block; font-size: 17px; color: var(--ink); }
+  .art .rel span { display: block; margin-top: 2px; font-size: 15px; color: var(--mut); }
+  .art .back { display: inline-flex; align-items: center; gap: 6px; min-height: 44px; margin-top: 28px; font-weight: 800; color: var(--red-text); text-decoration: none; }
+  .art .back:hover { text-decoration: underline; }
+  .art .inl { color: var(--red-text); font-weight: 700; }
+
+  @media (max-width: 640px) {
+    .art .sum3, .art .svc { padding: 16px; }
+    .art .tasks { padding: 18px 16px 8px; }
+  }
+  @media print {
+    .art .back { display: none; }
+  }
+</style>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Article",
+  "headline": "윈도우 10 지원 종료, PC방은 무엇을 확인할까",
+  "description": "윈도우 10 일반 지원 종료, 연장 보안 업데이트(ESU), 엔비디아 드라이버 변화, 카운터 PC 보안까지. PC방이 확인할 것을 쉬운 말로 정리했습니다.",
+  "datePublished": "2026-10-21",
+  "inLanguage": "ko-KR",
+  "author": {
+    "@type": "Organization",
+    "name": "(주)엔터시스템"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "(주)엔터시스템"
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip" href="#main">본문 바로가기</a>
+<div class="draft">시안입니다. 대표님 확인 전에는 공개하지 마십시오. <b>[ ]</b> 부분은 실제 정보로 바꿔야 합니다.</div>
+
+<header class="top">
+  <div class="wrap">
+    <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
+    <nav class="menu" aria-label="주 메뉴">
+      <a href="index.html#service">서비스</a>
+      <a href="index.html#monitor">엔플 모니터링</a>
+      <a href="nohard.html">노하드란?</a>
+      <a href="switch.html">업체 변경</a>
+      <a href="checkup.html">매장 자가진단</a>
+      <a href="help.html">고객지원</a>
+      <a href="about.html">회사 소개</a>
+    </nav>
+    <div class="head-cta">
+      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <details class="mnav">
+        <summary aria-label="메뉴 열기"><span></span></summary>
+        <nav aria-label="휴대폰 메뉴">
+          <a href="index.html#service">서비스</a>
+          <a href="index.html#monitor">엔플 모니터링</a>
+          <a href="nohard.html">노하드란?</a>
+          <a href="switch.html">업체 변경</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
+          <a href="help.html">고객지원</a>
+          <a href="faq.html">자주 묻는 질문</a>
+          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="news.html">사장님 소식</a>
+          <a href="about.html">회사 소개</a>
+          <a class="btn" href="index.html#contact">상담 신청</a>
+        </nav>
+      </details>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+  <section class="page-hero">
+    <div class="wrap">
+      <div class="crumb"><a href="index.html">홈</a> › <a href="news.html">사장님 소식</a> › 윈도우 10 지원 종료, PC방은 무엇을 확인할까</div>
+      <h1><em>윈도우 10</em> 지원 종료, PC방은 무엇을 확인할까</h1>
+      <p class="lead">윈도우 10 일반 지원은 2025년 10월 14일에 끝났습니다. 올해 11월부터는 엔비디아 새 드라이버도 윈도우 11에서만 지원한다고 합니다. 좌석 PC와 카운터 PC에서 무엇을 확인할지 정리했습니다.</p>
+      <p class="meta"><time datetime="2026-10-21">2026년 10월 21일</time> 작성</p>
+    </div>
+  </section>
+
+  <section class="blk">
+    <div class="wrap">
+      <article class="prose art">
+        <section class="sum3" aria-labelledby="sum-h">
+          <h2 id="sum-h">3줄 요약</h2>
+          <ol>
+            <li>윈도우 10 일반 지원은 2025년 10월 14일에 끝났습니다. 연장 보안 업데이트(ESU)는 돈을 내야 하고, 개인용은 가게 용도로 쓸 수 없다고 안내되어 있습니다.</li>
+            <li>엔비디아는 2026년 11월부터 새 드라이버를 윈도우 11에서만 지원한다고 합니다.</li>
+            <li>좌석 PC와 카운터 PC의 윈도우 버전, 정품 권한, TPM 2.0을 먼저 확인해 보십시오.</li>
+          </ol>
+        </section>
+        <p class="notice">법률·기술 상담이 아닙니다. 마이크로소프트 안내와 기사를 바탕으로 정리했습니다. 정확한 내용은 마이크로소프트, 담당 기관, 전문가에게 확인하십시오.</p>
+
+        <h2>날짜로 보면 이렇습니다</h2>
+        <ol class="tl">
+          <li>
+            <span class="when">2025년 10월 14일</span>
+            윈도우 10 일반 지원이 끝났습니다. <a class="cite" href="#s1">[출처 1]</a>
+          </li>
+          <li>
+            <span class="when">2026년 10월</span>
+            엔비디아의 윈도우 10용 마지막 정규 게임 드라이버가 나오는 달이라고 합니다. <a class="cite" href="#s4">[출처 4]</a>
+          </li>
+          <li class="hot">
+            <span class="when">2026년 11월부터</span>
+            엔비디아 새 드라이버는 윈도우 11에서만 지원한다고 합니다. <a class="cite" href="#s4">[출처 4]</a>
+          </li>
+          <li class="hot">
+            <span class="when">2027년 1월 13일 (한국 시간)</span>
+            Windows 10 Enterprise LTSC 2021의 지원이 끝납니다. <a class="cite" href="#s3">[출처 3]</a>
+          </li>
+          <li>
+            <span class="when">2029년 10월까지</span>
+            지원 대상 지포스 그래픽카드는 윈도우 10에서도 보안 업데이트가 분기마다 나온다고 합니다. <a class="cite" href="#s4">[출처 4]</a>
+          </li>
+        </ol>
+        <p>LTSC 2021은 윈도우 10의 기업용 판 가운데 하나입니다. 우리 매장 PC가 어떤 판인지 모르면 관리 업체에 물어보십시오.</p>
+
+        <h2>연장 보안 업데이트(ESU)는 돈을 내야 합니다</h2>
+        <p>일반 지원이 끝난 뒤에도 보안 업데이트를 받는 방법으로 ‘연장 보안 업데이트(ESU)’가 있습니다.</p>
+        <ul>
+          <li>기업용 ESU는 1년차에 PC 한 대당 61달러입니다. <a class="cite" href="#s1">[출처 1]</a></li>
+          <li>금액은 해마다 두 배가 되고, 최대 3년까지입니다. <a class="cite" href="#s1">[출처 1]</a></li>
+          <li>중간에 사면 지난해 값도 함께 내야 합니다(예: 2년차에 사면 1년차 값까지). <a class="cite" href="#s1">[출처 1]</a></li>
+          <li>ESU는 윈도우 10 22H2 버전용입니다. <a class="cite" href="#s1">[출처 1]</a> LTSC는 지원 기간이 따로 있습니다. <a class="cite" href="#s3">[출처 3]</a></li>
+          <li>개인용 연장 업데이트는 가게·회사 용도로 쓸 수 없다고 안내되어 있습니다. <a class="cite" href="#s2">[출처 2]</a></li>
+        </ul>
+        <p>PC 한 대마다 내는 돈이라 좌석이 많을수록 부담도 커집니다. 사는 방법과 정확한 조건은 마이크로소프트나 판매처에 확인하십시오.</p>
+
+        <h2>그래픽 드라이버와 바이오스도 봐야 합니다</h2>
+        <p>한 노하드 업체 조사에서, 최근 문을 연 PC방 중 윈도우 11은 59%, 윈도우 10은 41%였습니다. <a class="cite" href="#s5">[출처 5]</a> 새로 연 매장도 열 곳 중 네 곳 정도는 윈도우 10이라는 뜻입니다.</p>
+        <p>엔비디아는 11월부터 새 드라이버를 윈도우 11에서만 지원한다고 합니다. <a class="cite" href="#s4">[출처 4]</a> 새 그래픽카드나 새 게임을 들일 계획이 있다면 이 점을 미리 생각해 두십시오.</p>
+        <p>윈도우 11로 바꾸려면 PC 상태도 봐야 합니다. 구형 PC는 바이오스가 오래돼서 TPM 2.0을 켜지 못하는 경우가 많다고 합니다. <a class="cite" href="#s4">[출처 4]</a></p>
+        <ul>
+          <li><b>바이오스</b>: PC를 켤 때 가장 먼저 움직이는 기본 설정 프로그램입니다.</li>
+          <li><b>TPM</b>: PC 안에 있는 보안 기능입니다.</li>
+        </ul>
+
+        <h2>회원 정보를 다루는 카운터 PC는 한 번 더</h2>
+        <p>「개인정보의 안전성 확보조치 기준」 제9조 제2항에는 이런 내용이 있습니다. 운영체제 제작사가 보안 업데이트를 알리면, 정당한 사유가 없는 한 바로 적용해야 합니다. <a class="cite" href="#s6">[출처 6]</a></p>
+        <p>회원 정보를 다루는 카운터 PC라면 이 기준과 관련이 있을 수 있습니다. 보안 업데이트가 끊긴 윈도우를 계속 쓰면 문제가 될 수 있습니다. 우리 매장에 어떻게 적용되는지는 전문가에게 확인하십시오.</p>
+
+        <h2>바꾸기 전에 확인할 것</h2>
+        <ul>
+          <li>윈도우와 오피스는 PC마다 정품 권한이 있어야 합니다.</li>
+          <li>노하드 매장은 좌석 PC가 서버에 있는 윈도우 원본(이미지)으로 켜집니다. 그래서 윈도우를 바꿀 때도 서버 이미지와 함께 계획합니다. 원리는 <a class="inl" href="nohard.html">노하드란?</a>에 쉽게 풀어 두었습니다.</li>
+          <li>좌석 PC만 보지 말고 카운터 PC도 함께 챙기십시오.</li>
+        </ul>
+
+        <section class="tasks" aria-labelledby="tasks-h">
+          <h2 id="tasks-h">사장님이 할 일</h2>
+          <ul class="checks">
+            <li>좌석 PC와 카운터 PC가 윈도우 10인지 11인지 확인해 보십시오. 모르면 관리 업체에 물어보십시오.</li>
+            <li>윈도우 10이라면 어떤 판인지(예: LTSC 2021)도 함께 물어보십시오.</li>
+            <li>새 그래픽카드나 새 게임을 들일 계획이 있다면, 새 드라이버가 윈도우 11에서만 나온다는 점을 미리 챙기십시오.</li>
+            <li>윈도우 11로 바꿀 생각이라면 PC마다 TPM 2.0을 켤 수 있는지 확인해 보십시오.</li>
+            <li>윈도우·오피스 정품 권한이 PC마다 있는지 확인해 보십시오.</li>
+            <li>회원 정보를 다루는 카운터 PC가 보안 업데이트를 받고 있는지 확인해 보십시오.</li>
+          </ul>
+        </section>
+
+        <aside class="svc" aria-label="엔터시스템 준비 중 서비스">
+          <span class="badge">준비 중</span>
+          <p>엔터시스템은 노하드 이미지를 윈도우 11로 바꾸는 일을 준비하고 있습니다. 아직 시작 전이라 내용은 바뀔 수 있습니다.</p>
+        </aside>
+
+        <h2>출처</h2>
+        <ol class="srcs">
+          <li id="s1"><span class="lbl">[공식 자료]</span><a href="https://learn.microsoft.com/en-us/windows/whats-new/extended-security-updates" target="_blank" rel="noopener">마이크로소프트 — 윈도우 10 연장 보안 업데이트(ESU) 안내 (영어)<span class="sr-only"> (새 창)</span></a><span class="what">일반 지원 종료일, 기업용 ESU 가격, 중간에 살 때 지난해 값, 22H2 버전 대상</span></li>
+          <li id="s2"><span class="lbl">[공식 자료]</span><a href="https://www.microsoft.com/en-us/windows/extended-security-updates" target="_blank" rel="noopener">마이크로소프트 — 개인용 연장 보안 업데이트 안내 (영어)<span class="sr-only"> (새 창)</span></a><span class="what">개인용은 상업 용도로 쓸 수 없다는 안내</span></li>
+          <li id="s3"><span class="lbl">[공식 자료]</span><a href="https://learn.microsoft.com/en-us/lifecycle/products/windows-10-enterprise-ltsc-2021" target="_blank" rel="noopener">마이크로소프트 — Windows 10 Enterprise LTSC 2021 지원 기간 (영어)<span class="sr-only"> (새 창)</span></a><span class="what">지원 종료일</span></li>
+          <li id="s4"><span class="lbl">[보도]</span><a href="https://www.ilovepcbang.com/news/articleView.html?idxno=201266" target="_blank" rel="noopener">아이러브PC방 (2026년 8월 30일)<span class="sr-only"> (새 창)</span></a><span class="what">엔비디아 드라이버 일정, 구형 PC의 TPM 2.0</span></li>
+          <li id="s5"><span class="lbl">[보도]</span><a href="https://www.ilovepcbang.com/news/articleView.html?idxno=128902" target="_blank" rel="noopener">아이러브PC방 (2026년 5월 22일)<span class="sr-only"> (새 창)</span></a><span class="what">최근 문을 연 PC방의 윈도우 버전 (한 노하드 업체 조사)</span></li>
+          <li id="s6"><span class="lbl">[법령]</span><a href="https://www.law.go.kr/행정규칙/개인정보의안전성확보조치기준" target="_blank" rel="noopener">개인정보의 안전성 확보조치 기준 (국가법령정보센터)<span class="sr-only"> (새 창)</span></a><span class="what">제9조 제2항</span></li>
+        </ol>
+        <p class="legend">[보도]는 언론 기사에 나온 내용, [공식 자료]는 회사·기관이 직접 낸 자료, [법령]은 국가법령정보센터의 원문입니다. 법령 해석은 전문가에게 확인하십시오.</p>
+
+        <h2>관련 페이지</h2>
+        <ul class="rel">
+          <li><a href="checkup.html"><b>매장 자가진단(8가지 질문)</b><span>8가지 질문에 답하면 우리 매장 서버에서 먼저 챙길 것을 알려 드립니다.</span></a></li>
+          <li><a href="nohard.html"><b>노하드란?</b><span>좌석 PC가 서버에서 윈도우를 불러와 켜지는 원리를 쉽게 풀었습니다.</span></a></li>
+          <li><a href="news.html"><b>사장님 소식 전체 보기</b><span>PC방 운영에 영향을 주는 다른 소식도 모아 두었습니다.</span></a></li>
+        </ul>
+
+        <a class="back" href="news.html"><span aria-hidden="true">←</span> 사장님 소식 목록으로</a>
+      </article>
+    </div>
+  </section>
+
+  <section class="cta-band">
+    <div class="wrap">
+      <div>
+        <h2>매장 서버 고민, 먼저 상담해 보십시오</h2>
+        <p>상담은 무료입니다. 좌석 수와 지금 쓰시는 노하드 업체만 알려 주십시오.</p>
+      </div>
+      <div class="btns">
+        <a class="btn" href="index.html#contact">상담 신청</a>
+        <a class="btn line" href="checkup.html">매장 자가진단</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="cols">
+      <div>
+        <b>(주)엔터시스템</b> · 대표 박신용<br>
+        경기도 남양주시 순화궁로 272 (별내동, 동광비즈타워) 919호<br>
+        전화 <a href="tel:18339899">1833-9899</a> (24시간) · 메일 <a href="mailto:enterpc7979@naver.com">enterpc7979@naver.com</a><br>
+        사업자등록번호 471-87-01916 · 통신판매업신고번호 2020-별내-0147
+      </div>
+      <nav class="links" aria-label="바닥글 메뉴">
+        <a href="nohard.html">노하드란?</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
+        <a href="switch.html">업체 변경</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
+        <a href="tv.html">엔터TV</a>
+        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="help.html">고객지원</a>
+        <a href="faq.html">자주 묻는 질문</a>
+        <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="office.html">사무실·교육장 노하드(준비 중)</a>
+        <a href="news.html">사장님 소식</a>
+        <a href="about.html">회사 소개</a>
+        <a href="privacy.html"><b>개인정보처리방침</b></a>
+      </nav>
+    </div>
+    <div class="copy">© 2026 ENTERSYSTEM</div>
+  </div>
+</footer>
+
+<div class="mbar">
+  <a class="btn" href="tel:18339899">24시간 전화</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+</div>
+<script src="assets/site.js" defer></script>
+</body>
+</html>
