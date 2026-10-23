@@ -102,7 +102,7 @@ button.btn { line-height: 1.6; }
 .hero .wrap > div { max-width: 780px; }
 .award { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #ffd2d7; border: 1px solid rgba(255, 140, 153, .45); background: rgba(0, 0, 0, .35); border-radius: 999px; padding: 6px 14px; margin-bottom: 22px; }
 .award i { width: 8px; height: 8px; border-radius: 50%; background: var(--red-bright); flex-shrink: 0; }
-.hero h1 { margin: 0 0 18px; font-size: clamp(36px, 5.6vw, 64px); line-height: 1.14; }
+.hero h1 { margin: 0 0 18px; font-size: clamp(36px, 5.6vw, 64px); line-height: 1.14; text-wrap: initial; }
 .hero h1 em { font-style: normal; color: var(--red-bright); }
 .hero p.lead { margin: 0 0 30px; font-size: clamp(17px, 2vw, 20px); color: #d9d9de; max-width: 600px; }
 .hero .btns { display: flex; gap: 12px; flex-wrap: wrap; }
@@ -183,6 +183,16 @@ section.blk.switch { background: #fff; color: var(--ink); }
 .sw-photo img { width: 100%; height: auto; display: block; border-radius: 10px; }
 .sw-photo figcaption { font-size: 13px; color: var(--mut); padding: 10px 6px 2px; }
 .sw-note { margin-top: 36px; }
+
+/* 엔터쇼핑몰 (준비 중) */
+section.blk.shop { background: #fff; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
+.shop-wrap { display: grid; grid-template-columns: 1fr 1.25fr; gap: 40px; align-items: center; }
+.shop-soon { display: flex; align-items: center; gap: 10px; margin: 0 0 14px; font-size: 18px; font-weight: 800; color: var(--ink); }
+.shop-wrap .sub { margin-bottom: 0; }
+.shop-items { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.shop-item { margin: 0; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 18px 14px 14px; text-align: center; box-shadow: var(--shadow); min-width: 0; }
+.shop-item svg { width: 100%; max-width: 150px; height: auto; display: block; margin: 0 auto 10px; }
+.shop-item figcaption { font-weight: 800; font-size: 15px; }
 
 /* 엔플 실시간 모니터링 (첫 페이지·노하드란?): 검은 구역 */
 section.blk.dark { background: var(--dark); color: #fff; }
@@ -291,6 +301,7 @@ footer.site .copy { margin-top: 18px; color: #7d7d86; letter-spacing: .04em; }
   .hero::before { background: linear-gradient(180deg, rgba(11, 11, 12, .95) 0%, rgba(11, 11, 12, .88) 100%); }
   .sw-side { text-align: left; border-right: 0; border-left: 3px solid var(--red); padding: 0 0 0 16px; }
   .grid3, .grid4 { grid-template-columns: 1fr 1fr; }
+  .shop-wrap { grid-template-columns: 1fr; }
   .photos { grid-template-columns: repeat(3, 1fr); }
   section.blk, .cta { padding: 76px 0; }
 }
@@ -321,6 +332,9 @@ footer.site .copy { margin-top: 18px; color: #7d7d86; letter-spacing: .04em; }
   .photo.wide button { aspect-ratio: 2 / 1; flex: none; }
   .photo figcaption { font-size: 12px; }
   .shots { grid-template-columns: 1fr; gap: 16px; }
+  .shop-items { gap: 8px; }
+  .shop-item { padding: 12px 8px 10px; }
+  .shop-item figcaption { font-size: 12.5px; }
   .contact .row { flex-direction: column; gap: 2px; }
   .contact .row a, .contact .row b { text-align: left; }
   .mbar { display: flex; gap: 8px; position: fixed; left: 0; right: 0; bottom: 0; z-index: 30; padding: 10px 16px calc(10px + env(safe-area-inset-bottom)); background: rgba(11, 11, 12, .97); border-top: 1px solid var(--dark-line); }

@@ -40,183 +40,6 @@
   }
 }
 </script>
-<style>
-  :root { --seat: #2a2a2a; --seat-on: #4a4a4a; }
-
-  /* 기존 고객용 한 줄 띠 */
-  .cust { background: var(--gray); border-bottom: 1px solid var(--line); font-size: 15px; color: var(--ink2); }
-  .cust .wrap { padding-top: 2px; padding-bottom: 2px; }
-  .cust p { margin: 0; line-height: 1.5; }
-  .cust b { color: var(--ink); }
-  .cust a { display: inline-flex; align-items: center; min-height: 44px; font-weight: 800; color: var(--red-text); text-underline-offset: 3px; }
-  .cust .todo { white-space: nowrap; }
-
-  /* 첫 화면 */
-  .hero { background: var(--ink); color: #fff; position: relative; overflow: hidden; }
-  .hero::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 8px; background: var(--red); }
-  .hero .wrap { padding-top: 76px; padding-bottom: 80px; display: grid; grid-template-columns: 1.1fr .9fr; gap: 48px; align-items: center; }
-  .award { display: inline-flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; color: #ffd2d7; border: 1px solid rgba(255, 140, 153, .45); border-radius: 999px; padding: 6px 14px; margin-bottom: 12px; text-decoration: none; }
-  .award:hover { border-color: #ff8c99; }
-  .award i { width: 8px; height: 8px; border-radius: 50%; background: var(--red); display: inline-block; flex-shrink: 0; }
-  .press { margin: 0 0 22px; font-size: 14px; line-height: 1.55; color: #bdbdbd; max-width: 620px; }
-  .press a { color: #fff; text-underline-offset: 3px; }
-  .hero h1 { margin: 0 0 20px; font-size: clamp(36px, 5.6vw, 62px); line-height: 1.15; letter-spacing: -.03em; }
-  .hero h1 em { font-style: normal; color: var(--red); }
-  .hero p.lead { margin: 0 0 30px; font-size: clamp(17px, 2.1vw, 20px); color: #d6d6d6; max-width: 620px; }
-  .hero .btns { display: flex; gap: 12px; flex-wrap: wrap; }
-  .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 52px; }
-  .stat { border-top: 2px solid rgba(255, 255, 255, .25); padding-top: 14px; }
-  /* '약 5만 5천 대'가 좁은 칸에서 넘치지 않게 글자 크기를 맞춰요 */
-  .stat b { display: block; font-size: clamp(22px, 2.7vw, 30px); line-height: 1.1; letter-spacing: -.02em; white-space: nowrap; }
-  .stat span { font-size: 14px; color: #bdbdbd; }
-  .stat-note { margin: 12px 0 0; font-size: 13px; color: #a8a8a8; }
-
-  /* 관리 화면 예시 */
-  .board { margin: 0; background: #141414; border: 1px solid #2c2c2c; border-radius: 20px; padding: 20px; box-shadow: 0 30px 60px rgba(0, 0, 0, .45); }
-  .board-head { display: flex; justify-content: space-between; align-items: center; font-size: 13px; color: #bdbdbd; margin-bottom: 14px; gap: 10px; }
-  .board-head b { color: #fff; font-size: 15px; }
-  .live { display: inline-flex; align-items: center; gap: 6px; color: var(--ok); font-weight: 700; }
-  .live::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--ok); }
-  .seats { display: grid; grid-template-columns: repeat(8, 1fr); gap: 7px; }
-  .seat { aspect-ratio: 1; border-radius: 6px; background: var(--seat-on); }
-  .seat.idle { background: var(--seat); outline: 1px dashed #444; outline-offset: -1px; }
-  .seat.alert { background: var(--red); animation: pulse 1.6s ease-in-out infinite; }
-  .seat.fixed { background: var(--seat-on); box-shadow: inset 0 0 0 2px var(--ok); }
-  @keyframes pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(255, 0, 24, .6); } 50% { box-shadow: 0 0 0 7px rgba(255, 0, 24, 0); } }
-  .alert-box { margin-top: 16px; background: #1f1f1f; border-left: 4px solid var(--red); border-radius: 10px; padding: 12px 14px; font-size: 14px; color: #e6e6e6; min-height: 72px; }
-  .alert-box b { color: #fff; }
-  .alert-box .t { color: #9a9a9a; font-size: 12px; display: block; margin-bottom: 2px; }
-  .board-legend { display: flex; gap: 14px; flex-wrap: wrap; margin-top: 12px; font-size: 12px; color: #a8a8a8; }
-  .board-legend i { display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; vertical-align: -1px; }
-  .board-cap { margin: 10px 0 0; font-size: 12px; color: #8a8a8a; text-align: right; }
-
-  /* 처음 오신 분 */
-  .start { background: var(--white); border-bottom: 1px solid var(--line); }
-  .start .wrap { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
-  .start a { display: flex; gap: 14px; align-items: center; padding: 22px 20px; text-decoration: none; border-right: 1px solid var(--line); }
-  .start a:last-child { border-right: 0; }
-  .start a:hover { background: var(--gray); }
-  .start .n { flex-shrink: 0; width: 40px; height: 40px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; font-weight: 800; }
-  .start a:nth-child(2) .n { background: var(--red-strong); }
-  .start b { display: block; font-size: 17px; }
-  .start span { font-size: 14px; color: var(--mut); }
-
-  /* 걱정 → 해결 */
-  .worry { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
-  .wc { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 26px; display: flex; flex-direction: column; }
-  .wc .q { font-size: 15px; color: var(--mut); margin-bottom: 6px; }
-  .wc h3 { margin: 0 0 10px; font-size: 20px; line-height: 1.35; }
-  .wc p { margin: 0; color: var(--ink2); font-size: 16px; }
-  .wc .foot { margin-top: auto; padding-top: 14px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
-  .wc .foot a { font-size: 14px; font-weight: 800; color: var(--red-text); text-decoration: none; }
-  .wc .foot a:hover { text-decoration: underline; }
-
-  /* 서비스 */
-  .svc { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .sc { border: 1px solid var(--line); border-radius: 18px; padding: 26px 22px; background: #fff; display: flex; flex-direction: column; }
-  .sc .ico { width: 46px; height: 46px; border-radius: 12px; background: var(--ink); color: #fff; display: grid; place-items: center; margin-bottom: 16px; }
-  .sc:first-child .ico { background: var(--red-strong); }
-  .sc h3 { margin: 0 0 8px; font-size: 20px; }
-  .sc p { margin: 0 0 12px; font-size: 15px; color: var(--ink2); }
-  .sc ul { margin: 0; padding-left: 18px; font-size: 15px; color: var(--ink2); }
-  .sc .more { margin-top: auto; padding-top: 14px; font-size: 15px; font-weight: 800; color: var(--red-text); text-decoration: none; }
-  .sc .more:hover { text-decoration: underline; }
-
-  /* 관리 흐름 */
-  .flow { display: grid; grid-template-columns: repeat(4, 1fr); counter-reset: f; }
-  .fs { position: relative; padding: 0 22px 0 0; }
-  .fs::before { counter-increment: f; content: counter(f); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; margin-bottom: 14px; position: relative; z-index: 1; }
-  .fs::after { content: ""; position: absolute; top: 20px; left: 40px; right: 0; height: 2px; background: var(--line); }
-  .fs:last-child::after { display: none; }
-  .fs.red::before { background: var(--red-strong); }
-  .fs h3 { margin: 0 0 6px; font-size: 19px; }
-  .fs p { margin: 0; font-size: 15px; color: var(--ink2); }
-  .tip { margin-top: 36px; background: var(--gray); border: 1px solid var(--line); border-radius: 16px; padding: 20px 22px; display: flex; gap: 16px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
-  .tip p { margin: 0; color: var(--ink2); }
-  .tip b { color: var(--ink); }
-
-  /* 업체 변경 */
-  .move { display: grid; grid-template-columns: .9fr 1.1fr; gap: 40px; align-items: start; }
-  .when { display: flex; flex-wrap: wrap; gap: 10px; margin: 0 0 22px; padding: 0; list-style: none; }
-  .when li { background: var(--soft); color: var(--red-text); font-weight: 700; font-size: 15px; padding: 7px 14px; border-radius: 999px; }
-  .move .btns { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
-  .move .ask { display: inline-flex; align-items: center; min-height: 44px; font-size: 15px; font-weight: 800; color: var(--red-text); text-underline-offset: 3px; }
-  .ms { border: 1px solid var(--line); border-radius: 18px; overflow: hidden; background: #fff; margin: 0; padding: 0; list-style: none; }
-  .ms li { display: grid; grid-template-columns: 120px 1fr; border-bottom: 1px solid var(--line); }
-  .ms li:last-child { border-bottom: 0; }
-  .ms .k { background: var(--ink); color: #fff; font-weight: 800; font-size: 15px; padding: 16px; display: flex; align-items: center; }
-  .ms li:nth-child(3) .k { background: var(--red-strong); }
-  .ms .v { padding: 16px 18px; font-size: 15px; color: var(--ink2); }
-  .ms .v b { color: var(--ink); display: block; font-size: 17px; margin-bottom: 2px; }
-
-  /* 준비 중 */
-  .soon { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .sn { background: #fff; border: 1px solid var(--line); border-radius: 18px; padding: 24px 22px; display: flex; flex-direction: column; }
-  .sn .badge { align-self: flex-start; margin-bottom: 12px; }
-  .sn h3 { margin: 0 0 8px; font-size: 19px; }
-  .sn p { margin: 0; font-size: 15px; color: var(--ink2); }
-  .sn .more { margin-top: auto; padding-top: 14px; font-size: 15px; font-weight: 800; color: var(--red-text); text-decoration: none; }
-  .sn .more:hover { text-decoration: underline; }
-  .soon-note { margin-top: 18px; font-size: 14px; color: var(--mut); }
-
-  /* 자료 */
-  .docs { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
-  .dc { display: block; text-decoration: none; border-radius: 18px; padding: 24px 22px 48px; background: var(--ink); color: #fff; position: relative; overflow: hidden; }
-  .dc::after { content: "→"; position: absolute; right: 22px; bottom: 16px; font-size: 22px; color: var(--red); font-weight: 800; transition: transform .15s; }
-  .dc:hover { background: #1c1c1c; }
-  .dc:hover::after { transform: translateX(4px); }
-  .dc small { color: #ff8c99; font-weight: 800; font-size: 13px; letter-spacing: .06em; }
-  .dc h3 { margin: 6px 0 6px; font-size: 20px; }
-  .dc p { margin: 0; color: #bdbdbd; font-size: 15px; }
-
-  /* 상담 */
-  .move h2 { text-wrap: balance; } /* 좁은 칸에서 '바꿀 / 때가'로 끊기지 않게 */
-  .cta { background: var(--ink); color: #fff; padding: 84px 0; }
-  .cta .wrap { display: grid; grid-template-columns: 1.2fr .8fr; gap: 40px; align-items: center; }
-  .cta h2 { color: #fff; }
-  .cta p { color: #cfcfcf; margin: 0 0 8px; font-size: 18px; }
-  .cta ul { margin: 18px 0 0; padding-left: 20px; color: #cfcfcf; }
-  .contact { background: #161616; border: 1px solid #2c2c2c; border-radius: 18px; padding: 24px; }
-  .contact dl { margin: 0; }
-  /* dl 안의 줄만 (버튼 .btn.line 에 안 걸리게) */
-  .contact dl .line { display: flex; justify-content: space-between; gap: 14px; padding: 12px 0; border-bottom: 1px solid #2c2c2c; font-size: 16px; }
-  .contact dt { color: #a8a8a8; flex-shrink: 0; }
-  .contact dd { margin: 0; text-align: right; font-weight: 800; }
-  .contact dd a { color: #fff; }
-  .contact .btns { display: flex; gap: 10px; margin-top: 18px; flex-wrap: wrap; }
-  .contact .btns .btn { flex: 1; }
-
-  @media (max-width: 980px) {
-    .hero .wrap { grid-template-columns: 1fr; gap: 40px; }
-    .worry, .soon, .docs, .svc { grid-template-columns: 1fr 1fr; }
-    .worry .wc:last-child { grid-column: 1 / -1; } /* 카드 3개가 두 칸에 놓일 때 빈칸이 생기지 않게 */
-    .flow { grid-template-columns: 1fr 1fr; row-gap: 28px; }
-    .fs:nth-child(2)::after { display: none; }
-    .move, .cta .wrap { grid-template-columns: 1fr; }
-    .start .wrap { padding: 0; }
-  }
-  @media (max-width: 640px) {
-    .hero .wrap { padding-top: 48px; padding-bottom: 60px; }
-    .award { font-size: 13px; padding: 6px 12px; }
-    .stats { gap: 10px; margin-top: 40px; }
-    .stat b { font-size: clamp(16px, 4.8vw, 22px); } /* 375px 화면에서 '약 5만 5천 대'가 칸을 넘지 않게 */
-    .cust { font-size: 14px; }
-    .stat span { font-size: 12px; display: block; line-height: 1.45; margin-top: 4px; } /* 두 줄이 될 때 줄 사이가 벌어지지 않게 */
-    .board { padding: 14px; }
-    .seats { gap: 5px; }
-    .start .wrap { grid-template-columns: 1fr; }
-    .start a { border-right: 0; border-bottom: 1px solid var(--line); padding: 16px; }
-    .start a:last-child { border-bottom: 0; }
-    .worry, .soon, .docs, .svc { grid-template-columns: 1fr; }
-    .flow { grid-template-columns: 1fr; }
-    .fs::after { display: none; }
-    .ms li { grid-template-columns: 1fr; }
-    .ms .k { padding: 10px 16px; }
-    .contact dl .line { flex-direction: column; gap: 2px; }
-    .cta { padding: 60px 0; } /* 다른 구역(section.blk)과 같은 휴대폰 여백 */
-    .contact dd { text-align: left; }
-  }
-</style>
 </head>
 <body>
 <a class="skip" href="#main">본문 바로가기</a>
@@ -270,11 +93,11 @@
   <div class="wrap">
     <div>
       <span class="award"><i></i>아이러브PC방 선정 2026년 1분기 주요 상품 · 노하드 솔루션</span>
-      <h1>PC방 서버,<br>밤에도 <em>저희가 지킵니다.</em></h1>
+      <h1>PC방 서버,<br>24시간 <em>저희가 지킵니다.</em></h1>
       <p class="lead">2016년부터 10년 넘게 PC방과 함께했습니다. PC방 580여 곳의 노하드 서버를 24시간 원격으로 관리합니다.</p>
       <div class="btns">
-        <a class="btn" href="#contact">상담 문의</a>
-        <a class="btn line" href="#switch">업체 변경 보기</a>
+        <a class="btn" href="tel:18339899">전화 상담 1833-9899</a>
+        <a class="btn line" href="https://pf.kakao.com/_gxjvhj" target="_blank" rel="noopener">카카오 문의</a>
       </div>
       <div class="stats">
         <div class="stat"><b>580여 곳</b><span>관리 중인 PC방</span></div>
@@ -283,33 +106,6 @@
       </div>
       <p class="stat-note">관리 매장 수는 2026년 10월, 관리 시스템 기준입니다.</p>
     </div>
-  </div>
-</section>
-
-<section class="blk switch" id="switch">
-  <div class="wrap">
-    <div class="sw-head">
-      <div>
-        <div class="sh">업체 변경 — 이관 절차</div>
-        <h2>서버는 그대로.<br><em>관리는 엔터시스템.</em></h2>
-      </div>
-      <p class="sw-side">다른 노하드 업체를 쓰고 계셔도 괜찮습니다.<br>매장 서버는 두고, 노하드 시스템만 바꿉니다.</p>
-    </div>
-    <hr class="sw-rule">
-    <div class="sw-sub">
-      <h3>새벽에 전환합니다.</h3>
-      <p>영업 중단 없이 노하드 시스템을 이관합니다.</p>
-    </div>
-    <div class="sw-body">
-      <ol class="sw-steps">
-        <li><span class="num">1</span><div><b>상담</b><span>현재 매장 상황과<br>문의 내용을 확인합니다.</span></div></li>
-        <li><span class="num">2</span><div><b>환경 확인</b><span>매장 서버와<br>PC 환경을 확인합니다.</span></div></li>
-        <li><span class="num">3</span><div><b>새벽 전환</b><span>서버는 두고<br>노하드 시스템만 교체합니다.</span></div></li>
-        <li><span class="num">4</span><div><b>관리 시작</b><span>게임 패치·장애 대응,<br>PC 문제 해결을 지원합니다.</span></div></li>
-      </ol>
-      <figure class="sw-photo"><img src="assets/cables.jpg" alt="매장 서버 랙의 배선 정리 모습"><figcaption>서버 배선</figcaption></figure>
-    </div>
-    <p class="note sw-note">바꾸기 전에 지금 업체와의 계약 기간, 해지 통보 기간, 위약금 조항을 확인하십시오. 옮기는 비용과 조건은 상담 때 안내해 드립니다. <span class="todo">[이관 비용·조건]</span></p>
   </div>
 </section>
 
@@ -363,6 +159,22 @@
         <p>에어컨·주방 기기 청소를 손님이 없는 00시에 합니다. 노하드 고객은 에어컨 청소를 40% 할인(대당 150,000원 → 90,000원)하고, 엔터TV까지 쓰시면 45% 할인합니다.</p>
         <p style="margin-top:10px"><a href="https://enterclean.pages.dev" target="_blank" rel="noopener">엔터클린 사이트 보기</a></p>
       </div>
+    </div>
+  </div>
+</section>
+
+<section class="blk shop" id="shop">
+  <div class="wrap shop-wrap">
+    <div>
+      <div class="sh">엔터쇼핑몰</div>
+      <h2>PC방 운영에<br><em>필요한 모든 것</em></h2>
+      <p class="shop-soon"><span class="badge">준비 중</span>엔터쇼핑몰 준비 중</p>
+      <p class="sub">컴퓨터와 부품, 먹거리, PC방 소모품을 한곳에서 주문할 수 있게 준비하고 있습니다.</p>
+    </div>
+    <div class="shop-items">
+      <figure class="shop-item"><svg viewBox="0 0 160 120" aria-hidden="true"><rect x="14" y="18" width="84" height="56" rx="6" fill="#0b0b0c"/><rect x="20" y="24" width="72" height="44" rx="3" fill="#2a2a2e"/><rect x="46" y="76" width="20" height="8" fill="#0b0b0c"/><rect x="34" y="84" width="44" height="5" rx="2" fill="#0b0b0c"/><rect x="108" y="22" width="34" height="70" rx="5" fill="#0b0b0c"/><rect x="114" y="30" width="22" height="6" rx="2" fill="#e00016"/><circle cx="125" cy="78" r="4" fill="#e00016"/><rect x="24" y="94" width="60" height="16" rx="3" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><circle cx="40" cy="102" r="5" fill="#0b0b0c"/><circle cx="60" cy="102" r="5" fill="#0b0b0c"/><rect x="96" y="100" width="48" height="10" rx="2" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><path d="M102 100v10M110 100v10M118 100v10M126 100v10M134 100v10" stroke="#0b0b0c" stroke-width="2"/></svg><figcaption>컴퓨터 및 부품</figcaption></figure>
+      <figure class="shop-item"><svg viewBox="0 0 160 120" aria-hidden="true"><path d="M18 44h52l-6 60H24z" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><rect x="14" y="36" width="60" height="10" rx="3" fill="#e00016"/><path d="M28 64c8-6 16 6 24 0" stroke="#e00016" stroke-width="3" fill="none" stroke-linecap="round"/><path d="M30 76c8-6 16 6 22 0" stroke="#e00016" stroke-width="3" fill="none" stroke-linecap="round"/><rect x="86" y="30" width="30" height="74" rx="6" fill="#0b0b0c"/><rect x="86" y="30" width="30" height="10" rx="4" fill="#9a9aa3"/><rect x="92" y="54" width="18" height="22" rx="3" fill="#e00016"/><path d="M126 46l22-6 4 60-22 6z" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><circle cx="139" cy="72" r="7" fill="#e00016"/></svg><figcaption>먹거리</figcaption></figure>
+      <figure class="shop-item"><svg viewBox="0 0 160 120" aria-hidden="true"><rect x="10" y="56" width="76" height="48" rx="8" fill="#2a2a2e"/><rect x="36" y="64" width="26" height="36" rx="12" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><path d="M49 64v14" stroke="#0b0b0c" stroke-width="2"/><rect x="46" y="70" width="6" height="8" rx="3" fill="#e00016"/><path d="M104 44h20v60h-20z" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><rect x="108" y="22" width="12" height="22" fill="#0b0b0c"/><path d="M108 22h18v8h-18z" fill="#e00016"/><path d="M130 26h8" stroke="#e00016" stroke-width="3" stroke-linecap="round"/><rect x="108" y="64" width="12" height="20" fill="#e00016"/><path d="M134 60h20l-3 44h-14z" fill="#f5f5f7" stroke="#0b0b0c" stroke-width="2"/><rect x="132" y="56" width="24" height="6" rx="3" fill="#0b0b0c"/></svg><figcaption>PC방 소모품</figcaption></figure>
     </div>
   </div>
 </section>
