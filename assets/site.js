@@ -15,6 +15,7 @@
 })();
 
 // 설치 현장 사진·모니터링 화면 캡처: 누르면 크게 보기 (사진이 있는 페이지에서만 동작)
+// 사진 설명은 짧게 보이고, 크게 볼 때는 figcaption의 data-full(원래 문장)을 아래에 보여 줍니다
 (function () {
   var btns = document.querySelectorAll('.photo button, .shot button');
   if (!btns.length) return;
@@ -25,9 +26,9 @@
   lb.setAttribute('aria-modal', 'true');
   lb.setAttribute('aria-label', '크게 보기');
   lb.tabIndex = -1;
-  lb.innerHTML = '<img alt=""><button type="button" class="close" aria-label="닫기">&times;</button>';
+  lb.innerHTML = '<img alt=""><p class="lb-cap"></p><button type="button" class="close" aria-label="닫기">&times;</button>';
   document.body.appendChild(lb);
-  var im = lb.querySelector('img'), last = null;
+  var im = lb.querySelector('img'), cap = lb.querySelector('.lb-cap'), last = null;
   function off() {
     if (!lb.classList.contains('on')) return;
     lb.classList.remove('on');
@@ -36,9 +37,10 @@
   }
   btns.forEach(function (b) {
     b.addEventListener('click', function () {
-      var s = b.querySelector('img');
+      var s = b.querySelector('img'), fig = b.closest('figure'), fc = fig ? fig.querySelector('figcaption') : null;
       im.src = s.src;
       im.alt = s.alt;
+      cap.textContent = fc ? (fc.getAttribute('data-full') || fc.textContent) : '';
       last = b;
       lb.classList.add('on');
       document.body.style.overflow = 'hidden';

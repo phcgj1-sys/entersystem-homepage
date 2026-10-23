@@ -16,7 +16,7 @@
 <meta property="og:locale" content="ko_KR">
 <meta name="twitter:card" content="summary_large_image">
 <link rel="apple-touch-icon" href="assets/icon-180.png">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#0b0b0c">
 <link rel="icon" href="assets/enter-logo.png">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css">
 <link rel="stylesheet" href="assets/site.css">
@@ -64,7 +64,7 @@
   .print-only { display: none; }
 
   /* 진행 순서 */
-  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 14px; counter-reset: s; }
+  .steps { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; counter-reset: s; }
   .steps li { counter-increment: s; background: #fff; border: 1px solid var(--line); border-radius: var(--radius); padding: 22px 20px; display: flex; flex-direction: column; }
   .steps li::before { content: counter(s); display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; background: var(--ink); color: #fff; font-weight: 800; margin-bottom: 14px; flex-shrink: 0; }
   .steps li.hot { border-color: #ffb3bb; }
@@ -158,31 +158,30 @@
   <div class="wrap">
     <a class="logo" href="index.html"><img src="assets/enter-logo.png" alt="">엔터시스템</a>
     <nav class="menu" aria-label="주 메뉴">
-      <a href="index.html#service">서비스</a>
+      <a href="switch.html" aria-current="page">업체 변경</a>
       <a href="index.html#monitor">엔플 모니터링</a>
       <a href="nohard.html">노하드란?</a>
-      <a href="switch.html" aria-current="page">업체 변경</a>
-      <a href="checkup.html">매장 자가진단</a>
+      <a href="tv.html">엔터TV</a>
       <a href="help.html">고객지원</a>
       <a href="about.html">회사 소개</a>
     </nav>
     <div class="head-cta">
-      <a class="btn sm" href="index.html#contact">상담 신청</a>
+      <a class="btn sm" href="tel:18339899">1833-9899</a>
       <details class="mnav">
         <summary aria-label="메뉴 열기"><span></span></summary>
         <nav aria-label="휴대폰 메뉴">
-          <a href="index.html#service">서비스</a>
+          <a href="switch.html" aria-current="page">업체 변경</a>
           <a href="index.html#monitor">엔플 모니터링</a>
           <a href="nohard.html">노하드란?</a>
-          <a href="switch.html" aria-current="page">업체 변경</a>
-          <a href="checkup.html">매장 자가진단</a>
-          <a href="energy.html">전기요금 계산기</a>
+          <a href="tv.html">엔터TV</a>
+          <a href="index.html#cases">설치 사례</a>
           <a href="help.html">고객지원</a>
           <a href="faq.html">자주 묻는 질문</a>
-          <a href="startup.html">PC방 창업(준비 중)</a>
+          <a href="checkup.html">매장 자가진단</a>
+          <a href="energy.html">전기요금 계산기</a>
           <a href="news.html">사장님 소식</a>
           <a href="about.html">회사 소개</a>
-          <a class="btn" href="index.html#contact">상담 신청</a>
+          <a class="btn" href="index.html#contact">상담 문의</a>
         </nav>
       </details>
     </div>
@@ -195,7 +194,7 @@
       <div class="crumb"><a href="index.html">홈</a> › 업체 변경 안내</div>
       <span class="award"><i></i>아이러브PC방 선정 2026년 1분기 주요 상품 · 노하드 솔루션</span>
       <h1>업체 변경, <em>영업 공백을 줄입니다</em></h1>
-      <p class="lead">노하드 업체를 바꿀까 고민 중이십니까? 무엇을 준비하고, 바꾸는 날 어떻게 하는지 모았습니다. 손님이 가장 적은 시간에 바꿔서 영업 공백을 줄입니다.</p>
+      <p class="lead">다른 노하드 업체를 쓰고 계셔도 괜찮습니다. 매장 서버는 두고 노하드 시스템만 바꾸며, 손님이 가장 적은 새벽에 전환해 영업 공백을 줄입니다. 무엇을 준비하고 바꾸는 날 어떻게 하는지 모았습니다.</p>
       <div class="hero-btns">
         <a class="btn" href="index.html#contact">업체 변경 상담 신청</a>
         <a class="btn line" href="#check">체크리스트 먼저 보기</a>
@@ -299,35 +298,30 @@
   </section>
 
   <!-- 진행 순서 -->
-  <section class="blk gray" id="steps" aria-labelledby="steps-h">
+    <section class="blk gray" id="steps" aria-labelledby="steps-h">
     <div class="wrap">
       <div class="sh">진행 순서</div>
-      <h2 id="steps-h">상담부터 평소 관리까지 5단계</h2>
-      <p class="sub">바꾸는 날 할 일을 줄이려고, 준비는 미리 해 둡니다.</p>
+      <h2 id="steps-h">상담부터 관리 시작까지 4단계</h2>
+      <p class="sub">매장 서버는 두고 노하드 시스템만 바꿉니다. 바꾸는 날 할 일을 줄이려고 준비는 미리 해 둡니다.</p>
       <ol class="steps">
         <li>
-          <h3>상담·현장 점검</h3>
-          <p>지금 서버 사양, 좌석 수, 게임 디스크 상태를 확인합니다. 지금 장비를 그대로 쓸 수 있는지도 봅니다. 현장 점검 비용은 <span class="todo">[무료 여부 확인]</span></p>
-          <p class="you"><b>사장님은</b> 체크리스트 내용을 알려 주십시오.</p>
+          <h3>상담</h3>
+          <p>현재 매장 상황과 문의 내용을 확인합니다. 지금 쓰시는 업체와 계약 기간도 함께 봅니다.</p>
+          <p class="you"><b>사장님은</b> 매장 이름과 지역, 좌석 수, 지금 업체를 알려 주십시오.</p>
         </li>
         <li>
-          <h3>새 서버에 미리 옮겨 두기</h3>
-          <p>쓰시던 게임과 설정에 맞춰 새 이미지를 미리 만들어 둡니다. 바꾸는 날 할 일이 줄어듭니다.</p>
-          <p class="you"><b>사장님은</b> 꼭 있어야 하는 게임을 알려 주십시오.</p>
+          <h3>환경 확인</h3>
+          <p>매장 서버와 PC 환경을 확인합니다. 지금 서버를 그대로 쓸 수 있는지 봅니다.</p>
+          <p class="you"><b>사장님은</b> 서버 사양과 꼭 있어야 하는 게임을 알려 주십시오.</p>
         </li>
         <li class="hot">
-          <h3>손님이 적은 시간에 전환</h3>
-          <p>영업 공백을 줄이도록 손님이 가장 적은 시간에 바꿉니다. 걸리는 시간은 <span class="todo">[매장 규모별]</span></p>
-          <p class="you"><b>사장님은</b> 바꿀 날짜와 시간을 같이 정합니다.</p>
+          <h3>새벽 전환</h3>
+          <p>서버는 두고 노하드 시스템만 교체합니다. 손님이 가장 적은 새벽에 바꿔 영업 공백을 줄입니다.</p>
+          <p class="you"><b>사장님은</b> 원하는 작업 시간을 정해 주십시오.</p>
         </li>
         <li>
-          <h3>바꾼 직후 집중 확인</h3>
-          <p>바꾼 직후 생기는 작은 오류를 먼저 찾아 고칩니다. 평소보다 더 자주 확인합니다.</p>
-          <p class="you"><b>사장님은</b> 조금이라도 이상하면 바로 전화 주십시오.</p>
-        </li>
-        <li>
-          <h3>이후 평소 관리</h3>
-          <p>24시간 관리 센터가 원격으로 지켜보고, 평일에 미리 점검합니다.</p>
+          <h3>관리 시작</h3>
+          <p>게임 패치·장애 대응, PC 문제 해결을 지원합니다. 24시간 관리 센터가 원격으로 지켜봅니다.</p>
           <p class="you"><b>사장님은</b> 영업에만 신경 쓰시면 됩니다.</p>
         </li>
       </ol>
@@ -516,28 +510,28 @@
       </div>
       <nav class="links" aria-label="바닥글 메뉴">
         <a href="nohard.html">노하드란?</a>
-        <a href="index.html#monitor">엔플 모니터링</a>
         <a href="switch.html">업체 변경</a>
-        <a href="checkup.html">매장 자가진단</a>
-        <a href="energy.html">전기요금 계산기</a>
+        <a href="index.html#monitor">엔플 모니터링</a>
         <a href="tv.html">엔터TV</a>
-        <a href="startup.html">PC방 창업 지원(준비 중)</a>
+        <a href="index.html#cases">설치 사례</a>
         <a href="help.html">고객지원</a>
         <a href="faq.html">자주 묻는 질문</a>
         <a href="guide.html">고객지원 인쇄용 안내문</a>
+        <a href="checkup.html">매장 자가진단</a>
+        <a href="energy.html">전기요금 계산기</a>
         <a href="office.html">사무실·교육장 노하드(준비 중)</a>
         <a href="news.html">사장님 소식</a>
         <a href="about.html">회사 소개</a>
         <a href="privacy.html"><b>개인정보처리방침</b></a>
       </nav>
     </div>
-    <div class="copy">© 2026 ENTERSYSTEM</div>
+    <div class="copy">© 2016–2026 ENTERSYSTEM</div>
   </div>
 </footer>
 
 <div class="mbar">
   <a class="btn" href="tel:18339899">24시간 전화</a>
-  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 보내기</a>
+  <a class="btn line" href="https://pf.kakao.com/_gxjvhj/chat" target="_blank" rel="noopener">카톡 상담</a>
 </div>
 
 <script>

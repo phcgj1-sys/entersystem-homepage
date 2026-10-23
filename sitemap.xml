@@ -7,7 +7,6 @@
   <url><loc>https://[도메인]/checkup.html</loc><priority>0.7</priority></url>
   <url><loc>https://[도메인]/energy.html</loc><priority>0.7</priority></url>
   <url><loc>https://[도메인]/tv.html</loc><priority>0.7</priority></url>
-  <url><loc>https://[도메인]/startup.html</loc><priority>0.6</priority></url>
   <url><loc>https://[도메인]/guide.html</loc><priority>0.6</priority></url>
   <url><loc>https://[도메인]/about.html</loc><priority>0.5</priority></url>
   <url><loc>https://[도메인]/privacy.html</loc><priority>0.3</priority></url>
